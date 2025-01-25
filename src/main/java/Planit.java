@@ -46,6 +46,35 @@ public class Planit {
     }
 
     /**
+     * Manage tasks according to user preferences
+     */
+    static void manageTask() {
+        System.out.println("""
+                      ______ ______
+                    _/      Y      \\_
+                   // ~~ ~~ | ~~ ~  \\\\
+                  // ~ ~ ~~ | ~~~ ~~ \\\\
+                 //________.|.________\\\\
+                `----------`-'----------'
+                """);
+        boolean exitTaskManager = false;
+        while (!exitTaskManager) {
+            System.out.println("1. Type \"list\" or \"1\" to display the list of tasks");
+            System.out.println("2. Type \"bye\" or \"2\" to quit the session");
+            System.out.println("3. Type in the task description you want to add");
+            System.out.print("> ");
+            String userChoice = sc.nextLine();
+            if (userChoice.equalsIgnoreCase("list") || userChoice.equals("1")) {
+                TaskList.displayAllTasks();
+            } else if (userChoice.equalsIgnoreCase("bye") || userChoice.equals("2")) {
+                exitTaskManager = true;
+            } else {
+                TaskList.addTask(userChoice.trim());
+            }
+        }
+    }
+
+    /**
      * Display game options to user and redirect to correct class
      */
     static void playGame() {
@@ -84,7 +113,9 @@ public class Planit {
         while (!exitPlanit) {
             greet();
             String userChoice = sc.nextLine();
-            if (userChoice.equalsIgnoreCase("play") || userChoice.equals("2")) {
+            if (userChoice.equalsIgnoreCase("planit") || userChoice.equals("1")) {
+                manageTask();
+            } else if (userChoice.equalsIgnoreCase("play") || userChoice.equals("2")) {
                 playGame();
             } else if (userChoice.equalsIgnoreCase("bye") || userChoice.equals("3")) {
                 exitPlanit = true;

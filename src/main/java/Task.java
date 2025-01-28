@@ -1,22 +1,24 @@
 /**
  * Represents a task in Planit task management system.
- * A task includes a description.
- * <p>
- * This class provides methods to manage and update the task's attributes.
  */
 public class Task {
     private String description;
     private boolean isDone;
 
+    /**
+     * Constructs a task.
+     *
+     * @param description Description of task to add.
+     */
     public Task(String description) {
         this.description = description;
         this.isDone = false;
     }
 
     /**
-     * Method that converts the given task into a string
+     * Returns the given task converted into a string.
      *
-     * @return Returns the task as a string
+     * @return Task as a string.
      */
     public String convertToString() {
         return "[" + (isDone() ? "X" : " ") + "] " + getDescription();

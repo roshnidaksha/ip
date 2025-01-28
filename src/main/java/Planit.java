@@ -24,7 +24,7 @@ public class Planit {
     }
 
     /**
-     * Display greeting message during start of new session
+     * Displays greeting message during start of new session.
      */
     static void greet() {
         System.out.println("What can I do for you?\n");
@@ -36,7 +36,7 @@ public class Planit {
     }
 
     /**
-     * Display exit message before closing Planit
+     * Displays exit message before closing Planit.
      */
     static void exit() {
         System.out.println("Bye. Have a nice day!");
@@ -44,7 +44,7 @@ public class Planit {
     }
 
     /**
-     * Display game options to user and redirect to correct class
+     * Displays game options to user and redirect to correct class.
      */
     static void playGame(Scanner scanner) {
         System.out.println("""
@@ -71,9 +71,9 @@ public class Planit {
     }
 
     /**
-     * The main method serves as the entry point for the program.
+     * Gets input from user regarding available choices.
      *
-     * @param args Command-line arguments
+     * @param args Command-line arguments.
      */
     public static void main(String[] args) {
         System.out.println(logo);

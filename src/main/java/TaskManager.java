@@ -6,12 +6,14 @@ import java.util.Scanner;
  */
 public class TaskManager {
     private Task[] tasks = new Task[100];
+
+    /** Number of tasks added by user */
     public int taskCount = 0;
 
     /**
-     * Method to add a task
+     * Adds a task to Task.
      *
-     * @param description Description of the task to add
+     * @param description Description of the task to add.
      */
     public void addTask(String description) {
         tasks[taskCount] = new Task(description);
@@ -20,7 +22,7 @@ public class TaskManager {
     }
 
     /**
-     * Method to display all tasks in the order in which they were added
+     * Displays all tasks in the order in which they were added.
      */
     public void displayAllTasks() {
         if (taskCount > 0) {
@@ -34,9 +36,9 @@ public class TaskManager {
     }
 
     /**
-     * Method to mark a task as done and not done
+     * Marks a task as done or not done.
      *
-     * @param input Array of input entered by user
+     * @param input Array of input entered by user.
      */
     public void toggleTaskStatus(String[] input) {
         if (input.length != 2) {
@@ -54,9 +56,9 @@ public class TaskManager {
     }
 
     /**
-     * Main method to take in user input and act appropriately.
+     * Takes in user input and act appropriately.
      *
-     * @param scanner Scanner that is used throughout the program
+     * @param scanner Scanner that is used throughout the program.
      */
     public void run(Scanner scanner) {
         System.out.println("""

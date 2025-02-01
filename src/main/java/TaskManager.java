@@ -22,19 +22,34 @@ public class TaskManager {
 
         boolean exitTaskManager = false;
         while (!exitTaskManager) {
-            String userChoice = Ui.getUserInput();
-            String[] command = userChoice.split(" ", 2);
-            if (command[0].equalsIgnoreCase("list")) {
-                taskList.displayAllTasks();
-            } else if (command[0].equalsIgnoreCase("mark") || command[0].equalsIgnoreCase("unmark")) {
-                taskList.toggleTaskStatus(command);
-            } else if (command[0].equalsIgnoreCase("bye")) {
-                exitTaskManager = true;
-            } else {
-                taskList.addTask(command);
-            }
-        }
+            String userInputString = Ui.getUserInput();
+            String[] commandTypeAndParams = Ui.splitCommandWordAndArgs(userInputString);
+            String commandType = commandTypeAndParams[0];
+            String commandArgs = commandTypeAndParams[1];
 
-        Ui.showTaskManagerExitMessage();
+            CommandType commandTypeEnum = CommandType.valueOf(commandType.toUpperCase());
+            switch (commandTypeEnum) {
+            case LIST:
+                taskList.displayAllTasks();
+                break;
+            case MARK:
+            case UNMARK:
+                int taskId = Integer.parseInt(commandArgs) - 1;
+                taskList.setTaskStatus(taskId, commandTypeEnum == CommandType.MARK);
+                break;
+            case TODO:
+            case DEADLINE:
+            case EVENT:
+                taskList.addTask(commandTypeAndParams);
+                break;
+            case BYE:
+                Ui.showTaskManagerExitMessage();
+                exitTaskManager = true;
+                break;
+            default:
+                Ui.showError("Invalid command type: " + commandType);
+            }
+            Ui.showToUser(Ui.DIVIDER);
+        }
     }
 }

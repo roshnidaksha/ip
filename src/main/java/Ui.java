@@ -37,15 +37,17 @@ public class Ui {
     private static final String COMMAND_PLAY_DESC = "2. Type \"play\" or \"2\" to have a break and play games";
     private static final String COMMAND_EXIT_DESC = "3. Type \"bye\" or \"3\" to quit the session";
 
-    private static final String LINE_PREFIX = "";
-    private static final String DIVIDER = "______________________________________________________________";
+    private static final String LINE_PREFIX = "8< ";
+    public static final String DIVIDER = "->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->";
 
     public static void showPlanitWelcomeMessage() {
-        showToUser(PLANIT_LOGO, PLANIT_MESSAGE_WELCOME);
+        System.out.println(PLANIT_LOGO);
+        showToUser(PLANIT_MESSAGE_WELCOME);
     }
 
     public static void showTaskManagerWelcomeMessage() {
-        showToUser(TASK_MANAGER_LOGO, TASK_MANAGER_MESSAGE_WELCOME);
+        System.out.println(TASK_MANAGER_LOGO);
+        showToUser(TASK_MANAGER_MESSAGE_WELCOME);
     }
 
     /**
@@ -59,18 +61,36 @@ public class Ui {
      * Displays exit message for task manager.
      */
     public static void showTaskManagerExitMessage() {
-        showToUser(TASK_MANAGER_GOODBYE, DIVIDER);
+        showToUser(TASK_MANAGER_GOODBYE);
     }
 
     /**
-     * Shows a message to the user.
+     * Shows multiple messages to the user.
      *
-     * @param message Messages to show to user.
+     * @param message Messages to be shown.
      */
     public static void showToUser(String... message) {
         for (String m : message) {
             System.out.println(LINE_PREFIX + m);
         }
+    }
+
+    /**
+     * Shows a single message to user.
+     *
+     * @param message Message to be shown.
+     */
+    public static void showToUser(String message) {
+        System.out.println(LINE_PREFIX + message);
+    }
+
+    /**
+     * Shows an error message to user.
+     *
+     * @param message Error message to display.
+     */
+    public static void showError(String message) {
+        System.err.println(LINE_PREFIX + message);
     }
 
     /**
@@ -87,11 +107,22 @@ public class Ui {
      * @return Full line entered by the user.
      */
     public static String getUserInput() {
-        System.out.print("> ");
+        System.out.print(LINE_PREFIX + "> ");
         String inputLine = SCANNER.nextLine();
         while (inputLine.trim().isEmpty()) {
             inputLine = SCANNER.nextLine();
         }
         return inputLine;
+    }
+
+    /**
+     * Splits raw user input into command word and command arguments string.
+     *
+     * @param rawUserInput Full line entered by the user.
+     * @return size 2 array; first element is the command type and second element is the arguments string
+     */
+    public static String[] splitCommandWordAndArgs(String rawUserInput) {
+        String[] split = rawUserInput.trim().split("\\s+", 2);
+        return split.length == 2 ? split : new String[] { split[0], "" };
     }
 }

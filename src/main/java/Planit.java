@@ -22,7 +22,7 @@ public class Planit {
             } else if (userChoice.equalsIgnoreCase("bye") || userChoice.equals("3")) {
                 exitPlanit = true;
             } else {
-                System.out.println("Please enter a valid option!");
+                Ui.showError("Please enter a valid option!");
             }
         }
 

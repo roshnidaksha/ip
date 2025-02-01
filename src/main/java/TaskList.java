@@ -25,7 +25,7 @@ public class TaskList {
         }
         tasks[taskCount] = newTask;
         taskCount++;
-        System.out.println("Added: " + newTask.toString());
+        Ui.showToUser("Added: " + newTask.toString());
     }
 
     /**
@@ -33,32 +33,26 @@ public class TaskList {
      */
     public void displayAllTasks() {
         if (taskCount > 0) {
-            System.out.println("Here is a list of your tasks:");
+            Ui.showToUser("Here is a list of your tasks:");
             for (int i = 0; i < taskCount; i++) {
-                System.out.println(i + 1 + ". " + tasks[i].toString());
+                Ui.showToUser(i + 1 + ". " + tasks[i].toString());
             }
         } else {
-            System.out.println("Great Job! You have no pending tasks /^v^\\");
+            Ui.showToUser("Great Job! You have no pending tasks /^v^\\");
         }
     }
 
     /**
      * Marks a task as done or not done.
      *
-     * @param input Array of input entered by user.
+     * @param taskIndex Index of task in taskList.
      */
-    public void toggleTaskStatus(String[] input) {
-        if (input.length != 2) {
-            System.out.println("Wrong number of arguments!");
-            return;
-        }
-        int taskIndex = Integer.parseInt(input[1]) - 1;
-        if (input[0].equals("mark")) {
-            tasks[taskIndex].setDone(true);
-            System.out.println("Task marked as done successfully: " + tasks[taskIndex].toString());
+    public void setTaskStatus(int taskIndex, boolean status) {
+        if (tasks[taskIndex].isDone() == status) {
+            Ui.showToUser("Task already marked as required.");
         } else {
-            tasks[taskIndex].setDone(false);
-            System.out.println("Task unmarked successfully: " + tasks[taskIndex].toString());
+            tasks[taskIndex].setDone(status);
+            Ui.showToUser("Task " + (status ? "marked" : "unmarked") + " successfully");
         }
     }
 }

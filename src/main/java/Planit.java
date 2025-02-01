@@ -44,34 +44,6 @@ public class Planit {
     }
 
     /**
-     * Displays game options to user and redirect to correct class.
-     */
-    static void playGame(Scanner scanner) {
-        System.out.println("""
-                 o   \\ o /  _ o         __|    \\ /     |__        o _  \\ o /   o
-                /|\\    |     /\\   ___\\o   \\o    |    o/    o/__   /\\     |    /|\\
-                / \\   / \\   | \\  /)  |    ( \\  /o\\  / )    |  (\\  / |   / \\   / \\
-                """);
-        boolean exitGameMode = false;
-        while (!exitGameMode) {
-            System.out.println("Looking for something fun?");
-            System.out.println("1. Type \"parrot\" or \"1\" to play the parrot game! -- ");
-            System.out.println("2. Type \"bye\" or \"2\" to quit the game session");
-            System.out.print("> ");
-            String userChoice = scanner.nextLine();
-            if (userChoice.equalsIgnoreCase("parrot") || userChoice.equals("1")) {
-                Echo.echo();
-                exitGameMode = true;
-            } else if (userChoice.equalsIgnoreCase("bye") || userChoice.equals("2")) {
-                exitGameMode = true;
-            } else {
-                System.out.println("Please enter a valid option!");
-            }
-        }
-        printSeperator();
-    }
-
-    /**
      * Gets input from user regarding available choices.
      *
      * @param args Command-line arguments.
@@ -90,7 +62,7 @@ public class Planit {
             if (userChoice.equalsIgnoreCase("planit") || userChoice.equals("1")) {
                 taskManager.run(sc);
             } else if (userChoice.equalsIgnoreCase("play") || userChoice.equals("2")) {
-                playGame(sc);
+                Echo.echo();
             } else if (userChoice.equalsIgnoreCase("bye") || userChoice.equals("3")) {
                 exitPlanit = true;
             } else {

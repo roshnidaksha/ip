@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public class Planit {
-    static String logo = """
+    private static final String LOGO = """
             +------------------------------------------------------------+
             |       _______   __                      __    __           |
             |      /       \\ /  |                    /  |  /  |          |
@@ -61,6 +61,7 @@ public class Planit {
             String userChoice = scanner.nextLine();
             if (userChoice.equalsIgnoreCase("parrot") || userChoice.equals("1")) {
                 Echo.echo();
+                exitGameMode = true;
             } else if (userChoice.equalsIgnoreCase("bye") || userChoice.equals("2")) {
                 exitGameMode = true;
             } else {
@@ -76,7 +77,7 @@ public class Planit {
      * @param args Command-line arguments.
      */
     public static void main(String[] args) {
-        System.out.println(logo);
+        System.out.println(LOGO);
         System.out.println("          Welcome to Planit, task management system!\n");
 
         TaskManager taskManager = new TaskManager();

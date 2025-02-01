@@ -16,11 +16,12 @@ public class Task {
     }
 
     /**
-     * Returns the given task converted into a string.
+     * Returns the string representation of the task.
      *
-     * @return Task as a string.
+     * @return Task converted to a string.
      */
-    public String convertToString() {
+    @Override
+    public String toString() {
         return "[" + (isDone() ? "X" : " ") + "] " + getDescription();
     }
 

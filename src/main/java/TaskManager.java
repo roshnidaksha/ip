@@ -16,22 +16,13 @@ public class TaskManager {
 
     /**
      * Takes in user input and act appropriately.
-     *
-     * @param scanner Scanner that is used throughout the program.
      */
-    public void run(Scanner scanner) {
-        System.out.println("""
-                      ______ ______
-                    _/      Y      \\_
-                   // ~~ ~~ | ~~ ~  \\\\
-                  // ~ ~ ~~ | ~~~ ~~ \\\\
-                 //________.|.________\\\\
-                `----------`-'----------'
-                """);
+    public void run() {
+        Ui.showTaskManagerWelcomeMessage();
+
         boolean exitTaskManager = false;
         while (!exitTaskManager) {
-            System.out.print("> ");
-            String userChoice = scanner.nextLine();
+            String userChoice = Ui.getUserInput();
             String[] command = userChoice.split(" ", 2);
             if (command[0].equalsIgnoreCase("list")) {
                 taskList.displayAllTasks();
@@ -42,7 +33,8 @@ public class TaskManager {
             } else {
                 taskList.addTask(command);
             }
-            Planit.printSeperator();
         }
+
+        Ui.showTaskManagerExitMessage();
     }
 }

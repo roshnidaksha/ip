@@ -4,16 +4,23 @@ import java.util.Scanner;
  * Echoes commands entered by the user until user inputs "bye".
  */
 public class Echo {
+    /**
+     * Prints a line for enhanced readability.
+     */
+    static void printSeperator() {
+        System.out.println("______________________________________________________________");
+    }
+
     public static void echo() {
-        Planit.printSeperator();
+        printSeperator();
         String parrot = """
-                  \\\\
-                  (o>
-                  //\\
-                 _V_/__
-                  ||
-                  ||
-                """;
+               \\\\
+               (o>
+               //\\
+              _V_/__
+               ||
+               ||
+             """;
         System.out.println(parrot);
 
         System.out.println("Fun choice!");
@@ -33,6 +40,6 @@ public class Echo {
             System.out.println(input);
         }
 
-        Planit.printSeperator();
+        printSeperator();
     }
 }

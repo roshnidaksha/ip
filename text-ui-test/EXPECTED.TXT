@@ -12,7 +12,67 @@
 +------------------------------------------------------------+
 
           Welcome to Planit, task management system!
+
 What can I do for you?
-_____________________________________________________________
-Bye. Have a nice day!
-_____________________________________________________________
+
+1. Type "planit" or "1" to manage your tasks
+2. Type "play" or "2" to have a break and play games
+3. Type "bye" or "3" to quit the session
+______________________________________________________________
+>       ______ ______
+    _/      Y      \_
+   // ~~ ~~ | ~~ ~  \\
+  // ~ ~ ~~ | ~~~ ~~ \\
+ //________.|.________\\
+`----------`-'----------'
+
+> Great Job! You have no pending tasks /^v^\
+______________________________________________________________
+> Added: [T][ ] read book
+______________________________________________________________
+> Here is a list of your tasks:
+1. [T][ ] read book
+______________________________________________________________
+> Added: [D][ ] return book (by: Friday)
+______________________________________________________________
+> Here is a list of your tasks:
+1. [T][ ] read book
+2. [D][ ] return book (by: Friday)
+______________________________________________________________
+> Added: [E][ ] study 2113 (from: Monday 2pm, to: 4pm)
+______________________________________________________________
+> Here is a list of your tasks:
+1. [T][ ] read book
+2. [D][ ] return book (by: Friday)
+3. [E][ ] study 2113 (from: Monday 2pm, to: 4pm)
+______________________________________________________________
+> Task marked as done successfully: [T][X] read book
+______________________________________________________________
+> Here is a list of your tasks:
+1. [T][X] read book
+2. [D][ ] return book (by: Friday)
+3. [E][ ] study 2113 (from: Monday 2pm, to: 4pm)
+______________________________________________________________
+> Task marked as done successfully: [D][X] return book (by: Friday)
+______________________________________________________________
+> Here is a list of your tasks:
+1. [T][X] read book
+2. [D][X] return book (by: Friday)
+3. [E][ ] study 2113 (from: Monday 2pm, to: 4pm)
+______________________________________________________________
+> Task unmarked successfully: [D][ ] return book (by: Friday)
+______________________________________________________________
+> Here is a list of your tasks:
+1. [T][X] read book
+2. [D][ ] return book (by: Friday)
+3. [E][ ] study 2113 (from: Monday 2pm, to: 4pm)
+______________________________________________________________
+> ______________________________________________________________
+What can I do for you?
+
+1. Type "planit" or "1" to manage your tasks
+2. Type "play" or "2" to have a break and play games
+3. Type "bye" or "3" to quit the session
+______________________________________________________________
+> Bye. Have a nice day!
+______________________________________________________________

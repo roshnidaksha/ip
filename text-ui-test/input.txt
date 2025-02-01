@@ -1,0 +1,16 @@
+1
+list
+todo read book
+list
+deadline return book /by Friday
+list
+event study 2113 /from Monday 2pm /to 4pm
+list
+mark 1
+list
+mark 2
+list
+unmark 2
+list
+bye
+3

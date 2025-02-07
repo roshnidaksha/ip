@@ -25,7 +25,7 @@ public class TaskList {
         }
         tasks[taskCount] = newTask;
         taskCount++;
-        Ui.showToUser("Added: " + newTask.toString());
+        Ui.showToUser("Added: " + newTask);
     }
 
     /**
@@ -35,7 +35,7 @@ public class TaskList {
         if (taskCount > 0) {
             Ui.showToUser("Here is a list of your tasks:");
             for (int i = 0; i < taskCount; i++) {
-                Ui.showToUser(i + 1 + ". " + tasks[i].toString());
+                Ui.showToUser(i + 1 + ". " + tasks[i]);
             }
         } else {
             Ui.showToUser("Great Job! You have no pending tasks /^v^\\");

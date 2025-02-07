@@ -1,19 +1,9 @@
 /**
  * Represents a task in Planit task management system.
  */
-public class Task {
-    private String description;
-    private boolean isDone;
-
-    /**
-     * Constructs a task.
-     *
-     * @param description Description of task to add.
-     */
-    public Task(String description) {
-        this.description = description;
-        this.isDone = false;
-    }
+public abstract class Task {
+    protected String description;
+    protected boolean isDone;
 
     /**
      * Returns the string representation of the task.

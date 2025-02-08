@@ -7,25 +7,12 @@ public class TaskList {
     /**
      * Adds a task to Task.
      *
-     * @param command Command entered by user.
+     * @param task Command entered by user.
      */
-    public void addTask(String[] command) {
-        Task newTask;
-        if (command[0].equalsIgnoreCase("todo")) {
-            newTask = new Todo(command[1]);
-        } else if (command[0].equalsIgnoreCase("deadline")) {
-            command = command[1].split(" /by ");
-            newTask = new Deadline(command[0], command[1]);
-        } else if (command[0].equalsIgnoreCase("event")) {
-            command = command[1].split(" /from | /to ");
-            newTask = new Event(command[0], command[1], command[2]);
-        } else {
-            System.out.println("Invalid command");
-            return;
-        }
-        tasks[taskCount] = newTask;
+    public void addTask(Task task) {
+        tasks[taskCount] = task;
         taskCount++;
-        Ui.showToUser("Added: " + newTask);
+        Ui.showToUser("Added: " + task);
     }
 
     /**
@@ -49,7 +36,7 @@ public class TaskList {
      */
     public void setTaskStatus(int taskIndex, boolean status) {
         if (tasks[taskIndex].isDone() == status) {
-            Ui.showToUser("Task already marked as required.");
+            Ui.showToUser("Task already marked as " + (status ? "done" : "not done"));
         } else {
             tasks[taskIndex].setDone(status);
             Ui.showToUser("Task " + (status ? "marked" : "unmarked") + " successfully");

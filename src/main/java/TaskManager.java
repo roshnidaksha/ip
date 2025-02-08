@@ -6,6 +6,7 @@ import java.util.Scanner;
  */
 public class TaskManager {
     private TaskList taskList;
+    private Parser parser = new Parser();
 
     /**
      * Initializes task list of user.
@@ -23,8 +24,13 @@ public class TaskManager {
         boolean exitTaskManager = false;
         while (!exitTaskManager) {
             String userInputString = Ui.getUserInput();
-            exitTaskManager = Parser.parse(userInputString, taskList);
-            Ui.showToUser(Ui.DIVIDER);
+            try {
+                exitTaskManager = parser.parse(userInputString, taskList);
+            } catch (Exception e) {
+                Ui.showError(e.getMessage());
+            } finally {
+                Ui.showToUser(Ui.DIVIDER);
+            }
         }
     }
 }

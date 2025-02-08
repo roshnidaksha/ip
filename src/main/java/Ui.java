@@ -38,6 +38,7 @@ public class Ui {
     private static final String COMMAND_EXIT_DESC = "3. Type \"bye\" or \"3\" to quit the session";
 
     private static final String LINE_PREFIX = "8< ";
+    private static final String ERROR_PREFIX = "[ERROR] ";
     public static final String DIVIDER = "->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->";
 
     public static void showPlanitWelcomeMessage() {
@@ -90,7 +91,7 @@ public class Ui {
      * @param message Error message to display.
      */
     public static void showError(String message) {
-        System.err.println(LINE_PREFIX + message);
+        System.err.println(LINE_PREFIX + ERROR_PREFIX + message);
     }
 
     /**

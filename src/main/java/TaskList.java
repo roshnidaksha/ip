@@ -36,7 +36,7 @@ public class TaskList {
      */
     public void setTaskStatus(int taskIndex, boolean status) {
         if (tasks[taskIndex].isDone() == status) {
-            Ui.showToUser("Task already marked as " + (status ? "done" : "not done"));
+            Ui.showWarning("Task already marked as " + (status ? "done" : "not done"));
         } else {
             tasks[taskIndex].setDone(status);
             Ui.showToUser("Task " + (status ? "marked" : "unmarked") + " successfully");

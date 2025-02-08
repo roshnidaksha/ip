@@ -6,13 +6,13 @@ public class Parser {
      * @param taskList List of tasks of user.
      * @return True if input is bye, False otherwise.
      */
-    public boolean parse(String userInputString, TaskList taskList) {
+    public boolean parse(String userInputString, TaskList taskList) throws EmptyCommandException {
         boolean isExit = false;
         String[] commandTypeAndParams = Ui.splitCommandWordAndArgs(userInputString);
         String commandType = commandTypeAndParams[0];
         String commandArgs = commandTypeAndParams[1];
 
-        CommandType commandTypeEnum = null;
+        CommandType commandTypeEnum;
         try {
             commandTypeEnum = CommandType.valueOf(commandType.toUpperCase());
         } catch (IllegalArgumentException e) {
@@ -24,6 +24,9 @@ public class Parser {
             break;
         case MARK:
         case UNMARK:
+            if (commandArgs.isEmpty()) {
+                throw new EmptyCommandException("Index of task required to mark/unmark tasks");
+            }
             int taskId = Integer.parseInt(commandArgs);
             if (taskId < 1 || taskId > taskList.taskCount) {
                 throw new IndexOutOfBoundsException("Invalid task id: " + taskId);
@@ -54,11 +57,11 @@ public class Parser {
      *
      * @param task Task details entered by user as a string.
      * @return Todo task object.
-     * @throws IllegalArgumentException If todo task is empty or null.
+     * @throws EmptyCommandException If todo task is empty or null.
      */
-    private Task parseTodo(String task) throws IllegalArgumentException {
+    private Task parseTodo(String task) throws EmptyCommandException {
         if (task.trim().isEmpty()) {
-            throw new IllegalArgumentException("Todo task description cannot be empty.");
+            throw new EmptyCommandException("Todo task description cannot be empty.");
         }
         return new Todo(task);
     }
@@ -68,12 +71,12 @@ public class Parser {
      *
      * @param task Task details entered by user as a string.
      * @return Deadline task object.
-     * @throws IllegalArgumentException If deadline for task is null.
+     * @throws EmptyCommandException If deadline for task is null.
      */
-    private Task parseDeadline(String task) throws IllegalArgumentException {
+    private Task parseDeadline(String task) throws EmptyCommandException {
         String[] parts = task.split(" /by ", 2);
         if (parts.length < 2) {
-            throw new IllegalArgumentException("Deadline task is missing deadline or description.");
+            throw new EmptyCommandException("Deadline task is missing deadline or description.");
         }
         return new Deadline(parts[0], parts[1]);
     }
@@ -83,12 +86,12 @@ public class Parser {
      *
      * @param task Task details entered by user as a string.
      * @return Event task object.
-     * @throws IllegalArgumentException If event timing is null.
+     * @throws EmptyCommandException If event timing is null.
      */
-    private Task parseEvent(String task) throws IllegalArgumentException {
+    private Task parseEvent(String task) throws EmptyCommandException {
         String[] parts = task.split(" /from | /to ", 3);
         if (parts.length < 3) {
-            throw new IllegalArgumentException("Event task is missing timing or description.");
+            throw new EmptyCommandException("Event task is missing timing or description.");
         }
         return new Event(parts[0], parts[1], parts[2]);
     }

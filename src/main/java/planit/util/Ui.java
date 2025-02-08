@@ -1,3 +1,5 @@
+package planit.util;
+
 import java.util.Scanner;
 
 public class Ui {

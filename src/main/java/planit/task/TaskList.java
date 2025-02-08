@@ -1,3 +1,7 @@
+package planit.task;
+
+import planit.util.Ui;
+
 public class TaskList {
     private Task[] tasks = new Task[100];
 

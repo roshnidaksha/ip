@@ -1,3 +1,5 @@
+package planit.task;
+
 /**
  * Represents tasks that start a specific date/time and
  * ends at a specific date/time.

@@ -1,3 +1,5 @@
+package planit.task;
+
 /**
  * Represents tasks that need to be done before a specific data/time.
  */

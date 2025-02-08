@@ -1,3 +1,5 @@
+package planit.task;
+
 /**
  * Represents tasks without any date/time attached to it.
  * These tasks need to be done some day.

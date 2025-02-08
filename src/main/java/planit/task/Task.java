@@ -1,3 +1,5 @@
+package planit.task;
+
 /**
  * Represents a task in Planit task management system.
  */

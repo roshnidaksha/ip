@@ -1,3 +1,5 @@
+package planit.command;
+
 public enum CommandType {
     LIST,
     MARK, UNMARK,

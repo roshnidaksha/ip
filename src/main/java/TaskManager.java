@@ -6,6 +6,7 @@ import java.util.Scanner;
  */
 public class TaskManager {
     private TaskList taskList;
+    private Parser parser = new Parser();
 
     /**
      * Initializes task list of user.
@@ -23,33 +24,13 @@ public class TaskManager {
         boolean exitTaskManager = false;
         while (!exitTaskManager) {
             String userInputString = Ui.getUserInput();
-            String[] commandTypeAndParams = Ui.splitCommandWordAndArgs(userInputString);
-            String commandType = commandTypeAndParams[0];
-            String commandArgs = commandTypeAndParams[1];
-
-            CommandType commandTypeEnum = CommandType.valueOf(commandType.toUpperCase());
-            switch (commandTypeEnum) {
-            case LIST:
-                taskList.displayAllTasks();
-                break;
-            case MARK:
-            case UNMARK:
-                int taskId = Integer.parseInt(commandArgs) - 1;
-                taskList.setTaskStatus(taskId, commandTypeEnum == CommandType.MARK);
-                break;
-            case TODO:
-            case DEADLINE:
-            case EVENT:
-                taskList.addTask(commandTypeAndParams);
-                break;
-            case BYE:
-                Ui.showTaskManagerExitMessage();
-                exitTaskManager = true;
-                break;
-            default:
-                Ui.showError("Invalid command type: " + commandType);
+            try {
+                exitTaskManager = parser.parse(userInputString, taskList);
+            } catch (Exception e) {
+                Ui.showError(e.getMessage());
+            } finally {
+                Ui.showToUser(Ui.DIVIDER);
             }
-            Ui.showToUser(Ui.DIVIDER);
         }
     }
 }

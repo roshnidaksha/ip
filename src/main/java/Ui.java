@@ -37,7 +37,9 @@ public class Ui {
     private static final String COMMAND_PLAY_DESC = "2. Type \"play\" or \"2\" to have a break and play games";
     private static final String COMMAND_EXIT_DESC = "3. Type \"bye\" or \"3\" to quit the session";
 
-    private static final String LINE_PREFIX = "8< ";
+    private static final String ERROR_PREFIX = "[ERROR] ";
+    private static final String WARNING_PREFIX = "[WARNING] ";
+
     public static final String DIVIDER = "->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->";
 
     public static void showPlanitWelcomeMessage() {
@@ -71,7 +73,7 @@ public class Ui {
      */
     public static void showToUser(String... message) {
         for (String m : message) {
-            System.out.println(LINE_PREFIX + m);
+            showToUser(m);
         }
     }
 
@@ -81,7 +83,7 @@ public class Ui {
      * @param message Message to be shown.
      */
     public static void showToUser(String message) {
-        System.out.println(LINE_PREFIX + message);
+        System.out.println(message);
     }
 
     /**
@@ -90,7 +92,16 @@ public class Ui {
      * @param message Error message to display.
      */
     public static void showError(String message) {
-        System.err.println(LINE_PREFIX + message);
+        System.out.println(ERROR_PREFIX + message);
+    }
+
+    /**
+     * Shows a warning message to user.
+     *
+     * @param message Warning message to display.
+     */
+    public static void showWarning(String message) {
+        System.out.println(WARNING_PREFIX + message);
     }
 
     /**
@@ -107,7 +118,7 @@ public class Ui {
      * @return Full line entered by the user.
      */
     public static String getUserInput() {
-        System.out.print(LINE_PREFIX + "> ");
+        System.out.print("> ");
         String inputLine = SCANNER.nextLine();
         while (inputLine.trim().isEmpty()) {
             inputLine = SCANNER.nextLine();

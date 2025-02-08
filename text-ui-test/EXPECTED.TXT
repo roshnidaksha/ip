@@ -11,69 +11,69 @@
 |                                                            |
 +------------------------------------------------------------+
 
-8<           Welcome to Planit, task management system!
+          Welcome to Planit, task management system!
 
-8< ->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
-8< 1. Type "planit" or "1" to manage your tasks
-8< 2. Type "play" or "2" to have a break and play games
-8< 3. Type "bye" or "3" to quit the session
-8< ->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
-8< >       ______ ______
+->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
+1. Type "planit" or "1" to manage your tasks
+2. Type "play" or "2" to have a break and play games
+3. Type "bye" or "3" to quit the session
+->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
+>       ______ ______
     _/      Y      \_
    // ~~ ~~ | ~~ ~  \\
   // ~ ~ ~~ | ~~~ ~~ \\
  //________.|.________\\
 `----------`-'----------'
 
-8< Welcome, I am your task manager!
-8< > 8< Great Job! You have no pending tasks /^v^\
-8< ->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
-8< > 8< Added: [T][ ] read book
-8< ->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
-8< > 8< Here is a list of your tasks:
-8< 1. [T][ ] read book
-8< ->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
-8< > 8< Added: [D][ ] return book (by: Friday)
-8< ->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
-8< > 8< Here is a list of your tasks:
-8< 1. [T][ ] read book
-8< 2. [D][ ] return book (by: Friday)
-8< ->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
-8< > 8< Added: [E][ ] study 2113 (from: Monday 2pm, to: 4pm)
-8< ->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
-8< > 8< Here is a list of your tasks:
-8< 1. [T][ ] read book
-8< 2. [D][ ] return book (by: Friday)
-8< 3. [E][ ] study 2113 (from: Monday 2pm, to: 4pm)
-8< ->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
-8< > 8< Task marked successfully
-8< ->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
-8< > 8< Here is a list of your tasks:
-8< 1. [T][X] read book
-8< 2. [D][ ] return book (by: Friday)
-8< 3. [E][ ] study 2113 (from: Monday 2pm, to: 4pm)
-8< ->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
-8< > 8< Task marked successfully
-8< ->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
-8< > 8< Here is a list of your tasks:
-8< 1. [T][X] read book
-8< 2. [D][X] return book (by: Friday)
-8< 3. [E][ ] study 2113 (from: Monday 2pm, to: 4pm)
-8< ->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
-8< > 8< Task unmarked successfully
-8< ->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
-8< > 8< Here is a list of your tasks:
-8< 1. [T][X] read book
-8< 2. [D][ ] return book (by: Friday)
-8< 3. [E][ ] study 2113 (from: Monday 2pm, to: 4pm)
-8< ->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
-8< > 8< Hope you took note of some important tasks! Bye!
-8< ->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
-8< ->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
-8< 1. Type "planit" or "1" to manage your tasks
-8< 2. Type "play" or "2" to have a break and play games
-8< 3. Type "bye" or "3" to quit the session
-8< ->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
-8< > 8< Bye. Have a nice day!
-8< ->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
-8< ->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
+Welcome, I am your task manager!
+> Great Job! You have no pending tasks /^v^\
+->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
+> Added: [T][ ] read book
+->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
+> Here is a list of your tasks:
+1. [T][ ] read book
+->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
+> Added: [D][ ] return book (by: Friday)
+->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
+> Here is a list of your tasks:
+1. [T][ ] read book
+2. [D][ ] return book (by: Friday)
+->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
+> Added: [E][ ] study 2113 (from: Monday 2pm, to: 4pm)
+->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
+> Here is a list of your tasks:
+1. [T][ ] read book
+2. [D][ ] return book (by: Friday)
+3. [E][ ] study 2113 (from: Monday 2pm, to: 4pm)
+->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
+> Task marked successfully
+->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
+> Here is a list of your tasks:
+1. [T][X] read book
+2. [D][ ] return book (by: Friday)
+3. [E][ ] study 2113 (from: Monday 2pm, to: 4pm)
+->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
+> Task marked successfully
+->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
+> Here is a list of your tasks:
+1. [T][X] read book
+2. [D][X] return book (by: Friday)
+3. [E][ ] study 2113 (from: Monday 2pm, to: 4pm)
+->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
+> Task unmarked successfully
+->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
+> Here is a list of your tasks:
+1. [T][X] read book
+2. [D][ ] return book (by: Friday)
+3. [E][ ] study 2113 (from: Monday 2pm, to: 4pm)
+->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
+> Hope you took note of some important tasks! Bye!
+->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
+->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
+1. Type "planit" or "1" to manage your tasks
+2. Type "play" or "2" to have a break and play games
+3. Type "bye" or "3" to quit the session
+->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
+> Bye. Have a nice day!
+->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
+->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->

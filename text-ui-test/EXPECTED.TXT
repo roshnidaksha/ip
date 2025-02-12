@@ -33,6 +33,8 @@ Welcome, I am your task manager!
 > Here is a list of your tasks:
 1. [T][ ] read book
 ->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
+> [ERROR] Todo task description cannot be empty.
+->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
 > Added: [D][ ] return book (by: Friday)
 ->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
 > Here is a list of your tasks:
@@ -52,6 +54,8 @@ Welcome, I am your task manager!
 1. [T][X] read book
 2. [D][ ] return book (by: Friday)
 3. [E][ ] study 2113 (from: Monday 2pm, to: 4pm)
+->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
+> [WARNING] Task already marked as done
 ->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
 > Task marked successfully
 ->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->

@@ -11,14 +11,25 @@ public class TaskList {
     public int taskCount = 0;
 
     /**
-     * Adds a task to Task.
+     * Adds a task to task list.
      *
      * @param task Command entered by user.
      */
     public void addTask(Task task) {
         tasks.add(task);
         taskCount++;
-        Ui.showToUser("Added: " + task);
+        Ui.showToUser("Added task: " + task);
+    }
+
+    /**
+     * Deletes a task from task list.
+     *
+     * @param index Index of task to be deleted.
+     */
+    public void deleteTask(int index) {
+        Ui.showToUser("Deleted task: " + tasks.get(index));
+        tasks.remove(index);
+        taskCount--;
     }
 
     /**

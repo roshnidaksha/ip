@@ -29,20 +29,21 @@ public class Parser {
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Invalid command type: " + commandType);
         }
+
         switch (commandTypeEnum) {
         case LIST:
             taskList.displayAllTasks();
             break;
         case MARK:
         case UNMARK:
-            if (commandArgs.isEmpty()) {
-                throw new EmptyCommandException("Index of task required to mark/unmark tasks");
-            }
+        case DELETE:
+            validateIndex(commandArgs, taskList.taskCount);
             int taskId = Integer.parseInt(commandArgs);
-            if (taskId < 1 || taskId > taskList.taskCount) {
-                throw new IndexOutOfBoundsException("Invalid task id: " + taskId);
+            if (commandTypeEnum == CommandType.MARK || commandTypeEnum == CommandType.UNMARK) {
+                taskList.setTaskStatus(taskId - 1, commandTypeEnum == CommandType.MARK);
+            } else {
+                taskList.deleteTask(taskId - 1);
             }
-            taskList.setTaskStatus(taskId - 1, commandTypeEnum == CommandType.MARK);
             break;
         case TODO:
             taskList.addTask(parseTodo(commandArgs));
@@ -61,6 +62,27 @@ public class Parser {
             throw new IllegalArgumentException("Invalid command type: " + commandTypeEnum);
         }
         return isExit;
+    }
+
+    /**
+     * Checks if index entered by user is valid.
+     *
+     * @param index Index of task entered by user.
+     * @param taskCount Number of tasks currently stored.
+     * @throws EmptyCommandException If index of task is missing.
+     */
+    private void validateIndex(String index, int taskCount) throws EmptyCommandException {
+        if (index.isEmpty()) {
+            throw new EmptyCommandException("Index of task required.");
+        }
+        try {
+            int taskId = Integer.parseInt(index);
+            if (taskId < 1 || taskId > taskCount) {
+                throw new IndexOutOfBoundsException("Invalid task id: " + taskId);
+            }
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Task index must be a valid number.");
+        }
     }
 
     /**

@@ -56,9 +56,9 @@ public class Deadline extends Task {
             return null;
         }
 
-        boolean isDone = matcher.group(2).equals("X");
-        String description = matcher.group(3).trim();
-        String deadline = matcher.group(4).trim();
+        boolean isDone = matcher.group(1).equals("X");
+        String description = matcher.group(2).trim();
+        String deadline = matcher.group(3).trim();
 
         Deadline deadlineTask;
         try {

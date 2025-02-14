@@ -30,6 +30,11 @@ public class Storage {
      */
     public void createFile() throws IOException {
         try {
+            if (file.getParentFile() != null && !file.getParentFile().exists()) {
+                if (!file.getParentFile().mkdirs()) {
+                    throw new IOException("Could not create directory: " + file.getParent());
+                }
+            }
             if (!file.createNewFile()) {
                 throw new RuntimeException("File already exists!");
             }
@@ -64,9 +69,9 @@ public class Storage {
      * Reads contents of file and returns a list of Task objects.
      *
      * @return List of tasks.
-     * @throws RuntimeException If unable to open or read file.
+     * @throws IOException If unable to open or read file.
      */
-    public ArrayList<Task> loadTaskList() throws RuntimeException {
+    public ArrayList<Task> loadTaskList() throws IOException {
         ArrayList<Task> taskList = new ArrayList<>();
         try {
             Scanner scanner = new Scanner(file);
@@ -79,7 +84,7 @@ public class Storage {
             }
             scanner.close();
         } catch (IOException e) {
-            throw new RuntimeException("File error: " + e.getMessage());
+            throw new IOException("File error: " + e.getMessage());
         }
         return taskList;
     }

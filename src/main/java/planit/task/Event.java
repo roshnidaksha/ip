@@ -60,10 +60,10 @@ public class Event extends Task {
             return null;
         }
 
-        boolean isDone = matcher.group(2).equals("X");
-        String description = matcher.group(3).trim();
-        String start = matcher.group(4).trim();
-        String end = matcher.group(5).trim();
+        boolean isDone = matcher.group(1).equals("X");
+        String description = matcher.group(2).trim();
+        String start = matcher.group(3).trim();
+        String end = matcher.group(4).trim();
 
         Event eventTask;
         try {

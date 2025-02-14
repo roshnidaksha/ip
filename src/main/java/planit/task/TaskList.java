@@ -5,35 +5,58 @@ import planit.util.Ui;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class TaskList {
-    private ArrayList<Task> tasks;
+    private HashMap<String, ArrayList<Task>> tasksMap;
     private final Storage storage = new Storage(Ui.FILE_PATH);
 
-    /** Number of tasks added by user */
+    /**
+     * Number of tasks added by user
+     */
     public int taskCount = 0;
 
     public TaskList() {
         try {
-            tasks = storage.loadTaskList();
-            taskCount = tasks.size();
-            Ui.showToUser("Successfully retrieved task list");
+            loadTasks();
         } catch (IOException e) {
-            Ui.showError(e.getMessage());
-            tasks = new ArrayList<>();
+            Ui.showError("Unable to load task list: " + e.getMessage());
+            tasksMap = new HashMap<>();
+            tasksMap.put("todo", new ArrayList<>());
+            tasksMap.put("deadline", new ArrayList<>());
+            tasksMap.put("event", new ArrayList<>());
         }
     }
 
     public void saveTasks() throws IOException {
-        storage.saveTaskList(tasks);
+        storage.saveTaskList(tasksMap);
     }
 
-    public void loadTasks() {
-        try {
-            tasks = storage.loadTaskList();
-        } catch (IOException e) {
-            Ui.showError("Unable to load task list: " + e.getMessage());
+    public void loadTasks() throws IOException {
+        ArrayList<Task> allTasks = storage.loadTaskList();
+        taskCount = allTasks.size();
+
+        tasksMap = new HashMap<>();
+        tasksMap.put("todo", new ArrayList<>());
+        tasksMap.put("deadline", new ArrayList<>());
+        tasksMap.put("event", new ArrayList<>());
+
+        for (Task task : allTasks) {
+            String taskType = task.getTaskType();
+            switch (taskType) {
+            case "T":
+                tasksMap.get("todo").add(task);
+                break;
+            case "D":
+                tasksMap.get("deadline").add(task);
+                break;
+            case "E":
+                tasksMap.get("event").add(task);
+                break;
+            }
         }
+
+        Ui.showToUser("Successfully retrieved task list");
     }
 
     /**
@@ -41,8 +64,8 @@ public class TaskList {
      *
      * @param task Command entered by user.
      */
-    public void addTask(Task task) {
-        tasks.add(task);
+    public void addTask(String taskType, Task task) {
+        tasksMap.get(taskType).add(task);
         taskCount++;
         Ui.showToUser("Added task: " + task);
     }
@@ -52,9 +75,9 @@ public class TaskList {
      *
      * @param index Index of task to be deleted.
      */
-    public void deleteTask(int index) {
-        Ui.showToUser("Deleted task: " + tasks.get(index));
-        tasks.remove(index);
+    public void deleteTask(String taskType, int index) {
+        Ui.showToUser("Deleted task: " + tasksMap.get(taskType).get(index));
+        tasksMap.get(taskType).remove(index);
         taskCount--;
     }
 
@@ -64,8 +87,12 @@ public class TaskList {
     public void displayAllTasks() {
         if (taskCount > 0) {
             Ui.showToUser("Here is a list of your tasks:");
-            for (int i = 0; i < taskCount; i++) {
-                Ui.showToUser(i + 1 + ". " + tasks.get(i));
+            for (String taskType : tasksMap.keySet()) {
+                Ui.showToUser(taskType + ":");
+                int length = tasksMap.get(taskType).size();
+                for (int i = 0; i < length; i++) {
+                    Ui.showToUser(i + 1 + ". " + tasksMap.get(taskType).get(i));
+                }
             }
         } else {
             Ui.showToUser("Great Job! You have no pending tasks /^v^\\");
@@ -77,11 +104,11 @@ public class TaskList {
      *
      * @param taskIndex Index of task in taskList.
      */
-    public void setTaskStatus(int taskIndex, boolean status) {
-        if (tasks.get(taskIndex).isDone() == status) {
+    public void setTaskStatus(String taskType, int taskIndex, boolean status) {
+        if (tasksMap.get(taskType).get(taskIndex).isDone() == status) {
             Ui.showWarning("Task already marked as " + (status ? "done" : "not done"));
         } else {
-            tasks.get(taskIndex).setDone(status);
+            tasksMap.get(taskType).get(taskIndex).setDone(status);
             Ui.showToUser("Task " + (status ? "marked" : "unmarked") + " successfully");
         }
     }

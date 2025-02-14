@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class Storage {
@@ -46,18 +47,20 @@ public class Storage {
     /**
      * Saves current list of tasks to a file in a human-readable format.
      *
-     * @param taskList List of tasks of user.
+     * @param tasksMap List of tasks of user.
      * @throws IOException If an error occurs while writing to file.
      */
-    public void saveTaskList(ArrayList<Task> taskList) throws IOException {
+    public void saveTaskList(HashMap<String, ArrayList<Task>> tasksMap) throws IOException {
         if (!file.exists()) {
             createFile();
         }
         try {
             FileWriter fileWriter = new FileWriter(file);
-            for (Task task : taskList) {
-                fileWriter.write(task.toFileFormat());
-                fileWriter.write("\n");
+            for (String taskType : tasksMap.keySet()) {
+                for (Task task : tasksMap.get(taskType)) {
+                    fileWriter.write(task.toFileFormat());
+                    fileWriter.write("\n");
+                }
             }
             fileWriter.close();
         } catch (IOException e) {

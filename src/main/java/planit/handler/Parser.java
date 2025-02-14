@@ -40,21 +40,36 @@ public class Parser {
         case UNMARK:
         case DELETE:
             validateIndex(commandArgs, taskList.taskCount);
-            int taskId = Integer.parseInt(commandArgs);
+            String taskType;
+            String taskTypeId = commandArgs.substring(0, 1);
+            switch (taskTypeId) {
+            case "t":
+                taskType = "todo";
+                break;
+            case "d":
+                taskType = "deadline";
+                break;
+            case "e":
+                taskType = "event";
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid task type: " + taskTypeId);
+            }
+            int taskId = Integer.parseInt(commandArgs.substring(1));
             if (commandTypeEnum == CommandType.MARK || commandTypeEnum == CommandType.UNMARK) {
-                taskList.setTaskStatus(taskId - 1, commandTypeEnum == CommandType.MARK);
+                taskList.setTaskStatus(taskType,  taskId - 1, commandTypeEnum == CommandType.MARK);
             } else {
-                taskList.deleteTask(taskId - 1);
+                taskList.deleteTask(taskType, taskId - 1);
             }
             break;
         case TODO:
-            taskList.addTask(parseTodo(commandArgs));
+            taskList.addTask("todo", parseTodo(commandArgs));
             break;
         case DEADLINE:
-            taskList.addTask(parseDeadline(commandArgs));
+            taskList.addTask("deadline", parseDeadline(commandArgs));
             break;
         case EVENT:
-            taskList.addTask(parseEvent(commandArgs));
+            taskList.addTask("event", parseEvent(commandArgs));
             break;
         case BYE:
             Ui.showTaskManagerExitMessage();
@@ -79,7 +94,10 @@ public class Parser {
             throw new EmptyCommandException("Index of task required.");
         }
         try {
-            int taskId = Integer.parseInt(index);
+            if (!index.substring(0, 1).matches("[a-zA-Z]")) {
+                throw new IllegalArgumentException("Task type required.");
+            }
+            int taskId = Integer.parseInt(index.substring(1));
             if (taskId < 1 || taskId > taskCount) {
                 throw new IndexOutOfBoundsException("Invalid task id: " + taskId);
             }

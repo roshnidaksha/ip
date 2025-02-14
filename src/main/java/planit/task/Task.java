@@ -13,8 +13,31 @@ public abstract class Task {
      * @return Task converted to a string.
      */
     @Override
-    public String toString() {
-        return "[" + (isDone() ? "X" : " ") + "] " + getDescription();
+    public abstract String toString();
+
+    /**
+     * Returns a string representation of the event task that
+     * suitable to be stored in file storage.
+     */
+    public abstract String toFileFormat();
+
+    /**
+     * Returns a task object from a string.
+     *
+     * @param input String representation of task stored in file.
+     * @return Task object of string representation.
+     */
+    public static Task parseTask(String input) {
+        return null;
+    }
+
+    /**
+     * Returns the task type in a single letter.
+     */
+    public abstract String getTaskType();
+
+    public String getStatus() {
+        return isDone ? "X" : " ";
     }
 
     public String getDescription() {

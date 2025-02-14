@@ -9,6 +9,8 @@ import planit.task.TaskList;
 import planit.task.Todo;
 import planit.util.Ui;
 
+import java.io.IOException;
+
 public class Parser {
     /**
      * Parses user input string.
@@ -17,7 +19,7 @@ public class Parser {
      * @param taskList List of tasks of user.
      * @return True if input is bye, False otherwise.
      */
-    public boolean parse(String userInputString, TaskList taskList) throws EmptyCommandException {
+    public boolean parse(String userInputString, TaskList taskList) throws EmptyCommandException, IOException {
         boolean isExit = false;
         String[] commandTypeAndParams = Ui.splitCommandWordAndArgs(userInputString);
         String commandType = commandTypeAndParams[0];
@@ -56,6 +58,7 @@ public class Parser {
             break;
         case BYE:
             Ui.showTaskManagerExitMessage();
+            taskList.saveTasks();
             isExit = true;
             break;
         default:

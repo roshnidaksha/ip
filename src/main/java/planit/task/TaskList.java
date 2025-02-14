@@ -1,14 +1,40 @@
 package planit.task;
 
+import planit.util.Storage;
 import planit.util.Ui;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class TaskList {
-    private ArrayList<Task> tasks = new ArrayList<>();
+    private ArrayList<Task> tasks;
+    private final Storage storage = new Storage(Ui.FILE_PATH);
 
     /** Number of tasks added by user */
     public int taskCount = 0;
+
+    public TaskList() {
+        try {
+            tasks = storage.loadTaskList();
+            taskCount = tasks.size();
+            Ui.showToUser("Successfully retrieved task list");
+        } catch (IOException e) {
+            Ui.showError(e.getMessage());
+            tasks = new ArrayList<>();
+        }
+    }
+
+    public void saveTasks() throws IOException {
+        storage.saveTaskList(tasks);
+    }
+
+    public void loadTasks() {
+        try {
+            tasks = storage.loadTaskList();
+        } catch (IOException e) {
+            Ui.showError("Unable to load task list: " + e.getMessage());
+        }
+    }
 
     /**
      * Adds a task to task list.

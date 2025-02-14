@@ -23,6 +23,7 @@ public class TaskManager {
      */
     public void run() {
         Ui.showTaskManagerWelcomeMessage();
+        taskList.loadTasks();
 
         boolean exitTaskManager = false;
         while (!exitTaskManager) {

@@ -3,6 +3,7 @@ package planit.util;
 import java.util.Scanner;
 
 public class Ui {
+    public static final String FILE_PATH = "./data/planit.txt";
     private static final Scanner SCANNER = new Scanner(System.in);
 
     private static final String PLANIT_LOGO = """

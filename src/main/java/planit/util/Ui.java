@@ -1,9 +1,11 @@
 package planit.util;
 
+import java.nio.file.Paths;
 import java.util.Scanner;
 
 public class Ui {
-    public static final String FILE_PATH = "./data/planit.txt";
+    public static final String HOME = System.getProperty("user.home");
+    public static final String FILE_PATH = Paths.get(HOME, "Planit", "data", "tasks.txt").toString();
     private static final Scanner SCANNER = new Scanner(System.in);
 
     private static final String PLANIT_LOGO = """

@@ -25,8 +25,10 @@ public class Parser {
         String commandType = commandTypeAndParams[0];
         String commandArgs = commandTypeAndParams[1];
 
-        Command command = Command.getCommand(commandType.toLowerCase());
-        if (command == null) {
+        Command command = null;
+        try {
+            command = Command.getCommand(commandType.toLowerCase());
+        } catch (Exception e) {
             throw new InvalidArgumentException("Invalid command type: " + commandType);
         }
 

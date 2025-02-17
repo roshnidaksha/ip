@@ -17,28 +17,32 @@ public abstract class Command {
 
     /**
      * Static data structure that relates command in string representation to
-     * actual command object.
+     * its respective command class.
      */
-    public static HashMap<String, Command> commands = new HashMap<>();
+    public static HashMap<String, Class<? extends Command>> commands = new HashMap<>();
     static {
-        commands.put("list", new ListCommand());
-        commands.put("mark", new MarkCommand());
-        commands.put("unmark", new UnmarkCommand());
-        commands.put("todo", new AddTodoCommand());
-        commands.put("deadline", new AddDeadlineCommand());
-        commands.put("event", new AddEventCommand());
-        commands.put("delete", new DeleteCommand());
-        commands.put("bye", new ByeCommand());
+        commands.put("list", ListCommand.class);
+        commands.put("mark", MarkCommand.class);
+        commands.put("unmark", UnmarkCommand.class);
+        commands.put("todo", AddTodoCommand.class);
+        commands.put("deadline", AddDeadlineCommand.class);
+        commands.put("event", AddEventCommand.class);
+        commands.put("delete", DeleteCommand.class);
+        commands.put("bye", ByeCommand.class);
     }
 
     /**
      * Returns Command object of input string command.
      *
-     * @param command String representation of command entered by user.
+     * @param commandType String representation of command entered by user.
      * @return Command object of string representation.
      */
-    public static Command getCommand(String command) {
-        return commands.get(command);
+    public static Command getCommand(String commandType) throws Exception {
+        Class<? extends Command> commandClass = commands.get(commandType);
+        if (commandClass != null) {
+            return commandClass.getDeclaredConstructor().newInstance();
+        }
+        return null;
     }
 
     /** Key-value pairs of arguments entered by user. */

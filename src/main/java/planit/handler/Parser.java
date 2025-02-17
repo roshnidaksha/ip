@@ -51,26 +51,37 @@ public class Parser {
             return;
         }
 
-        String regex = "^(.*?)\\s*(?:/(\\w+)\\s+([^/]+))*$";
+        String[] parts = input.trim().split("/", 2);
+        String description = parts[0].trim();
+        if (!description.isEmpty()) {
+            keyValueMap.put("description", description);
+        }
+        if (parts.length == 1) {
+            command.setParameters(keyValueMap);
+            return;
+        }
+
+        String keyValuePart = parts[1];
+        String regex = "(\\w+)\\s+(.*?)(?=\\s+/|$)";
         Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(input.trim());
+        Matcher matcher = pattern.matcher(keyValuePart);
 
         if (!matcher.matches()) {
             throw new InvalidArgumentException("Invalid input format.");
         }
 
-        String description = matcher.group(1).trim();
-        keyValueMap.put("description", description);
-
-        for (int i = 2; i <= matcher.groupCount(); i += 2) {
-            if (matcher.group(i) != null && matcher.group(i + 1) != null) {
-                String key = "/" + matcher.group(i).trim();
-                String value = matcher.group(i + 1).trim();
-                if (value.contains("/")) {
-                    throw new InvalidArgumentException("Invalid input: Unexpected '/' found in value for key " + key);
-                }
-                keyValueMap.put(key, value);
+        while (matcher.find()) {
+            String key = "/" + matcher.group(1).trim();
+            String value = matcher.group(2).trim();
+            if (value.contains("/")) {
+                throw new InvalidArgumentException("Invalid input: Unexpected '/' found in value for key " + key);
             }
+            keyValueMap.put(key, value);
+        }
+
+        String unmatched = matcher.replaceAll("").trim();
+        if (!unmatched.isEmpty()) {
+            throw new InvalidArgumentException(String.format("Invalid input: key /%s found with no value.", unmatched));
         }
 
         command.setParameters(keyValueMap);

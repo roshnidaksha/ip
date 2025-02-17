@@ -1,48 +1,95 @@
 package planit.handler;
 
-import planit.command.CommandType;
+import planit.command.Command;
 import planit.exceptions.EmptyCommandException;
-import planit.task.Deadline;
-import planit.task.Event;
-import planit.task.Task;
-import planit.task.TaskList;
-import planit.task.Todo;
+import planit.exceptions.InvalidArgumentException;
 import planit.util.Ui;
 
-import java.io.IOException;
+import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+/**
+ * Parses uses input.
+ */
 public class Parser {
     /**
      * Parses user input string.
      *
      * @param userInputString Input entered by user.
-     * @param taskList List of tasks of user.
-     * @return True if input is bye, False otherwise.
+     * @return Command object of command entered by user.
+     * @throws InvalidArgumentException If arguments entered by user is invalid.
      */
-    public boolean parse(String userInputString, TaskList taskList) throws EmptyCommandException, IOException {
-        boolean isExit = false;
+    public Command parse(String userInputString) throws InvalidArgumentException {
         String[] commandTypeAndParams = Ui.splitCommandWordAndArgs(userInputString);
         String commandType = commandTypeAndParams[0];
         String commandArgs = commandTypeAndParams[1];
 
-        CommandType commandTypeEnum;
-        try {
-            commandTypeEnum = CommandType.valueOf(commandType.toUpperCase());
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Invalid command type: " + commandType);
+        Command command = Command.getCommand(commandType.toLowerCase());
+        if (command == null) {
+            throw new InvalidArgumentException("Invalid command type: " + commandType);
         }
 
-        switch (commandTypeEnum) {
-        case LIST:
-            taskList.displayAllTasks();
-            break;
-        case MARK:
-        case UNMARK:
-        case DELETE:
-            validateIndex(commandArgs, taskList.taskCount);
-            String taskType;
-            String taskTypeId = commandArgs.substring(0, 1);
-            switch (taskTypeId) {
+        parseKeyValuePairs(command, commandArgs);
+        return command;
+    }
+
+    /**
+     * Parses user input string and extract key value pairs from it.
+     * Keys are preceded using "/".
+     *
+     * @param command Command object entered by user.
+     * @param input User input.
+     * @throws InvalidArgumentException If key-value pairs cannot be extracted.
+     */
+    private void parseKeyValuePairs(Command command, String input) throws InvalidArgumentException {
+        HashMap<String, String> keyValueMap = new HashMap<>();
+
+        if (input.isEmpty()) {
+            return;
+        }
+
+        String regex = "^(.*?)\\s*(?:/(\\w+)\\s+([^/]+))*$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(input.trim());
+
+        if (!matcher.matches()) {
+            throw new InvalidArgumentException("Invalid input format.");
+        }
+
+        String description = matcher.group(1).trim();
+        keyValueMap.put("description", description);
+
+        for (int i = 2; i <= matcher.groupCount(); i += 2) {
+            if (matcher.group(i) != null && matcher.group(i + 1) != null) {
+                String key = "/" + matcher.group(i).trim();
+                String value = matcher.group(i + 1).trim();
+                if (value.contains("/")) {
+                    throw new InvalidArgumentException("Invalid input: Unexpected '/' found in value for key " + key);
+                }
+                keyValueMap.put(key, value);
+            }
+        }
+
+        command.setParameters(keyValueMap);
+    }
+
+    /**
+     * Checks if index entered by user is valid and return the task type and index.
+     * Index format is <task type><task index>
+     *
+     * @param index Index of task entered by user.
+     * @param taskCount Number of tasks currently stored.
+     * @return Task type and task index as string.
+     * @throws EmptyCommandException If index of task is missing or invalid.
+     */
+    public static String[] validateIndex(String index, int taskCount) throws EmptyCommandException {
+        if (index.isEmpty()) {
+            throw new EmptyCommandException("Index of task required.");
+        }
+        try {
+            String taskType = index.substring(0, 1);
+            switch (taskType) {
             case "t":
                 taskType = "todo";
                 break;
@@ -53,100 +100,16 @@ public class Parser {
                 taskType = "event";
                 break;
             default:
-                throw new IllegalArgumentException("Invalid task type: " + taskTypeId);
+                throw new IllegalArgumentException("Invalid or missing task type.");
             }
-            int taskId = Integer.parseInt(commandArgs.substring(1));
-            if (commandTypeEnum == CommandType.MARK || commandTypeEnum == CommandType.UNMARK) {
-                taskList.setTaskStatus(taskType,  taskId - 1, commandTypeEnum == CommandType.MARK);
-            } else {
-                taskList.deleteTask(taskType, taskId - 1);
-            }
-            break;
-        case TODO:
-            taskList.addTask("todo", parseTodo(commandArgs));
-            break;
-        case DEADLINE:
-            taskList.addTask("deadline", parseDeadline(commandArgs));
-            break;
-        case EVENT:
-            taskList.addTask("event", parseEvent(commandArgs));
-            break;
-        case BYE:
-            Ui.showTaskManagerExitMessage();
-            taskList.saveTasks();
-            isExit = true;
-            break;
-        default:
-            throw new IllegalArgumentException("Invalid command type: " + commandTypeEnum);
-        }
-        return isExit;
-    }
 
-    /**
-     * Checks if index entered by user is valid.
-     *
-     * @param index Index of task entered by user.
-     * @param taskCount Number of tasks currently stored.
-     * @throws EmptyCommandException If index of task is missing.
-     */
-    private void validateIndex(String index, int taskCount) throws EmptyCommandException {
-        if (index.isEmpty()) {
-            throw new EmptyCommandException("Index of task required.");
-        }
-        try {
-            if (!index.substring(0, 1).matches("[a-zA-Z]")) {
-                throw new IllegalArgumentException("Task type required.");
-            }
             int taskId = Integer.parseInt(index.substring(1));
             if (taskId < 1 || taskId > taskCount) {
                 throw new IndexOutOfBoundsException("Invalid task id: " + taskId);
             }
+            return new String[] {taskType, String.valueOf(taskId)};
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("Task index must be a valid number.");
         }
-    }
-
-    /**
-     * Parse a todo command.
-     *
-     * @param task Task details entered by user as a string.
-     * @return Todo task object.
-     * @throws EmptyCommandException If todo task is empty or null.
-     */
-    private Task parseTodo(String task) throws EmptyCommandException {
-        if (task.trim().isEmpty()) {
-            throw new EmptyCommandException("Todo task description cannot be empty.");
-        }
-        return new Todo(task);
-    }
-
-    /**
-     * Parse a deadline command.
-     *
-     * @param task Task details entered by user as a string.
-     * @return Deadline task object.
-     * @throws EmptyCommandException If deadline for task is null.
-     */
-    private Task parseDeadline(String task) throws EmptyCommandException {
-        String[] parts = task.split(" /by ", 2);
-        if (parts.length < 2) {
-            throw new EmptyCommandException("Deadline task is missing deadline or description.");
-        }
-        return new Deadline(parts[0], parts[1]);
-    }
-
-    /**
-     * Parse an Event command.
-     *
-     * @param task Task details entered by user as a string.
-     * @return Event task object.
-     * @throws EmptyCommandException If event timing is null.
-     */
-    private Task parseEvent(String task) throws EmptyCommandException {
-        String[] parts = task.split(" /from | /to ", 3);
-        if (parts.length < 3) {
-            throw new EmptyCommandException("Event task is missing timing or description.");
-        }
-        return new Event(parts[0], parts[1], parts[2]);
     }
 }

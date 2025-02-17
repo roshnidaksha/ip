@@ -1,5 +1,6 @@
 package planit.task;
 
+import planit.command.Command;
 import planit.handler.Parser;
 import planit.util.Ui;
 
@@ -34,14 +35,22 @@ public class TaskManager {
 
         boolean exitTaskManager = false;
         while (!exitTaskManager) {
-            String userInputString = Ui.getUserInput();
             try {
-                exitTaskManager = parser.parse(userInputString, taskList);
+                String userInputString = Ui.getUserInput();
+                Command c = parser.parse(userInputString);
+                c.execute(taskList);
+                exitTaskManager = c.isExit;
             } catch (Exception e) {
                 Ui.showError(e.getMessage());
             } finally {
                 Ui.showToUser(Ui.DIVIDER);
             }
+        }
+
+        try {
+            taskList.saveTasks();
+        } catch (IOException e) {
+            Ui.showError(e.getMessage());
         }
     }
 }

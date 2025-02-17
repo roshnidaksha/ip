@@ -45,6 +45,8 @@ public class Ui {
     private static final String ERROR_PREFIX = "[ERROR] ";
     private static final String WARNING_PREFIX = "[WARNING] ";
 
+    public static final String TASK_RETRIEVE_SUCCESS = "================ Tasks retrieved successfully! ===============";
+    public static final String TASK_RETRIEVE_FAILURE = "================== Could not retrieve tasks! =================";
     public static final String DIVIDER = "->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->";
 
     public static void showPlanitWelcomeMessage() {

@@ -28,7 +28,8 @@ public class TaskManager {
         try {
             taskList.loadTasks();
         } catch (IOException e) {
-            Ui.showError("Unable to load task list: " + e.getMessage());
+            Ui.showError(Ui.TASK_RETRIEVE_FAILURE);
+            Ui.showError(e.getMessage() + '\n');
         }
 
         boolean exitTaskManager = false;

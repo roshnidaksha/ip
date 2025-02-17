@@ -19,8 +19,10 @@ public class TaskList {
     public TaskList() {
         try {
             loadTasks();
+            Ui.showToUser(Ui.TASK_RETRIEVE_SUCCESS);
         } catch (IOException e) {
-            Ui.showError("Unable to load task list: " + e.getMessage());
+            Ui.showToUser(Ui.TASK_RETRIEVE_FAILURE);
+            Ui.showError(e.getMessage() + '\n');
             tasksMap = new HashMap<>();
             tasksMap.put("todo", new ArrayList<>());
             tasksMap.put("deadline", new ArrayList<>());
@@ -55,8 +57,6 @@ public class TaskList {
                 break;
             }
         }
-
-        Ui.showToUser("Successfully retrieved task list");
     }
 
     /**

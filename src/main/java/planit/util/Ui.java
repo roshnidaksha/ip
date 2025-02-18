@@ -1,5 +1,7 @@
 package planit.util;
 
+import planit.messages.PlanitMessages;
+
 import java.nio.file.Paths;
 import java.util.Scanner;
 
@@ -32,45 +34,35 @@ public class Ui {
             `----------`-'----------'
             """;
 
-    private static final String PLANIT_MESSAGE_WELCOME = "          Welcome to Planit, task management system!\n";
-    private static final String PLANIT_MESSAGE_GOODBYE = "Bye. Have a nice day!";
-
-    private static final String TASK_MANAGER_MESSAGE_WELCOME = "Welcome, I am your task manager!";
-    private static final String TASK_MANAGER_GOODBYE = "Hope you took note of some important tasks! Bye!";
-
-    private static final String COMMAND_PLANIT_DESC = "1. Type \"planit\" or \"1\" to manage your tasks";
-    private static final String COMMAND_PLAY_DESC = "2. Type \"play\" or \"2\" to have a break and play games";
-    private static final String COMMAND_EXIT_DESC = "3. Type \"bye\" or \"3\" to quit the session";
-
     private static final String ERROR_PREFIX = "[ERROR] ";
     private static final String WARNING_PREFIX = "[WARNING] ";
 
-    public static final String TASK_RETRIEVE_SUCCESS = "================ Tasks retrieved successfully! ===============";
-    public static final String TASK_RETRIEVE_FAILURE = "================== Could not retrieve tasks! =================";
-    public static final String DIVIDER = "->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->";
-
     public static void showPlanitWelcomeMessage() {
         System.out.println(PLANIT_LOGO);
-        showToUser(PLANIT_MESSAGE_WELCOME);
+        showToUser(PlanitMessages.PLANIT_MESSAGE_WELCOME);
     }
 
     public static void showTaskManagerWelcomeMessage() {
         System.out.println(TASK_MANAGER_LOGO);
-        showToUser(TASK_MANAGER_MESSAGE_WELCOME);
+        showToUser(PlanitMessages.TASK_MANAGER_MESSAGE_WELCOME);
     }
 
     /**
      * Lists all available commands in Planit.
      */
     public static void showPlanitUserGuide() {
-        showToUser(DIVIDER, COMMAND_PLANIT_DESC, COMMAND_PLAY_DESC, COMMAND_EXIT_DESC, DIVIDER);
+        showToUser(PlanitMessages.DIVIDER,
+                PlanitMessages.COMMAND_PLANIT_DESC,
+                PlanitMessages.COMMAND_PLAY_DESC,
+                PlanitMessages.COMMAND_EXIT_DESC,
+                PlanitMessages.DIVIDER);
     }
 
     /**
      * Displays exit message for task manager.
      */
     public static void showTaskManagerExitMessage() {
-        showToUser(TASK_MANAGER_GOODBYE);
+        showToUser(PlanitMessages.TASK_MANAGER_MESSAGE_GOODBYE);
     }
 
     /**
@@ -115,7 +107,9 @@ public class Ui {
      * Displays the goodbye message and exits the runtime.
      */
     public static void exitProgram() {
-        showToUser(PLANIT_MESSAGE_GOODBYE, DIVIDER, DIVIDER);
+        showToUser(PlanitMessages.PLANIT_MESSAGE_GOODBYE,
+                PlanitMessages.DIVIDER,
+                PlanitMessages.DIVIDER);
         System.exit(0);
     }
 

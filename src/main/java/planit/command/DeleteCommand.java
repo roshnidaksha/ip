@@ -3,6 +3,8 @@ package planit.command;
 import planit.exceptions.EmptyCommandException;
 import planit.exceptions.InvalidArgumentException;
 import planit.handler.Parser;
+import planit.messages.PlanitExceptionMessages;
+import planit.messages.PlanitMessages;
 import planit.task.TaskList;
 
 /**
@@ -36,7 +38,7 @@ public class DeleteCommand extends Command {
     @Override
     public void execute(TaskList tasks) throws InvalidArgumentException {
         if (!isValidParameters()) {
-            throw new InvalidArgumentException("Please provide the correct number of arguments.");
+            throw new InvalidArgumentException(PlanitExceptionMessages.WRONG_ARGUMENTS);
         }
         String description = parameters.get(COMMAND_KEYWORDS[0]);
         try {
@@ -45,7 +47,7 @@ public class DeleteCommand extends Command {
             int taskIndex = Integer.parseInt(result[1]);
             tasks.deleteTask(taskType, taskIndex - 1);
         } catch (EmptyCommandException e) {
-            throw new InvalidArgumentException(e.getMessage());
+            throw new InvalidArgumentException(String.format(PlanitMessages.DELETE_TASK_FAILURE, e.getMessage()));
         }
     }
 }

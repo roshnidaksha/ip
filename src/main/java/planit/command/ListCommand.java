@@ -1,6 +1,7 @@
 package planit.command;
 
 import planit.exceptions.InvalidArgumentException;
+import planit.messages.PlanitExceptionMessages;
 import planit.task.TaskList;
 
 /**
@@ -31,7 +32,7 @@ public class ListCommand extends Command {
     @Override
     public void execute(TaskList tasks) throws InvalidArgumentException {
         if (!isValidParameters()) {
-            throw new InvalidArgumentException("Please provide the correct number of arguments.");
+            throw new InvalidArgumentException(PlanitExceptionMessages.WRONG_ARGUMENTS);
         }
         tasks.displayAllTasks();
     }

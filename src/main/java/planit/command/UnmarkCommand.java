@@ -3,7 +3,10 @@ package planit.command;
 import planit.exceptions.EmptyCommandException;
 import planit.exceptions.InvalidArgumentException;
 import planit.handler.Parser;
+import planit.messages.PlanitExceptionMessages;
+import planit.messages.PlanitMessages;
 import planit.task.TaskList;
+import planit.util.Ui;
 
 /**
  * Marks a task as not done.
@@ -36,7 +39,7 @@ public class UnmarkCommand extends Command {
     @Override
     public void execute(TaskList tasks) throws InvalidArgumentException {
         if (!isValidParameters()) {
-            throw new InvalidArgumentException("Please provide the correct number of arguments.");
+            throw new InvalidArgumentException(PlanitExceptionMessages.WRONG_ARGUMENTS);
         }
 
         String description = parameters.get(COMMAND_KEYWORDS[0]);
@@ -44,7 +47,12 @@ public class UnmarkCommand extends Command {
             String[] result = Parser.validateIndex(description, tasks.taskCount);
             String taskType = result[0];
             int taskIndex = Integer.parseInt(result[1]);
-            tasks.setTaskStatus(taskType, taskIndex - 1, false);
+            if (tasks.getTask(taskType, taskIndex).isDone()) {
+                Ui.showWarning(PlanitMessages.UNMARK_TASK_REPEAT);
+            } else {
+                Ui.showToUser(PlanitMessages.UNMARK_TASK_SUCCESS);
+                tasks.setTaskStatus(taskType, taskIndex - 1, false);
+            }
         } catch (EmptyCommandException e) {
             throw new InvalidArgumentException(e.getMessage());
         }

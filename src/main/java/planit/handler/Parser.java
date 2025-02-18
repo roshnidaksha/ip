@@ -3,6 +3,8 @@ package planit.handler;
 import planit.command.Command;
 import planit.exceptions.EmptyCommandException;
 import planit.exceptions.InvalidArgumentException;
+import planit.messages.PlanitExceptionMessages;
+import planit.messages.PlanitMessages;
 import planit.util.Ui;
 
 import java.util.HashMap;
@@ -25,11 +27,15 @@ public class Parser {
         String commandType = commandTypeAndParams[0];
         String commandArgs = commandTypeAndParams[1];
 
-        Command command = Command.getCommand(commandType.toLowerCase());
-        if (command == null) {
-            throw new InvalidArgumentException("Invalid command type: " + commandType);
+        Command command;
+        try {
+            command = Command.getCommand(commandType.toLowerCase());
+        } catch (Exception e) {
+            throw new InvalidArgumentException(String.format(PlanitExceptionMessages.INVALID_COMMAND, commandType));
         }
-
+        if (command == null) {
+            throw new InvalidArgumentException(String.format(PlanitExceptionMessages.INVALID_COMMAND, commandType));
+        }
         parseKeyValuePairs(command, commandArgs);
         return command;
     }
@@ -49,26 +55,37 @@ public class Parser {
             return;
         }
 
-        String regex = "^(.*?)\\s*(?:/(\\w+)\\s+([^/]+))*$";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(input.trim());
-
-        if (!matcher.matches()) {
-            throw new InvalidArgumentException("Invalid input format.");
+        String[] parts = input.trim().split("/", 2);
+        String description = parts[0].trim();
+        if (!description.isEmpty()) {
+            keyValueMap.put("description", description);
+        }
+        if (parts.length == 1) {
+            command.setParameters(keyValueMap);
+            return;
         }
 
-        String description = matcher.group(1).trim();
-        keyValueMap.put("description", description);
+        String keyValuePart = parts[1];
+        String regex = "(\\w+)\\s+(.*?)(?=\\s+/|$)";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(keyValuePart);
 
-        for (int i = 2; i <= matcher.groupCount(); i += 2) {
-            if (matcher.group(i) != null && matcher.group(i + 1) != null) {
-                String key = "/" + matcher.group(i).trim();
-                String value = matcher.group(i + 1).trim();
-                if (value.contains("/")) {
-                    throw new InvalidArgumentException("Invalid input: Unexpected '/' found in value for key " + key);
-                }
-                keyValueMap.put(key, value);
+        if (!matcher.matches()) {
+            throw new InvalidArgumentException(PlanitExceptionMessages.INVALID_INPUT);
+        }
+
+        while (matcher.find()) {
+            String key = "/" + matcher.group(1).trim();
+            String value = matcher.group(2).trim();
+            if (value.contains("/")) {
+                throw new InvalidArgumentException(PlanitExceptionMessages.ILLEGAL_INPUT);
             }
+            keyValueMap.put(key, value);
+        }
+
+        String unmatched = matcher.replaceAll("").trim();
+        if (!unmatched.isEmpty()) {
+            throw new InvalidArgumentException(String.format(PlanitExceptionMessages.MISSING_INPUT, unmatched));
         }
 
         command.setParameters(keyValueMap);
@@ -85,7 +102,7 @@ public class Parser {
      */
     public static String[] validateIndex(String index, int taskCount) throws EmptyCommandException {
         if (index.isEmpty()) {
-            throw new EmptyCommandException("Index of task required.");
+            throw new EmptyCommandException(PlanitExceptionMessages.MISSING_TASK_INDEX);
         }
         try {
             String taskType = index.substring(0, 1);
@@ -100,16 +117,16 @@ public class Parser {
                 taskType = "event";
                 break;
             default:
-                throw new IllegalArgumentException("Invalid or missing task type.");
+                throw new IllegalArgumentException(PlanitExceptionMessages.MISSING_TASK_TYPE);
             }
 
             int taskId = Integer.parseInt(index.substring(1));
             if (taskId < 1 || taskId > taskCount) {
-                throw new IndexOutOfBoundsException("Invalid task id: " + taskId);
+                throw new IndexOutOfBoundsException(String.format(PlanitExceptionMessages.INDEX_OUT_OF_BOUNDS, index));
             }
             return new String[] {taskType, String.valueOf(taskId)};
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("Task index must be a valid number.");
+            throw new IllegalArgumentException(PlanitExceptionMessages.INVALID_INDEX);
         }
     }
 }

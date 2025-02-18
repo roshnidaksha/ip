@@ -1,8 +1,11 @@
 package planit.command;
 
+import planit.Planit;
 import planit.exceptions.EmptyCommandException;
 import planit.exceptions.InvalidArgumentException;
 import planit.handler.Parser;
+import planit.messages.PlanitExceptionMessages;
+import planit.messages.PlanitMessages;
 import planit.task.TaskList;
 import planit.util.Ui;
 
@@ -37,7 +40,7 @@ public class MarkCommand extends Command {
     @Override
     public void execute(TaskList tasks) throws InvalidArgumentException {
         if (!isValidParameters()) {
-            throw new InvalidArgumentException("Please provide the correct number of arguments.");
+            throw new InvalidArgumentException(PlanitExceptionMessages.WRONG_ARGUMENTS);
         }
 
         String description = parameters.get(COMMAND_KEYWORDS[0]);
@@ -45,7 +48,12 @@ public class MarkCommand extends Command {
             String[] result = Parser.validateIndex(description, tasks.taskCount);
             String taskType = result[0];
             int taskIndex = Integer.parseInt(result[1]);
-            tasks.setTaskStatus(taskType, taskIndex - 1, true);
+            if (tasks.getTask(taskType, taskIndex).isDone()) {
+                Ui.showWarning(PlanitMessages.MARK_TASK_REPEAT);
+            } else {
+                Ui.showToUser(PlanitMessages.MARK_TASK_SUCCESS);
+                tasks.setTaskStatus(taskType, taskIndex - 1, true);
+            }
         } catch (EmptyCommandException e) {
             throw new InvalidArgumentException(e.getMessage());
         }

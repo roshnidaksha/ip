@@ -1,6 +1,7 @@
 package planit.command;
 
 import planit.exceptions.InvalidArgumentException;
+import planit.messages.PlanitExceptionMessages;
 import planit.task.TaskList;
 import planit.task.Todo;
 
@@ -33,7 +34,7 @@ public class AddTodoCommand extends Command {
     @Override
     public void execute(TaskList tasks) throws InvalidArgumentException {
         if (!isValidParameters()) {
-            throw new InvalidArgumentException("Please provide the correct number of arguments.");
+            throw new InvalidArgumentException(PlanitExceptionMessages.WRONG_ARGUMENTS);
         }
         String description = parameters.get(COMMAND_KEYWORDS[0]);
         tasks.addTask("todo", new Todo(description));

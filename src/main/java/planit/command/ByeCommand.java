@@ -1,8 +1,12 @@
 package planit.command;
 
 import planit.exceptions.InvalidArgumentException;
+import planit.messages.PlanitExceptionMessages;
+import planit.messages.PlanitMessages;
 import planit.task.TaskList;
 import planit.util.Ui;
+
+import java.io.IOException;
 
 /**
  * Exits planit task management session.
@@ -24,7 +28,7 @@ public class ByeCommand extends Command {
     }
 
     /**
-     * Exits planit task management session.
+     * Exits planit task management session and saves tasks to file.
      *
      * @param tasks Current list of tasks.
      * @throws InvalidArgumentException If supplied arguments is not valid.
@@ -32,8 +36,17 @@ public class ByeCommand extends Command {
     @Override
     public void execute(TaskList tasks) throws InvalidArgumentException {
         if (!isValidParameters()) {
-            throw new InvalidArgumentException("Please provide the correct number of arguments.");
+            throw new InvalidArgumentException(PlanitExceptionMessages.WRONG_ARGUMENTS);
         }
+
+        try {
+            tasks.saveTasks();
+            Ui.showToUser(PlanitMessages.TASK_SAVE_SUCCESS);
+        } catch (IOException e) {
+            Ui.showToUser(PlanitMessages.TASK_SAVE_FAILURE);
+            Ui.showError(e.getMessage());
+        }
+
         Ui.showTaskManagerExitMessage();
         isExit = true;
     }

@@ -2,6 +2,7 @@ package planit.task;
 
 import planit.command.Command;
 import planit.handler.Parser;
+import planit.messages.PlanitMessages;
 import planit.util.Ui;
 
 import java.io.IOException;
@@ -28,8 +29,9 @@ public class TaskManager {
         Ui.showTaskManagerWelcomeMessage();
         try {
             taskList.loadTasks();
+            Ui.showToUser(PlanitMessages.TASK_RETRIEVE_SUCCESS);
         } catch (IOException e) {
-            Ui.showError(Ui.TASK_RETRIEVE_FAILURE);
+            Ui.showError(PlanitMessages.TASK_RETRIEVE_FAILURE);
             Ui.showError(e.getMessage() + '\n');
         }
 
@@ -43,14 +45,8 @@ public class TaskManager {
             } catch (Exception e) {
                 Ui.showError(e.getMessage());
             } finally {
-                Ui.showToUser(Ui.DIVIDER);
+                Ui.showToUser(PlanitMessages.DIVIDER);
             }
-        }
-
-        try {
-            taskList.saveTasks();
-        } catch (IOException e) {
-            Ui.showError(e.getMessage());
         }
     }
 }

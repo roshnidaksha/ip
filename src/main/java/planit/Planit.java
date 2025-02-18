@@ -1,5 +1,6 @@
 package planit;
 
+import planit.messages.PlanitMessages;
 import planit.task.TaskManager;
 import planit.util.Echo;
 import planit.util.Ui;
@@ -26,7 +27,7 @@ public class Planit {
             } else if (userChoice.equalsIgnoreCase("bye") || userChoice.equals("3")) {
                 exitPlanit = true;
             } else {
-                Ui.showError("Please enter a valid option!");
+                Ui.showError(PlanitMessages.PLANIT_INVALID_OPTION);
             }
         }
 

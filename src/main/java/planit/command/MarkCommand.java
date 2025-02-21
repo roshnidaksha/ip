@@ -13,12 +13,15 @@ import planit.util.Ui;
  * Marks a task as done.
  */
 public class MarkCommand extends Command {
+    public static final String COMMAND_WORD = "mark";
     public static final String COMMAND_FORMAT = """
-            mark <task type><task index>
+            Format: mark <task type><task index>
             NOTE: task type can only be (t, d, e)
+            Example: mark td1 - marks the first deadline task
             """;
-    public static final String COMMAND_DESC = "Mark the specified task as done";
+    public static final String COMMAND_DESC = "Marks the specified task as done";
     public static final String[] COMMAND_KEYWORDS = {"description"};
+    public static final String[] COMMAND_MESSAGE = {COMMAND_WORD + ": " + COMMAND_DESC, COMMAND_FORMAT};
 
     /**
      * Checks if supplied arguments are valid.
@@ -28,7 +31,8 @@ public class MarkCommand extends Command {
      */
     @Override
     protected boolean isValidParameters() {
-        return parameters.size() == COMMAND_KEYWORDS.length;
+        return parameters.size() == COMMAND_KEYWORDS.length &&
+                parameters.containsKey(COMMAND_KEYWORDS[0]);
     }
 
     /**

@@ -9,9 +9,11 @@ import java.util.HashMap;
  * Abstract class to store command properties.
  */
 public abstract class Command {
+    public static final String COMMAND_WORD = "";
     public static final String COMMAND_FORMAT = "";
     public static final String COMMAND_DESC = "";
     public static final String[] COMMAND_KEYWORDS = {};
+    public static final String[] COMMAND_MESSAGE = {};
 
     public boolean isExit = false;
 
@@ -21,12 +23,13 @@ public abstract class Command {
      */
     public static HashMap<String, Class<? extends Command>> commands = new HashMap<>();
     static {
+        commands.put("help", HelpCommand.class);
         commands.put("list", ListCommand.class);
-        commands.put("mark", MarkCommand.class);
-        commands.put("unmark", UnmarkCommand.class);
         commands.put("todo", AddTodoCommand.class);
         commands.put("deadline", AddDeadlineCommand.class);
         commands.put("event", AddEventCommand.class);
+        commands.put("mark", MarkCommand.class);
+        commands.put("unmark", UnmarkCommand.class);
         commands.put("delete", DeleteCommand.class);
         commands.put("bye", ByeCommand.class);
     }

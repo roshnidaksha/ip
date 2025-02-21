@@ -11,12 +11,15 @@ import planit.task.TaskList;
  * Deletes a task.
  */
 public class DeleteCommand extends Command {
+    public static final String COMMAND_WORD = "delete";
     public static final String COMMAND_FORMAT = """
-            delete <task type><task index>
+            Format: delete <task type><task index>
             NOTE: task type can only be (t, d, e)
+            Example: delete td1 - deletes the first deadline task
             """;
-    public static final String COMMAND_DESC = "Delete the specified task";
+    public static final String COMMAND_DESC = "Deletes the specified task";
     public static final String[] COMMAND_KEYWORDS = {"description"};
+    public static final String[] COMMAND_MESSAGE = {COMMAND_WORD + ": " + COMMAND_DESC, COMMAND_FORMAT};
 
     /**
      * Checks if supplied arguments are valid.
@@ -26,7 +29,8 @@ public class DeleteCommand extends Command {
      */
     @Override
     protected boolean isValidParameters() {
-        return parameters.size() == COMMAND_KEYWORDS.length;
+        return parameters.size() == COMMAND_KEYWORDS.length &&
+                parameters.containsKey(COMMAND_KEYWORDS[0]);
     }
 
     /**

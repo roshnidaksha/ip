@@ -8,9 +8,15 @@ import planit.task.TaskList;
  * Displays the list of tasks.
  */
 public class ListCommand extends Command {
-    public static final String COMMAND_FORMAT = "list";
-    public static final String COMMAND_DESC = "Display all tasks in the list";
+    public static final String COMMAND_WORD = "list";
+    public static final String COMMAND_FORMAT = """
+            Format: list
+            NOTE: List takes in no arguments
+            Example: list
+            """;
+    public static final String COMMAND_DESC = "Displays all tasks in the list";
     public static final String[] COMMAND_KEYWORDS = {};
+    public static final String[] COMMAND_MESSAGE = {COMMAND_WORD + ": " + COMMAND_DESC, COMMAND_FORMAT};
 
     /**
      * Checks if supplied arguments are valid.

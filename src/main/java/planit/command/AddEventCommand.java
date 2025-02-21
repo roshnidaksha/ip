@@ -9,10 +9,15 @@ import planit.task.TaskList;
  * Handles addition of an event task to list.
  */
 public class AddEventCommand extends Command {
-    public static final String COMMAND_FORMAT = "event <task description> /from <task start time> /to <task end time>";
+    public static final String COMMAND_WORD = "event";
+    public static final String COMMAND_FORMAT = """
+            Format: event <task description> /from <task start time> /to <task end time>
+            Example: event attend CS2113 lecture /from Friday 4pm /to 6pm
+            This will add task [E][ ] attend CS2113 lecture (from: Friday 4pm, to: 6pm)
+            """;
     public static final String COMMAND_DESC = "Adds a new event task to your list";
     public static final String[] COMMAND_KEYWORDS = {"description", "/from", "to"};
-
+    public static final String[] COMMAND_MESSAGE = {COMMAND_WORD + ": " + COMMAND_DESC, COMMAND_FORMAT};
 
     /**
      * Checks if supplied arguments are valid.

@@ -31,6 +31,7 @@ public abstract class Command {
         commands.put("mark", MarkCommand.class);
         commands.put("unmark", UnmarkCommand.class);
         commands.put("delete", DeleteCommand.class);
+        commands.put("date", DateCommand.class);
         commands.put("bye", ByeCommand.class);
     }
 

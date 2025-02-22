@@ -5,6 +5,7 @@ import planit.util.Storage;
 import planit.util.Ui;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -99,6 +100,27 @@ public class TaskList {
                 }
             }
         } else {
+            Ui.showToUser(PlanitMessages.LIST_EMPTY);
+        }
+    }
+
+    public void displayTasksOnDate(String date) {
+        boolean hasTasks = false;
+        for (String taskType : tasksMap.keySet()) {
+            if (taskType.equalsIgnoreCase("todo")) {
+                continue;
+            }
+            for (Task task : tasksMap.get(taskType)) {
+                if (task.toFileFormat().contains(date)) {
+                    if (!hasTasks) {
+                        Ui.showToUser(PlanitMessages.LIST_SUCCESS);
+                    }
+                    hasTasks = true;
+                    Ui.showToUser(task.toString());
+                }
+            }
+        }
+        if (!hasTasks) {
             Ui.showToUser(PlanitMessages.LIST_EMPTY);
         }
     }

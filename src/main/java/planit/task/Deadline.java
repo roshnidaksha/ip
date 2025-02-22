@@ -1,5 +1,10 @@
 package planit.task;
 
+import planit.exceptions.InvalidArgumentException;
+import planit.handler.DateParser;
+import planit.messages.PlanitExceptionMessages;
+
+import java.time.LocalDateTime;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -7,7 +12,7 @@ import java.util.regex.Pattern;
  * Represents tasks that need to be done before a specific data/time.
  */
 public class Deadline extends Task {
-    private String deadline;
+    private LocalDateTime deadline;
 
     /**
      * Constructs a deadline task.
@@ -15,10 +20,14 @@ public class Deadline extends Task {
      * @param description Description of the deadline task.
      * @param deadline Due date of the deadline task.
      */
-    public Deadline(String description, String deadline) {
+    public Deadline(String description, String deadline) throws InvalidArgumentException {
         super.description = description;
         super.isDone = false;
-        this.deadline = deadline;
+        LocalDateTime parsedDateTime = DateParser.parseDateTime(deadline);
+        if (parsedDateTime == null) {
+            throw new InvalidArgumentException(PlanitExceptionMessages.INVALID_DATE_FORMAT);
+        }
+        this.deadline = parsedDateTime;
     }
 
     /**
@@ -28,7 +37,8 @@ public class Deadline extends Task {
      */
     @Override
     public String toString() {
-        return String.format("[%s][%s] %s (by: %s)", getTaskType(), getStatus(), getDescription(), deadline);
+        return String.format("[%s][%s] %s (by: %s)",
+                getTaskType(), getStatus(), getDescription(), DateParser.toFileFormat(deadline));
     }
 
     /**
@@ -39,7 +49,8 @@ public class Deadline extends Task {
      */
     @Override
     public String toFileFormat() {
-        return String.format("%s | %s | %s | %s", getTaskType(), getStatus(), getDescription(), deadline);
+        return String.format("%s | %s | %s | %s",
+                getTaskType(), getStatus(), getDescription(), DateParser.toFileFormat(deadline));
     }
 
     /**

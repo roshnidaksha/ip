@@ -70,10 +70,6 @@ public class Parser {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(keyValuePart);
 
-        if (!matcher.matches()) {
-            throw new InvalidArgumentException(PlanitExceptionMessages.INVALID_INPUT);
-        }
-
         while (matcher.find()) {
             String key = "/" + matcher.group(1).trim();
             String value = matcher.group(2).trim();

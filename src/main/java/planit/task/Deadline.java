@@ -23,9 +23,9 @@ public class Deadline extends Task {
     public Deadline(String description, String deadline) throws InvalidArgumentException {
         super.description = description;
         super.isDone = false;
-        LocalDateTime parsedDateTime = DateParser.parseDateTime(deadline);
+        LocalDateTime parsedDateTime = DateParser.parseDateTime(deadline.trim());
         if (parsedDateTime == null) {
-            throw new InvalidArgumentException(PlanitExceptionMessages.INVALID_DATE_FORMAT);
+            throw new InvalidArgumentException(String.format(PlanitExceptionMessages.INVALID_DATE_FORMAT, deadline));
         }
         this.deadline = parsedDateTime;
     }

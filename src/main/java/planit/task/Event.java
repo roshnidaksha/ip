@@ -28,8 +28,11 @@ public class Event extends Task {
         super.isDone = false;
         LocalDateTime parsedStart = DateParser.parseDateTime(from);
         LocalDateTime parsedEnd = DateParser.parseDateTime(to);
-        if (parsedStart == null || parsedEnd == null) {
-            throw new InvalidArgumentException(PlanitExceptionMessages.INVALID_DATE_FORMAT);
+        if (parsedStart == null) {
+            throw new InvalidArgumentException(String.format(PlanitExceptionMessages.INVALID_DATE_FORMAT, from));
+        }
+        if (parsedEnd == null) {
+            throw new InvalidArgumentException(String.format(PlanitExceptionMessages.INVALID_DATE_FORMAT, to));
         }
         this.start = parsedStart;
         this.end = parsedEnd;

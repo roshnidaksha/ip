@@ -17,6 +17,6 @@ public class PlanitExceptionMessages {
 
     public static final String WRONG_ARGUMENTS = "Please provide the correct number of arguments.";
     public static final String INVALID_DATE_FORMAT = """
-            Invalid date/time format.
+            Invalid date/time format: %s
             Please enter in the format: dd/MM/yyyy HHmm""";
 }

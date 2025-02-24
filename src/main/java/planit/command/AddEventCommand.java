@@ -16,7 +16,7 @@ public class AddEventCommand extends Command {
             This will add task [E][ ] attend CS2113 lecture (from: Friday 4pm, to: 6pm)
             """;
     public static final String COMMAND_DESC = "Adds a new event task to your list";
-    public static final String[] COMMAND_KEYWORDS = {"description", "/from", "to"};
+    public static final String[] COMMAND_KEYWORDS = {"description", "/from", "/to"};
     public static final String[] COMMAND_MESSAGE = {COMMAND_WORD + ": " + COMMAND_DESC, COMMAND_FORMAT};
 
     /**

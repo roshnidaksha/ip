@@ -4,7 +4,6 @@ import planit.command.Command;
 import planit.exceptions.EmptyCommandException;
 import planit.exceptions.InvalidArgumentException;
 import planit.messages.PlanitExceptionMessages;
-import planit.messages.PlanitMessages;
 import planit.util.Ui;
 
 import java.util.HashMap;
@@ -65,23 +64,23 @@ public class Parser {
             return;
         }
 
-        String keyValuePart = parts[1];
-        String regex = "(\\w+)\\s+(.*?)(?=\\s+/|$)";
+        String keyValuePart = "/" + parts[1];
+        String regex = "(/\\w+)\\s+(.*?)(?=\\s+/|$)";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(keyValuePart);
 
         while (matcher.find()) {
-            String key = "/" + matcher.group(1).trim();
+            String key = matcher.group(1).trim();
             String value = matcher.group(2).trim();
-            if (value.contains("/")) {
-                throw new InvalidArgumentException(PlanitExceptionMessages.ILLEGAL_INPUT);
+            if (value.contains("/") && !key.equals("/by") && !key.equals("/from") && !key.equals("/to")) {
+                throw new InvalidArgumentException(PlanitExceptionMessages.ILLEGAL_TASK_INPUT);
             }
             keyValueMap.put(key, value);
         }
 
         String unmatched = matcher.replaceAll("").trim();
         if (!unmatched.isEmpty()) {
-            throw new InvalidArgumentException(String.format(PlanitExceptionMessages.MISSING_INPUT, unmatched));
+            throw new InvalidArgumentException(String.format(PlanitExceptionMessages.MISSING_TASK_INPUT, unmatched));
         }
 
         command.setParameters(keyValueMap);

@@ -1,5 +1,10 @@
 package planit.task;
 
+import planit.exceptions.InvalidArgumentException;
+import planit.handler.DateParser;
+import planit.messages.PlanitExceptionMessages;
+
+import java.time.LocalDateTime;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -8,8 +13,8 @@ import java.util.regex.Pattern;
  * ends at a specific date/time.
  */
 public class Event extends Task {
-    private String start;
-    private String end;
+    private LocalDateTime start;
+    private LocalDateTime end;
 
     /**
      * Constructs an event task.
@@ -18,11 +23,19 @@ public class Event extends Task {
      * @param from Start date/time of the event task.
      * @param to End date/time of the event task.
      */
-    public Event(String description, String from, String to) {
+    public Event(String description, String from, String to) throws InvalidArgumentException {
         super.description = description;
         super.isDone = false;
-        this.start = from;
-        this.end = to;
+        LocalDateTime parsedStart = DateParser.parseDateTime(from);
+        LocalDateTime parsedEnd = DateParser.parseDateTime(to);
+        if (parsedStart == null) {
+            throw new InvalidArgumentException(String.format(PlanitExceptionMessages.INVALID_DATE_FORMAT, from));
+        }
+        if (parsedEnd == null) {
+            throw new InvalidArgumentException(String.format(PlanitExceptionMessages.INVALID_DATE_FORMAT, to));
+        }
+        this.start = parsedStart;
+        this.end = parsedEnd;
     }
 
     /**
@@ -32,7 +45,8 @@ public class Event extends Task {
      */
     @Override
     public String toString() {
-        return String.format("[%s][%s] %s (from: %s to: %s)", getTaskType(), getStatus(), getDescription(), start, end);
+        return String.format("[%s][%s] %s (from: %s to: %s)",
+                getTaskType(), getStatus(), getDescription(), DateParser.toFileFormat(start), DateParser.toFileFormat(end));
     }
 
     /**
@@ -43,7 +57,8 @@ public class Event extends Task {
      */
     @Override
     public String toFileFormat() {
-        return String.format("%s | %s | %s | %s -> %s", getTaskType(), getStatus(), getDescription(), start, end);
+        return String.format("%s | %s | %s | %s -> %s",
+                getTaskType(), getStatus(), getDescription(), DateParser.toFileFormat(start), DateParser.toFileFormat(end));
     }
 
     /**

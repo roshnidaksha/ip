@@ -25,6 +25,7 @@ public abstract class Command {
     static {
         commands.put("help", HelpCommand.class);
         commands.put("list", ListCommand.class);
+        commands.put("find", FindCommand.class);
         commands.put("todo", AddTodoCommand.class);
         commands.put("deadline", AddDeadlineCommand.class);
         commands.put("event", AddEventCommand.class);

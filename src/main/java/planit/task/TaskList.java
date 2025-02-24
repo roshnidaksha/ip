@@ -126,6 +126,29 @@ public class TaskList {
     }
 
     /**
+     * Displays all tasks that contain the keyword.
+     *
+     * @param keyword Keyword to search for in tasks.
+     */
+    public void displayTasksWithKeyword(String keyword) {
+        boolean hasTasks = false;
+        for (String taskType : tasksMap.keySet()) {
+            for (Task task : tasksMap.get(taskType)) {
+                if (task.getDescription().contains(keyword)) {
+                    if (!hasTasks) {
+                        Ui.showToUser(PlanitMessages.LIST_SUCCESS);
+                        hasTasks = true;
+                    }
+                    Ui.showToUser(task.toString());
+                }
+            }
+        }
+        if (!hasTasks) {
+            Ui.showToUser(PlanitMessages.LIST_EMPTY);
+        }
+    }
+
+    /**
      * Marks a task as done or not done.
      *
      * @param taskIndex Index of task in taskList.

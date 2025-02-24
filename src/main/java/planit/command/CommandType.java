@@ -2,7 +2,7 @@ package planit.command;
 
 public enum CommandType {
     HELP,
-    LIST,
+    LIST, FIND,
     TODO, DEADLINE, EVENT,
     MARK, UNMARK,
     DELETE,

@@ -17,7 +17,7 @@ import java.util.HashMap;
 public class DateCommand extends Command {
     public static final String COMMAND_WORD = "date";
     public static final String COMMAND_FORMAT = """
-            Format: date <date>
+            Format: date /on <date>
             Example: date 2025-11-02
             This will display all the tasks on the specified date""";
     public static final String COMMAND_DESC = "Displays tasks on a specific date.";

@@ -72,7 +72,8 @@ public class Parser {
         while (matcher.find()) {
             String key = matcher.group(1).trim();
             String value = matcher.group(2).trim();
-            if (value.contains("/") && !key.equals("/by") && !key.equals("/from") && !key.equals("/to")) {
+            if (value.contains("/") &&
+                    !key.equals("/by") && !key.equals("/from") && !key.equals("/to") && !key.equals("/on")) {
                 throw new InvalidArgumentException(PlanitExceptionMessages.ILLEGAL_TASK_INPUT);
             }
             keyValueMap.put(key, value);

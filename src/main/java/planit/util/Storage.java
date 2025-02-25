@@ -12,6 +12,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
+/**
+ * Represents a storage system for Planit task management system.
+ * It provides methods to save and load tasks from a file.
+ */
 public class Storage {
     private File file;
 

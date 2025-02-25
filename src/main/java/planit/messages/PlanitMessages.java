@@ -1,5 +1,11 @@
 package planit.messages;
 
+/**
+ * Contains predefined messages used throughout the {@code Planit} application.
+ * <p>
+ * This class provides static final strings for various system responses.
+ * </p>
+ */
 public class PlanitMessages {
     public static final String PLANIT_MESSAGE_WELCOME = "          Welcome to Planit, task management system!\n";
     public static final String PLANIT_MESSAGE_GOODBYE = "Bye. Have a nice day!";

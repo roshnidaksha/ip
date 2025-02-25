@@ -23,7 +23,7 @@ public class AddTodoCommand extends Command {
      * Checks if supplied arguments are valid.
      * Todo task requires only one argument describing the task.
      *
-     * @return True if valid, False otherwise.
+     * @return {@code true} if the parameters are valid, {@code false} otherwise.
      */
     @Override
     protected boolean isValidParameters() {

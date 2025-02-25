@@ -4,6 +4,9 @@ import planit.exceptions.InvalidArgumentException;
 import planit.messages.PlanitExceptionMessages;
 import planit.task.TaskList;
 
+/**
+ * Represents the command to find tasks that contain a specific keyword.
+ */
 public class FindCommand extends Command {
     public static final String COMMAND_WORD = "find";
     public static final String COMMAND_FORMAT = """
@@ -18,7 +21,7 @@ public class FindCommand extends Command {
      * Checks if supplied arguments are valid.
      * To delete a task, only the task type and index is required.
      *
-     * @return True if valid, False otherwise.
+     * @return {@code true} if the parameters are valid, {@code false} otherwise.
      */
     @Override
     protected boolean isValidParameters() {

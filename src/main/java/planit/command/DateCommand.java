@@ -25,7 +25,7 @@ public class DateCommand extends Command {
      * Checks if supplied arguments are valid.
      * Date command requires only one argument describing the date.
      *
-     * @return True if valid, False otherwise.
+     * @return {@code true} if the parameters are valid, {@code false} otherwise.
      */
     @Override
     protected boolean isValidParameters() {

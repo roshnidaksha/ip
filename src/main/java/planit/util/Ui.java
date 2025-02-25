@@ -5,9 +5,15 @@ import planit.messages.PlanitMessages;
 import java.nio.file.Paths;
 import java.util.Scanner;
 
+/**
+ * Handles all user interface interactions.
+ * It provides methods to display messages to the user and read input from the user.
+ */
 public class Ui {
+    /** Path to the file where tasks are stored. */
     public static final String HOME = System.getProperty("user.home");
     public static final String FILE_PATH = Paths.get(HOME, "Planit", "data", "tasks.txt").toString();
+
     private static final Scanner SCANNER = new Scanner(System.in);
 
     private static final String PLANIT_LOGO = """

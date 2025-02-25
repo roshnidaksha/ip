@@ -6,7 +6,7 @@ import planit.task.Deadline;
 import planit.task.TaskList;
 
 /**
- * Handles addition of a deadline task to list.
+ * Handles addition of a deadline task to the task list.
  */
 public class AddDeadlineCommand extends Command {
     public static final String COMMAND_WORD = "deadline";
@@ -23,7 +23,7 @@ public class AddDeadlineCommand extends Command {
      * Checks if supplied arguments are valid.
      * Deadline task requires a description and a deadline.
      *
-     * @return True if valid, False otherwise.
+     * @return {@code true} if the parameters are valid, {@code false} otherwise.
      */
     @Override
     protected boolean isValidParameters() {

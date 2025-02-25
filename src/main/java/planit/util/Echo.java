@@ -13,6 +13,9 @@ public class Echo {
         System.out.println("______________________________________________________________");
     }
 
+    /**
+     * Echoes commands entered by the user until user inputs "bye".
+     */
     public static void echo() {
         printSeperator();
         String parrot = """

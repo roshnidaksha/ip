@@ -27,7 +27,7 @@ public class MarkCommand extends Command {
      * Checks if supplied arguments are valid.
      * To mark a task, only the task type and index is required.
      *
-     * @return True if valid, False otherwise.
+     * @return {@code true} if the parameters are valid, {@code false} otherwise.
      */
     @Override
     protected boolean isValidParameters() {

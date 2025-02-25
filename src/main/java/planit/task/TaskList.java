@@ -5,7 +5,6 @@ import planit.util.Storage;
 import planit.util.Ui;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -18,6 +17,13 @@ public class TaskList {
      */
     public int taskCount = 0;
 
+    /**
+     * Constructs a task list.
+     * <p>
+     * If tasks can be loaded from file storage, it will be loaded.
+     * Otherwise, an empty task list will be created.
+     * </p>
+     */
     public TaskList() {
         try {
             loadTasks();
@@ -31,14 +37,31 @@ public class TaskList {
         }
     }
 
+    /**
+     * Returns the task of a specific type and index.
+     *
+     * @param taskType Type of task.
+     * @param taskIndex Index of task.
+     * @return Task object.
+     */
     public Task getTask(String taskType, int taskIndex) {
         return tasksMap.get(taskType).get(taskIndex);
     }
 
+    /**
+     * Saves tasks to file storage.
+     *
+     * @throws IOException If file cannot be written.
+     */
     public void saveTasks() throws IOException {
         storage.saveTaskList(tasksMap);
     }
 
+    /**
+     * Loads tasks from file storage.
+     *
+     * @throws IOException If file cannot be read.
+     */
     public void loadTasks() throws IOException {
         ArrayList<Task> allTasks = storage.loadTaskList();
         taskCount = allTasks.size();
@@ -104,6 +127,11 @@ public class TaskList {
         }
     }
 
+    /**
+     * Displays all tasks that are due/occur on a specific date.
+     *
+     * @param date Date to search for tasks.
+     */
     public void displayTasksOnDate(String date) {
         boolean hasTasks = false;
         for (String taskType : tasksMap.keySet()) {

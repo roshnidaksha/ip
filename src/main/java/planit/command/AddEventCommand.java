@@ -23,7 +23,7 @@ public class AddEventCommand extends Command {
      * Checks if supplied arguments are valid.
      * Event task requires a description, a start time and an end time.
      *
-     * @return True if valid, False otherwise.
+     * @return {@code true} if the parameters are valid, {@code false} otherwise.
      */
     @Override
     protected boolean isValidParameters() {

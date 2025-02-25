@@ -1,5 +1,11 @@
 package planit.messages;
 
+/**
+ * Contains predefined exception messages used throughout the {@code Planit} application.
+ * <p>
+ * This class provides static final strings for various exceptions raised during interaction with user.
+ * </p>
+ */
 public class PlanitExceptionMessages {
     public static final String INVALID_COMMAND = """
             Invalid command: %s

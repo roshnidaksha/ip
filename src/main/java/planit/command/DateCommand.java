@@ -4,10 +4,12 @@ import planit.exceptions.InvalidArgumentException;
 import planit.handler.DateParser;
 import planit.messages.PlanitExceptionMessages;
 import planit.messages.PlanitMessages;
+import planit.task.Task;
 import planit.task.TaskList;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Handles displaying tasks on a specific date.
@@ -49,14 +51,13 @@ public class DateCommand extends Command {
         ArrayList<String> feedback = new ArrayList<>();
         LocalDateTime date = DateParser.parseDateTime(parameters.get(COMMAND_KEYWORDS[0]));
         String dateString = DateParser.toFileFormat(date);
-        ArrayList<String> tasksOnDate = tasks.displayTasksOnDate(dateString);
+        HashMap<String, ArrayList<Task>> tasksOnDate = tasks.getTasksOnDate(dateString);
 
         if (tasksOnDate.isEmpty()) {
             feedback.add(PlanitMessages.FIND_TASK_FAILURE);
         } else {
             feedback.add(PlanitMessages.LIST_SUCCESS);
-            feedback.addAll(tasksOnDate);
         }
-        return new CommandResult(feedback);
+        return new CommandResult(feedback, tasksOnDate);
     }
 }

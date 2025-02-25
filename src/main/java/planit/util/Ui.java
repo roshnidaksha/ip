@@ -2,8 +2,11 @@ package planit.util;
 
 import planit.command.CommandResult;
 import planit.messages.PlanitMessages;
+import planit.task.Task;
 
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
@@ -72,6 +75,28 @@ public class Ui {
      */
     public static void showResultToUser(CommandResult result) {
         showToUser(result.feedbackToUser);
+        final HashMap<String, ArrayList<Task>> tasksMap = result.getRelevantTasks();
+        if (tasksMap != null) {
+            showTaskListView(tasksMap);
+        }
+    }
+
+    /**
+     * Shows the list of tasks to the user.
+     *
+     * @param tasksMap HashMap of tasks.
+     */
+    private static void showTaskListView(HashMap<String, ArrayList<Task>> tasksMap) {
+        for (String taskType : tasksMap.keySet()) {
+            ArrayList<Task> tasks = tasksMap.get(taskType);
+            if (tasks.isEmpty()) {
+                continue;
+            }
+            showToUser(taskType.toUpperCase() + ":");
+            for (int i = 0; i < tasks.size(); i++) {
+                showToUser((i + 1) + ". " + tasks.get(i));
+            }
+        }
     }
 
     /**

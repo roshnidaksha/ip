@@ -119,34 +119,17 @@ public class TaskList {
     }
 
     /**
-     * Displays all tasks in the order in which they were added.
-     */
-    public ArrayList<String> displayAllTasks() {
-        ArrayList<String> allTasks = new ArrayList<>();
-        for (String taskType : tasksMap.keySet()) {
-            allTasks.add(taskType + ":");
-            int length = tasksMap.get(taskType).size();
-            for (int i = 0; i < length; i++) {
-                allTasks.add(i + 1 + ". " + tasksMap.get(taskType).get(i));
-            }
-        }
-        return allTasks;
-    }
-
-    /**
      * Displays all tasks that are due/occur on a specific date.
      *
      * @param date Date to search for tasks.
      */
-    public ArrayList<String> displayTasksOnDate(String date) {
-        ArrayList<String> tasksOnDateString = new ArrayList<>();
+    public HashMap<String, ArrayList<Task>> getTasksOnDate(String date) {
+        HashMap<String, ArrayList<Task>> tasksOnDateString = new HashMap<>();
         for (String taskType : tasksMap.keySet()) {
-            if (taskType.equalsIgnoreCase("todo")) {
-                continue;
-            }
+            tasksOnDateString.put(taskType, new ArrayList<>());
             for (Task task : tasksMap.get(taskType)) {
                 if (task.toFileFormat().contains(date)) {
-                    tasksOnDateString.add(task.toString());
+                    tasksOnDateString.get(taskType).add(task);
                 }
             }
         }
@@ -158,12 +141,13 @@ public class TaskList {
      *
      * @param keyword Keyword to search for in tasks.
      */
-    public ArrayList<String> displayTasksWithKeyword(String keyword) {
-        ArrayList<String> tasksWithKeyword = new ArrayList<>();
+    public HashMap<String, ArrayList<Task>> getTasksWithKeyword(String keyword) {
+        HashMap<String, ArrayList<Task>> tasksWithKeyword = new HashMap<>();
         for (String taskType : tasksMap.keySet()) {
+            tasksWithKeyword.put(taskType, new ArrayList<>());
             for (Task task : tasksMap.get(taskType)) {
                 if (task.getDescription().contains(keyword)) {
-                    tasksWithKeyword.add(task.toString());
+                    tasksWithKeyword.get(taskType).add(task);
                 }
             }
         }

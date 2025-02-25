@@ -47,12 +47,10 @@ public class ListCommand extends Command {
 
         ArrayList<String> feedback = new ArrayList<>();
         HashMap<String, ArrayList<Task>> relevantTasks = tasks.getAllTasks();
-        ArrayList<String> allTasks = tasks.displayAllTasks();
         if (tasks.taskCount == 0) {
             feedback.add(PlanitMessages.LIST_EMPTY);
         } else {
             feedback.add(PlanitMessages.LIST_SUCCESS);
-            feedback.addAll(allTasks);
         }
         return new CommandResult(feedback, relevantTasks);
     }

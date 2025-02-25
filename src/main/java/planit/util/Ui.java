@@ -1,8 +1,10 @@
 package planit.util;
 
+import planit.command.CommandResult;
 import planit.messages.PlanitMessages;
 
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -41,7 +43,6 @@ public class Ui {
             """;
 
     private static final String ERROR_PREFIX = "[ERROR] ";
-    private static final String WARNING_PREFIX = "[WARNING] ";
 
     public static void showPlanitWelcomeMessage() {
         System.out.println(PLANIT_LOGO);
@@ -65,10 +66,12 @@ public class Ui {
     }
 
     /**
-     * Displays exit message for task manager.
+     * Shows the result of a command to the user.
+     *
+     * @param result Result of the command.
      */
-    public static void showTaskManagerExitMessage() {
-        showToUser(PlanitMessages.TASK_MANAGER_MESSAGE_GOODBYE);
+    public static void showResultToUser(CommandResult result) {
+        showToUser(result.feedbackToUser);
     }
 
     /**
@@ -77,6 +80,17 @@ public class Ui {
      * @param message Messages to be shown.
      */
     public static void showToUser(String... message) {
+        for (String m : message) {
+            showToUser(m);
+        }
+    }
+
+    /**
+     * Shows multiple messages to the user.
+     *
+     * @param message Messages to be shown.
+     */
+    public static void showToUser(List<String> message) {
         for (String m : message) {
             showToUser(m);
         }
@@ -100,14 +114,6 @@ public class Ui {
         System.out.println(ERROR_PREFIX + message);
     }
 
-    /**
-     * Shows a warning message to user.
-     *
-     * @param message Warning message to display.
-     */
-    public static void showWarning(String message) {
-        System.out.println(WARNING_PREFIX + message);
-    }
 
     /**
      * Displays the goodbye message and exits the runtime.

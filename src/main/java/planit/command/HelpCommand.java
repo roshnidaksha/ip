@@ -6,6 +6,9 @@ import planit.task.Deadline;
 import planit.task.TaskList;
 import planit.util.Ui;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 /**
  * Displays command guide to user.
  */
@@ -38,19 +41,24 @@ public class HelpCommand extends Command {
      * @throws InvalidArgumentException If supplied arguments is not valid.
      */
     @Override
-    public void execute(TaskList tasks) throws InvalidArgumentException {
+    public CommandResult execute(TaskList tasks) throws InvalidArgumentException {
         if (!isValidParameters()) {
             throw new InvalidArgumentException(PlanitExceptionMessages.WRONG_ARGUMENTS);
         }
+
+        ArrayList<String> feedback = new ArrayList<>();
         String description = parameters.get(COMMAND_KEYWORDS[0]);
+
         if (description == null) {
             for (Class<? extends Command> commandClass : commands.values()) {
                 try {
+                    ArrayList<String> commandHelp;
                     String[] commandMessage = (String[]) commandClass.getDeclaredField("COMMAND_MESSAGE").get(null);
-                    Ui.showToUser(commandMessage);
-                    Ui.showToUser("");
+                    commandHelp = new ArrayList<>(Arrays.asList(commandMessage));
+                    feedback.addAll(commandHelp);
+                    feedback.add("");
                 } catch (IllegalAccessException | NoSuchFieldException e) {
-                    Ui.showToUser("Help information not available for: " + commandClass.getSimpleName());
+                    feedback.add("Help information not available for: " + commandClass.getSimpleName());
                 }
             }
         } else {
@@ -59,11 +67,15 @@ public class HelpCommand extends Command {
                 throw new InvalidArgumentException("Unknown command: " + description);
             }
             try {
-                String[] commandHelp = (String[]) commandClass.getDeclaredField("COMMAND_MESSAGE").get(null);
-                Ui.showToUser(commandHelp);
+                ArrayList<String> commandHelp;
+                String[] commandMessage = (String[]) commandClass.getDeclaredField("COMMAND_MESSAGE").get(null);
+                commandHelp = new ArrayList<>(Arrays.asList(commandMessage));
+                feedback.addAll(commandHelp);
             } catch (NoSuchFieldException | IllegalAccessException e) {
-                Ui.showToUser("Help information not available for: " + description);
+                feedback.add("Help information not available for: " + description);
             }
         }
+
+        return new CommandResult(feedback);
     }
 }

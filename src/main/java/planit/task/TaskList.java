@@ -40,12 +40,21 @@ public class TaskList {
     /**
      * Returns the task of a specific type and index.
      *
-     * @param taskType Type of task.
+     * @param taskType  Type of task.
      * @param taskIndex Index of task.
      * @return Task object.
      */
     public Task getTask(String taskType, int taskIndex) {
         return tasksMap.get(taskType).get(taskIndex);
+    }
+
+    /**
+     * Returns all tasks.
+     *
+     * @return HashMap of all tasks.
+     */
+    public HashMap<String, ArrayList<Task>> getAllTasks() {
+        return tasksMap;
     }
 
     /**
@@ -95,7 +104,6 @@ public class TaskList {
     public void addTask(String taskType, Task task) {
         tasksMap.get(taskType).add(task);
         taskCount++;
-        Ui.showToUser(String.format(PlanitMessages.ADD_TASK_SUCCESS, task));
     }
 
     /**
@@ -103,28 +111,26 @@ public class TaskList {
      *
      * @param index Index of task to be deleted.
      */
-    public void deleteTask(String taskType, int index) {
-        Ui.showToUser(String.format(PlanitMessages.DELETE_TASK_SUCCESS, tasksMap.get(taskType).get(index)));
+    public Task deleteTask(String taskType, int index) {
+        Task taskToDelete = tasksMap.get(taskType).get(index);
         tasksMap.get(taskType).remove(index);
         taskCount--;
+        return taskToDelete;
     }
 
     /**
      * Displays all tasks in the order in which they were added.
      */
-    public void displayAllTasks() {
-        if (taskCount > 0) {
-            Ui.showToUser(PlanitMessages.LIST_SUCCESS);
-            for (String taskType : tasksMap.keySet()) {
-                Ui.showToUser(taskType + ":");
-                int length = tasksMap.get(taskType).size();
-                for (int i = 0; i < length; i++) {
-                    Ui.showToUser(i + 1 + ". " + tasksMap.get(taskType).get(i));
-                }
+    public ArrayList<String> displayAllTasks() {
+        ArrayList<String> allTasks = new ArrayList<>();
+        for (String taskType : tasksMap.keySet()) {
+            allTasks.add(taskType + ":");
+            int length = tasksMap.get(taskType).size();
+            for (int i = 0; i < length; i++) {
+                allTasks.add(i + 1 + ". " + tasksMap.get(taskType).get(i));
             }
-        } else {
-            Ui.showToUser(PlanitMessages.LIST_EMPTY);
         }
+        return allTasks;
     }
 
     /**
@@ -132,25 +138,19 @@ public class TaskList {
      *
      * @param date Date to search for tasks.
      */
-    public void displayTasksOnDate(String date) {
-        boolean hasTasks = false;
+    public ArrayList<String> displayTasksOnDate(String date) {
+        ArrayList<String> tasksOnDateString = new ArrayList<>();
         for (String taskType : tasksMap.keySet()) {
             if (taskType.equalsIgnoreCase("todo")) {
                 continue;
             }
             for (Task task : tasksMap.get(taskType)) {
                 if (task.toFileFormat().contains(date)) {
-                    if (!hasTasks) {
-                        Ui.showToUser(PlanitMessages.LIST_SUCCESS);
-                    }
-                    hasTasks = true;
-                    Ui.showToUser(task.toString());
+                    tasksOnDateString.add(task.toString());
                 }
             }
         }
-        if (!hasTasks) {
-            Ui.showToUser(PlanitMessages.LIST_EMPTY);
-        }
+        return tasksOnDateString;
     }
 
     /**
@@ -158,22 +158,16 @@ public class TaskList {
      *
      * @param keyword Keyword to search for in tasks.
      */
-    public void displayTasksWithKeyword(String keyword) {
-        boolean hasTasks = false;
+    public ArrayList<String> displayTasksWithKeyword(String keyword) {
+        ArrayList<String> tasksWithKeyword = new ArrayList<>();
         for (String taskType : tasksMap.keySet()) {
             for (Task task : tasksMap.get(taskType)) {
                 if (task.getDescription().contains(keyword)) {
-                    if (!hasTasks) {
-                        Ui.showToUser(PlanitMessages.LIST_SUCCESS);
-                        hasTasks = true;
-                    }
-                    Ui.showToUser(task.toString());
+                    tasksWithKeyword.add(task.toString());
                 }
             }
         }
-        if (!hasTasks) {
-            Ui.showToUser(PlanitMessages.LIST_EMPTY);
-        }
+        return tasksWithKeyword;
     }
 
     /**

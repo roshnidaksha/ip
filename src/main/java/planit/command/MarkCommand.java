@@ -9,6 +9,8 @@ import planit.messages.PlanitMessages;
 import planit.task.TaskList;
 import planit.util.Ui;
 
+import java.util.ArrayList;
+
 /**
  * Marks a task as done.
  */
@@ -41,24 +43,28 @@ public class MarkCommand extends Command {
      * @throws InvalidArgumentException If supplied arguments is not valid.
      */
     @Override
-    public void execute(TaskList tasks) throws InvalidArgumentException {
+    public CommandResult execute(TaskList tasks) throws InvalidArgumentException {
         if (!isValidParameters()) {
             throw new InvalidArgumentException(PlanitExceptionMessages.WRONG_ARGUMENTS);
         }
 
+        ArrayList<String> feedback = new ArrayList<>();
         String description = parameters.get(COMMAND_KEYWORDS[0]);
+
         try {
             String[] result = Parser.validateIndex(description, tasks.taskCount);
             String taskType = result[0];
             int taskIndex = Integer.parseInt(result[1]);
             if (tasks.getTask(taskType, taskIndex).isDone()) {
-                Ui.showWarning(PlanitMessages.MARK_TASK_REPEAT);
+                feedback.add(PlanitMessages.MARK_TASK_REPEAT);
             } else {
-                Ui.showToUser(PlanitMessages.MARK_TASK_SUCCESS);
+                feedback.add(PlanitMessages.MARK_TASK_SUCCESS);
                 tasks.setTaskStatus(taskType, taskIndex - 1, true);
             }
         } catch (EmptyCommandException e) {
-            throw new InvalidArgumentException(e.getMessage());
+            feedback.add(e.getMessage());
         }
+
+        return new CommandResult(feedback);
     }
 }

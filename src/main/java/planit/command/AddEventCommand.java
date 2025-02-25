@@ -2,8 +2,13 @@ package planit.command;
 
 import planit.exceptions.InvalidArgumentException;
 import planit.messages.PlanitExceptionMessages;
+import planit.messages.PlanitMessages;
 import planit.task.Event;
+import planit.task.Task;
 import planit.task.TaskList;
+import planit.task.Todo;
+
+import java.util.ArrayList;
 
 /**
  * Handles addition of an event task to list.
@@ -39,14 +44,27 @@ public class AddEventCommand extends Command {
      * @throws InvalidArgumentException If supplied arguments is not valid.
      */
     @Override
-    public void execute(TaskList tasks) throws InvalidArgumentException {
+    public CommandResult execute(TaskList tasks) throws InvalidArgumentException {
         if (!isValidParameters()) {
             throw new InvalidArgumentException(PlanitExceptionMessages.WRONG_ARGUMENTS);
         }
+
+        ArrayList<String> feedback = new ArrayList<>();
         String description = parameters.get(COMMAND_KEYWORDS[0]);
         String startTime = parameters.get(COMMAND_KEYWORDS[1]);
         String endTime = parameters.get(COMMAND_KEYWORDS[2]);
-        tasks.addTask("event", new Event(description, startTime, endTime));
+
+        try {
+            Task newTask = new Event(description, startTime, endTime);
+            tasks.addTask("event", newTask);
+            feedback.add(String.format(PlanitMessages.ADD_TASK_SUCCESS, "event"));
+            feedback.add(newTask.toString());
+            feedback.add(String.format(PlanitMessages.TASK_LIST_SIZE, tasks.taskCount));
+        } catch (Exception e) {
+            feedback.add(String.format(PlanitMessages.ADD_TASK_FAILURE, "event"));
+        }
+
+        return new CommandResult(feedback);
     }
 }
 

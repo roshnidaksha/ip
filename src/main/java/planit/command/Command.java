@@ -3,6 +3,7 @@ package planit.command;
 import planit.exceptions.InvalidArgumentException;
 import planit.task.TaskList;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -81,5 +82,5 @@ public abstract class Command {
      * @param tasks Current list of tasks.
      * @throws InvalidArgumentException If supplied arguments is not valid.
      */
-    public abstract void execute(TaskList tasks) throws InvalidArgumentException;
+    public abstract CommandResult execute(TaskList tasks) throws InvalidArgumentException;
 }

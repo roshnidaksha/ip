@@ -2,8 +2,13 @@ package planit.command;
 
 import planit.exceptions.InvalidArgumentException;
 import planit.messages.PlanitExceptionMessages;
+import planit.messages.PlanitMessages;
 import planit.task.Deadline;
+import planit.task.Task;
 import planit.task.TaskList;
+import planit.task.Todo;
+
+import java.util.ArrayList;
 
 /**
  * Handles addition of a deadline task to the task list.
@@ -37,12 +42,25 @@ public class AddDeadlineCommand extends Command {
      * @throws InvalidArgumentException If supplied arguments is not valid.
      */
     @Override
-    public void execute(TaskList tasks) throws InvalidArgumentException {
+    public CommandResult execute(TaskList tasks) throws InvalidArgumentException {
         if (!isValidParameters()) {
             throw new InvalidArgumentException(PlanitExceptionMessages.WRONG_ARGUMENTS);
         }
+
+        ArrayList<String> feedback = new ArrayList<>();
         String description = parameters.get(COMMAND_KEYWORDS[0]);
         String deadline = parameters.get(COMMAND_KEYWORDS[1]);
-        tasks.addTask("deadline", new Deadline(description, deadline));
+
+        try {
+            Task newTask = new Deadline(description, deadline);
+            tasks.addTask("deadline", newTask);
+            feedback.add(String.format(PlanitMessages.ADD_TASK_SUCCESS, "deadline"));
+            feedback.add(newTask.toString());
+            feedback.add(String.format(PlanitMessages.TASK_LIST_SIZE, tasks.taskCount));
+        } catch (Exception e) {
+            feedback.add(String.format(PlanitMessages.ADD_TASK_FAILURE, "deadline"));
+        }
+
+        return new CommandResult(feedback);
     }
 }

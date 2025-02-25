@@ -3,9 +3,11 @@ package planit.command;
 import planit.exceptions.InvalidArgumentException;
 import planit.handler.DateParser;
 import planit.messages.PlanitExceptionMessages;
+import planit.messages.PlanitMessages;
 import planit.task.TaskList;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 /**
  * Handles displaying tasks on a specific date.
@@ -39,12 +41,22 @@ public class DateCommand extends Command {
      * @throws InvalidArgumentException If supplied arguments is not valid.
      */
     @Override
-    public void execute(TaskList tasks) throws InvalidArgumentException {
+    public CommandResult execute(TaskList tasks) throws InvalidArgumentException {
         if (!isValidParameters()) {
             throw new InvalidArgumentException(PlanitExceptionMessages.WRONG_ARGUMENTS);
         }
+
+        ArrayList<String> feedback = new ArrayList<>();
         LocalDateTime date = DateParser.parseDateTime(parameters.get(COMMAND_KEYWORDS[0]));
         String dateString = DateParser.toFileFormat(date);
-        tasks.displayTasksOnDate(dateString);
+        ArrayList<String> tasksOnDate = tasks.displayTasksOnDate(dateString);
+
+        if (tasksOnDate.isEmpty()) {
+            feedback.add(PlanitMessages.FIND_TASK_FAILURE);
+        } else {
+            feedback.add(PlanitMessages.LIST_SUCCESS);
+            feedback.addAll(tasksOnDate);
+        }
+        return new CommandResult(feedback);
     }
 }

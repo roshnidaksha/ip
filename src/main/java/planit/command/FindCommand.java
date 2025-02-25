@@ -2,7 +2,10 @@ package planit.command;
 
 import planit.exceptions.InvalidArgumentException;
 import planit.messages.PlanitExceptionMessages;
+import planit.messages.PlanitMessages;
 import planit.task.TaskList;
+
+import java.util.ArrayList;
 
 /**
  * Represents the command to find tasks that contain a specific keyword.
@@ -35,11 +38,20 @@ public class FindCommand extends Command {
      * @throws InvalidArgumentException If supplied arguments is not valid.
      */
     @Override
-    public void execute(TaskList tasks) throws InvalidArgumentException {
+    public CommandResult execute(TaskList tasks) throws InvalidArgumentException {
         if (!isValidParameters()) {
             throw new InvalidArgumentException(PlanitExceptionMessages.WRONG_ARGUMENTS);
         }
+
+        ArrayList<String> feedback = new ArrayList<>();
         String keyword = parameters.get(COMMAND_KEYWORDS[0]);
-        tasks.displayTasksWithKeyword(keyword);
+        ArrayList<String> tasksWithKeyword = tasks.displayTasksWithKeyword(keyword);
+        if (tasksWithKeyword.isEmpty()) {
+            feedback.add(PlanitMessages.FIND_TASK_FAILURE);
+        } else {
+            feedback.add(PlanitMessages.LIST_SUCCESS);
+            feedback.addAll(tasksWithKeyword);
+        }
+        return new CommandResult(feedback);
     }
 }

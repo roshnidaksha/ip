@@ -7,6 +7,7 @@ import planit.task.TaskList;
 import planit.util.Ui;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Exits planit task management session.
@@ -39,20 +40,24 @@ public class ByeCommand extends Command {
      * @throws InvalidArgumentException If supplied arguments is not valid.
      */
     @Override
-    public void execute(TaskList tasks) throws InvalidArgumentException {
+    public CommandResult execute(TaskList tasks) throws InvalidArgumentException {
         if (!isValidParameters()) {
             throw new InvalidArgumentException(PlanitExceptionMessages.WRONG_ARGUMENTS);
         }
 
+        ArrayList<String> feedback = new ArrayList<>();
+
         try {
             tasks.saveTasks();
-            Ui.showToUser(PlanitMessages.TASK_SAVE_SUCCESS);
+            feedback.add(PlanitMessages.TASK_SAVE_SUCCESS);
         } catch (IOException e) {
-            Ui.showToUser(PlanitMessages.TASK_SAVE_FAILURE);
-            Ui.showError(e.getMessage());
+            feedback.add(PlanitMessages.TASK_SAVE_FAILURE);
+            feedback.add(e.getMessage());
         }
 
-        Ui.showTaskManagerExitMessage();
+        feedback.add(PlanitMessages.TASK_MANAGER_MESSAGE_GOODBYE);
         isExit = true;
+
+        return new CommandResult(feedback);
     }
 }

@@ -16,8 +16,7 @@ public class ByeCommand extends Command {
     public static final String COMMAND_FORMAT = """
             Format: bye
             NOTE: Exit command takes in no arguments
-            Example: bye
-            """;
+            Example: bye""";
     public static final String COMMAND_DESC = "Exits planit task management session";
     public static final String[] COMMAND_KEYWORDS = {};
     public static final String[] COMMAND_MESSAGE = {COMMAND_WORD + ": " + COMMAND_DESC, COMMAND_FORMAT};

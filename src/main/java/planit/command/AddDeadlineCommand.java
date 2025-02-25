@@ -13,8 +13,7 @@ public class AddDeadlineCommand extends Command {
     public static final String COMMAND_FORMAT = """
             Format: deadline <task description> /by <task deadline>
             Example: deadline submit quiz /by Fri
-            This will add task [D][ ] submit quiz (by: Friday)
-            """;
+            This will add task [D][ ] submit quiz (by: Friday)""";
     public static final String COMMAND_DESC = "Adds a new deadline task to your list";
     public static final String[] COMMAND_KEYWORDS = {"description", "/by"};
     public static final String[] COMMAND_MESSAGE = {COMMAND_WORD + ": " + COMMAND_DESC, COMMAND_FORMAT};

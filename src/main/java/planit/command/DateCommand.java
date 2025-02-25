@@ -15,8 +15,7 @@ public class DateCommand extends Command {
     public static final String COMMAND_FORMAT = """
             Format: date <date>
             Example: date 2025-11-02
-            This will display all the tasks on the specified date
-            """;
+            This will display all the tasks on the specified date""";
     public static final String COMMAND_DESC = "Displays tasks on a specific date.";
     public static final String[] COMMAND_KEYWORDS = { "/on" };
     public static final String[] COMMAND_MESSAGE = {COMMAND_WORD + ": " + COMMAND_DESC, COMMAND_FORMAT};

@@ -12,8 +12,7 @@ public class ListCommand extends Command {
     public static final String COMMAND_FORMAT = """
             Format: list
             NOTE: List takes in no arguments
-            Example: list
-            """;
+            Example: list""";
     public static final String COMMAND_DESC = "Displays all tasks in the list";
     public static final String[] COMMAND_KEYWORDS = {};
     public static final String[] COMMAND_MESSAGE = {COMMAND_WORD + ": " + COMMAND_DESC, COMMAND_FORMAT};

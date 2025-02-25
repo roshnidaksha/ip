@@ -15,8 +15,7 @@ public class HelpCommand extends Command {
             Format: help [command]
             NOTE: command is an optional argument
             Example: help - will display the guide for all commands
-                     help todo - will display the guide only for todo command
-            """;
+                     help todo - will display the guide only for todo command""";
     public static final String COMMAND_DESC = "Displays guide for commands";
     public static final String[] COMMAND_KEYWORDS = {"description"};
     public static final String[] COMMAND_MESSAGE = {COMMAND_WORD + ": " + COMMAND_DESC, COMMAND_FORMAT};
@@ -49,6 +48,7 @@ public class HelpCommand extends Command {
                 try {
                     String[] commandMessage = (String[]) commandClass.getDeclaredField("COMMAND_MESSAGE").get(null);
                     Ui.showToUser(commandMessage);
+                    Ui.showToUser("");
                 } catch (IllegalAccessException | NoSuchFieldException e) {
                     Ui.showToUser("Help information not available for: " + commandClass.getSimpleName());
                 }

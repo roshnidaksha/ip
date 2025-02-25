@@ -38,6 +38,7 @@ public class TaskManager {
         boolean exitTaskManager = false;
         while (!exitTaskManager) {
             try {
+                Ui.showToUser("", PlanitMessages.DIVIDER);
                 String userInputString = Ui.getUserInput();
                 Command c = parser.parse(userInputString);
                 c.execute(taskList);

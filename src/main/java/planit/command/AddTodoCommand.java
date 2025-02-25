@@ -13,8 +13,7 @@ public class AddTodoCommand extends Command {
     public static final String COMMAND_FORMAT = """
             Format: todo <task description>
             Example: todo prepare for CS2113
-            This will add task [T][ ] prepare for CS2113 to your list of tasks
-            """;
+            This will add task [T][ ] prepare for CS2113 to your list of tasks""";
     public static final String COMMAND_DESC = "Adds a new todo task to your list";
     public static final String[] COMMAND_KEYWORDS = {"description"};
     public static final String[] COMMAND_MESSAGE = {COMMAND_WORD + ": " + COMMAND_DESC, COMMAND_FORMAT};

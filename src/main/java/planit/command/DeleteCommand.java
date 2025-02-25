@@ -15,8 +15,7 @@ public class DeleteCommand extends Command {
     public static final String COMMAND_FORMAT = """
             Format: delete <task type><task index>
             NOTE: task type can only be (t, d, e)
-            Example: delete td1 - deletes the first deadline task
-            """;
+            Example: delete td1 - deletes the first deadline task""";
     public static final String COMMAND_DESC = "Deletes the specified task";
     public static final String[] COMMAND_KEYWORDS = {"description"};
     public static final String[] COMMAND_MESSAGE = {COMMAND_WORD + ": " + COMMAND_DESC, COMMAND_FORMAT};

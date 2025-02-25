@@ -17,8 +17,7 @@ public class MarkCommand extends Command {
     public static final String COMMAND_FORMAT = """
             Format: mark <task type><task index>
             NOTE: task type can only be (t, d, e)
-            Example: mark td1 - marks the first deadline task
-            """;
+            Example: mark td1 - marks the first deadline task""";
     public static final String COMMAND_DESC = "Marks the specified task as done";
     public static final String[] COMMAND_KEYWORDS = {"description"};
     public static final String[] COMMAND_MESSAGE = {COMMAND_WORD + ": " + COMMAND_DESC, COMMAND_FORMAT};

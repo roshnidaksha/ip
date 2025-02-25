@@ -16,8 +16,7 @@ public class UnmarkCommand extends Command {
     public static final String COMMAND_FORMAT = """
             Format: unmark <task type><task index>
             NOTE: task type can only be (t, d, e)
-            Example: unmark td1 - unmarks the first deadline task
-            """;
+            Example: unmark td1 - unmarks the first deadline task""";
     public static final String COMMAND_DESC = "Marks the specified task as not done";
     public static final String[] COMMAND_KEYWORDS = {"description"};
     public static final String[] COMMAND_MESSAGE = {COMMAND_WORD + ": " + COMMAND_DESC, COMMAND_FORMAT};

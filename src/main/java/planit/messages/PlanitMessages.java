@@ -11,7 +11,9 @@ public class PlanitMessages {
     public static final String PLANIT_MESSAGE_GOODBYE = "Bye. Have a nice day!";
     public static final String PLANIT_INVALID_OPTION = "Please enter a valid option!";
 
-    public static final String TASK_MANAGER_MESSAGE_WELCOME = "Welcome, I am your task manager!";
+    public static final String TASK_MANAGER_MESSAGE_WELCOME = """
+            Welcome, I am your task manager!
+            Type "help" to see the list of commands you can use.""";
     public static final String TASK_MANAGER_MESSAGE_GOODBYE = "Hope you took note of some important tasks! Bye!";
 
     public static final String COMMAND_PLANIT_DESC = "1. Type \"planit\" or \"1\" to manage your tasks";

@@ -59,6 +59,7 @@ public class UnmarkCommand extends Command {
             } else {
                 feedback.add(PlanitMessages.UNMARK_TASK_SUCCESS);
                 tasks.setTaskStatus(taskType, taskIndex - 1, false);
+                feedback.add(tasks.getTask(taskType, taskIndex - 1).toString());
             }
         } catch (EmptyCommandException e) {
             feedback.add(e.getMessage());

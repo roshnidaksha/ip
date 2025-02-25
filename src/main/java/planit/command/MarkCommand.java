@@ -60,6 +60,7 @@ public class MarkCommand extends Command {
             } else {
                 feedback.add(PlanitMessages.MARK_TASK_SUCCESS);
                 tasks.setTaskStatus(taskType, taskIndex - 1, true);
+                feedback.add(tasks.getTask(taskType, taskIndex - 1).toString());
             }
         } catch (EmptyCommandException e) {
             feedback.add(e.getMessage());

@@ -132,6 +132,9 @@ public class TaskList {
                     tasksOnDateString.get(taskType).add(task);
                 }
             }
+            if (tasksOnDateString.get(taskType).isEmpty()) {
+                tasksOnDateString.remove(taskType);
+            }
         }
         return tasksOnDateString;
     }
@@ -149,6 +152,9 @@ public class TaskList {
                 if (task.getDescription().contains(keyword)) {
                     tasksWithKeyword.get(taskType).add(task);
                 }
+            }
+            if (tasksWithKeyword.get(taskType).isEmpty()) {
+                tasksWithKeyword.remove(taskType);
             }
         }
         return tasksWithKeyword;

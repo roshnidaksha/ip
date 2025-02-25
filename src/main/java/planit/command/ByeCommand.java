@@ -7,6 +7,7 @@ import planit.task.TaskList;
 import planit.util.Ui;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Exits planit task management session.
@@ -16,8 +17,7 @@ public class ByeCommand extends Command {
     public static final String COMMAND_FORMAT = """
             Format: bye
             NOTE: Exit command takes in no arguments
-            Example: bye
-            """;
+            Example: bye""";
     public static final String COMMAND_DESC = "Exits planit task management session";
     public static final String[] COMMAND_KEYWORDS = {};
     public static final String[] COMMAND_MESSAGE = {COMMAND_WORD + ": " + COMMAND_DESC, COMMAND_FORMAT};
@@ -26,7 +26,7 @@ public class ByeCommand extends Command {
      * Checks if supplied arguments are valid.
      * To exit planit task management session, no arguments is required.
      *
-     * @return True if valid, False otherwise.
+     * @return {@code true} if the parameters are valid, {@code false} otherwise.
      */
     @Override
     protected boolean isValidParameters() {
@@ -40,20 +40,24 @@ public class ByeCommand extends Command {
      * @throws InvalidArgumentException If supplied arguments is not valid.
      */
     @Override
-    public void execute(TaskList tasks) throws InvalidArgumentException {
+    public CommandResult execute(TaskList tasks) throws InvalidArgumentException {
         if (!isValidParameters()) {
             throw new InvalidArgumentException(PlanitExceptionMessages.WRONG_ARGUMENTS);
         }
 
+        ArrayList<String> feedback = new ArrayList<>();
+
         try {
             tasks.saveTasks();
-            Ui.showToUser(PlanitMessages.TASK_SAVE_SUCCESS);
+            feedback.add(PlanitMessages.TASK_SAVE_SUCCESS);
         } catch (IOException e) {
-            Ui.showToUser(PlanitMessages.TASK_SAVE_FAILURE);
-            Ui.showError(e.getMessage());
+            feedback.add(PlanitMessages.TASK_SAVE_FAILURE);
+            feedback.add(e.getMessage());
         }
 
-        Ui.showTaskManagerExitMessage();
+        feedback.add(PlanitMessages.TASK_MANAGER_MESSAGE_GOODBYE);
         isExit = true;
+
+        return new CommandResult(feedback);
     }
 }

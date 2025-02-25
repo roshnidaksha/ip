@@ -2,7 +2,12 @@ package planit.command;
 
 import planit.exceptions.InvalidArgumentException;
 import planit.messages.PlanitExceptionMessages;
+import planit.messages.PlanitMessages;
+import planit.task.Task;
 import planit.task.TaskList;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Displays the list of tasks.
@@ -12,8 +17,7 @@ public class ListCommand extends Command {
     public static final String COMMAND_FORMAT = """
             Format: list
             NOTE: List takes in no arguments
-            Example: list
-            """;
+            Example: list""";
     public static final String COMMAND_DESC = "Displays all tasks in the list";
     public static final String[] COMMAND_KEYWORDS = {};
     public static final String[] COMMAND_MESSAGE = {COMMAND_WORD + ": " + COMMAND_DESC, COMMAND_FORMAT};
@@ -22,7 +26,7 @@ public class ListCommand extends Command {
      * Checks if supplied arguments are valid.
      * To display list of all tasks, no arguments is required.
      *
-     * @return True if valid, False otherwise.
+     * @return {@code true} if the parameters are valid, {@code false} otherwise.
      */
     @Override
     protected boolean isValidParameters() {
@@ -36,10 +40,18 @@ public class ListCommand extends Command {
      * @throws InvalidArgumentException If supplied arguments is not valid.
      */
     @Override
-    public void execute(TaskList tasks) throws InvalidArgumentException {
+    public CommandResult execute(TaskList tasks) throws InvalidArgumentException {
         if (!isValidParameters()) {
             throw new InvalidArgumentException(PlanitExceptionMessages.WRONG_ARGUMENTS);
         }
-        tasks.displayAllTasks();
+
+        ArrayList<String> feedback = new ArrayList<>();
+        HashMap<String, ArrayList<Task>> relevantTasks = tasks.getAllTasks();
+        if (tasks.taskCount == 0) {
+            feedback.add(PlanitMessages.LIST_EMPTY);
+        } else {
+            feedback.add(PlanitMessages.LIST_SUCCESS);
+        }
+        return new CommandResult(feedback, relevantTasks);
     }
 }

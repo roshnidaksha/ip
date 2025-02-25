@@ -1,5 +1,11 @@
 package planit.messages;
 
+/**
+ * Contains predefined messages used throughout the {@code Planit} application.
+ * <p>
+ * This class provides static final strings for various system responses.
+ * </p>
+ */
 public class PlanitMessages {
     public static final String PLANIT_MESSAGE_WELCOME = "          Welcome to Planit, task management system!\n";
     public static final String PLANIT_MESSAGE_GOODBYE = "Bye. Have a nice day!";
@@ -19,8 +25,8 @@ public class PlanitMessages {
 
     public static final String DIVIDER = "->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->";
 
-    public static final String ADD_TASK_SUCCESS = "Successfully added task: %s";
-    public static final String ADD_TASK_FAILURE = "Failed to add task: %s";
+    public static final String ADD_TASK_SUCCESS = "Successfully added %s task:";
+    public static final String ADD_TASK_FAILURE = "Failed to add %s task";
     public static final String DELETE_TASK_SUCCESS = "Successfully deleted task: %s";
     public static final String DELETE_TASK_FAILURE = "Failed to delete task: %s";
     public static final String LIST_SUCCESS = "Here is a list of your tasks:";
@@ -29,4 +35,7 @@ public class PlanitMessages {
     public static final String MARK_TASK_REPEAT = "Task already marked as done";
     public static final String UNMARK_TASK_SUCCESS = "Successfully marked task as not done";
     public static final String UNMARK_TASK_REPEAT = "Task already marked as not done";
+    public static final String FIND_TASK_FAILURE = "There are no tasks that satisfy the condition";
+
+    public static final String TASK_LIST_SIZE = "You have %d tasks in the list";
 }

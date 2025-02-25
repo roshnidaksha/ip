@@ -1,6 +1,7 @@
 package planit.task;
 
 import planit.command.Command;
+import planit.command.CommandResult;
 import planit.handler.Parser;
 import planit.messages.PlanitMessages;
 import planit.util.Ui;
@@ -38,9 +39,11 @@ public class TaskManager {
         boolean exitTaskManager = false;
         while (!exitTaskManager) {
             try {
+                Ui.showToUser("", PlanitMessages.DIVIDER);
                 String userInputString = Ui.getUserInput();
                 Command c = parser.parse(userInputString);
-                c.execute(taskList);
+                CommandResult result = c.execute(taskList);
+                Ui.showResultToUser(result);
                 exitTaskManager = c.isExit;
             } catch (Exception e) {
                 Ui.showError(e.getMessage());

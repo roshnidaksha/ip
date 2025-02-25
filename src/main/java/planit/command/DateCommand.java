@@ -3,9 +3,13 @@ package planit.command;
 import planit.exceptions.InvalidArgumentException;
 import planit.handler.DateParser;
 import planit.messages.PlanitExceptionMessages;
+import planit.messages.PlanitMessages;
+import planit.task.Task;
 import planit.task.TaskList;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Handles displaying tasks on a specific date.
@@ -13,10 +17,9 @@ import java.time.LocalDateTime;
 public class DateCommand extends Command {
     public static final String COMMAND_WORD = "date";
     public static final String COMMAND_FORMAT = """
-            Format: date <date>
+            Format: date /on <date>
             Example: date 2025-11-02
-            This will display all the tasks on the specified date
-            """;
+            This will display all the tasks on the specified date""";
     public static final String COMMAND_DESC = "Displays tasks on a specific date.";
     public static final String[] COMMAND_KEYWORDS = { "/on" };
     public static final String[] COMMAND_MESSAGE = {COMMAND_WORD + ": " + COMMAND_DESC, COMMAND_FORMAT};
@@ -25,7 +28,7 @@ public class DateCommand extends Command {
      * Checks if supplied arguments are valid.
      * Date command requires only one argument describing the date.
      *
-     * @return True if valid, False otherwise.
+     * @return {@code true} if the parameters are valid, {@code false} otherwise.
      */
     @Override
     protected boolean isValidParameters() {
@@ -40,12 +43,21 @@ public class DateCommand extends Command {
      * @throws InvalidArgumentException If supplied arguments is not valid.
      */
     @Override
-    public void execute(TaskList tasks) throws InvalidArgumentException {
+    public CommandResult execute(TaskList tasks) throws InvalidArgumentException {
         if (!isValidParameters()) {
             throw new InvalidArgumentException(PlanitExceptionMessages.WRONG_ARGUMENTS);
         }
+
+        ArrayList<String> feedback = new ArrayList<>();
         LocalDateTime date = DateParser.parseDateTime(parameters.get(COMMAND_KEYWORDS[0]));
         String dateString = DateParser.toFileFormat(date);
-        tasks.displayTasksOnDate(dateString);
+        HashMap<String, ArrayList<Task>> tasksOnDate = tasks.getTasksOnDate(dateString);
+
+        if (tasksOnDate.isEmpty()) {
+            feedback.add(PlanitMessages.FIND_TASK_FAILURE);
+        } else {
+            feedback.add(PlanitMessages.LIST_SUCCESS);
+        }
+        return new CommandResult(feedback, tasksOnDate);
     }
 }

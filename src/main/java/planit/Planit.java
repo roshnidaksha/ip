@@ -5,6 +5,9 @@ import planit.task.TaskManager;
 import planit.util.Echo;
 import planit.util.Ui;
 
+/**
+ * Represents the main entry point of Planit application.
+ */
 public class Planit {
     /**
      * Gets input from user regarding available choices.

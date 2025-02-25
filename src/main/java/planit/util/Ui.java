@@ -1,13 +1,24 @@
 package planit.util;
 
+import planit.command.CommandResult;
 import planit.messages.PlanitMessages;
+import planit.task.Task;
 
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Handles all user interface interactions.
+ * It provides methods to display messages to the user and read input from the user.
+ */
 public class Ui {
+    /** Path to the file where tasks are stored. */
     public static final String HOME = System.getProperty("user.home");
     public static final String FILE_PATH = Paths.get(HOME, "Planit", "data", "tasks.txt").toString();
+
     private static final Scanner SCANNER = new Scanner(System.in);
 
     private static final String PLANIT_LOGO = """
@@ -35,7 +46,6 @@ public class Ui {
             """;
 
     private static final String ERROR_PREFIX = "[ERROR] ";
-    private static final String WARNING_PREFIX = "[WARNING] ";
 
     public static void showPlanitWelcomeMessage() {
         System.out.println(PLANIT_LOGO);
@@ -59,10 +69,34 @@ public class Ui {
     }
 
     /**
-     * Displays exit message for task manager.
+     * Shows the result of a command to the user.
+     *
+     * @param result Result of the command.
      */
-    public static void showTaskManagerExitMessage() {
-        showToUser(PlanitMessages.TASK_MANAGER_MESSAGE_GOODBYE);
+    public static void showResultToUser(CommandResult result) {
+        showToUser(result.feedbackToUser);
+        final HashMap<String, ArrayList<Task>> tasksMap = result.getRelevantTasks();
+        if (tasksMap != null) {
+            showTaskListView(tasksMap);
+        }
+    }
+
+    /**
+     * Shows the list of tasks to the user.
+     *
+     * @param tasksMap HashMap of tasks.
+     */
+    private static void showTaskListView(HashMap<String, ArrayList<Task>> tasksMap) {
+        for (String taskType : tasksMap.keySet()) {
+            ArrayList<Task> tasks = tasksMap.get(taskType);
+            if (tasks.isEmpty()) {
+                continue;
+            }
+            showToUser(taskType.toUpperCase() + ":");
+            for (int i = 0; i < tasks.size(); i++) {
+                showToUser((i + 1) + ". " + tasks.get(i));
+            }
+        }
     }
 
     /**
@@ -71,6 +105,17 @@ public class Ui {
      * @param message Messages to be shown.
      */
     public static void showToUser(String... message) {
+        for (String m : message) {
+            showToUser(m);
+        }
+    }
+
+    /**
+     * Shows multiple messages to the user.
+     *
+     * @param message Messages to be shown.
+     */
+    public static void showToUser(List<String> message) {
         for (String m : message) {
             showToUser(m);
         }
@@ -94,14 +139,6 @@ public class Ui {
         System.out.println(ERROR_PREFIX + message);
     }
 
-    /**
-     * Shows a warning message to user.
-     *
-     * @param message Warning message to display.
-     */
-    public static void showWarning(String message) {
-        System.out.println(WARNING_PREFIX + message);
-    }
 
     /**
      * Displays the goodbye message and exits the runtime.

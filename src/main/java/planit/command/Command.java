@@ -3,10 +3,15 @@ package planit.command;
 import planit.exceptions.InvalidArgumentException;
 import planit.task.TaskList;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Abstract class to store command properties.
+ * Represents a command that can be executed by the user.
+ * <p>
+ * This abstract class defines the structure for all commands,
+ * providing common properties and methods that each command must implement.
+ * </p>
  */
 public abstract class Command {
     public static final String COMMAND_WORD = "";
@@ -37,10 +42,11 @@ public abstract class Command {
     }
 
     /**
-     * Returns Command object of input string command.
+     * Retrieves a Command object based on the input string representation of a command.
      *
      * @param commandType String representation of command entered by user.
-     * @return Command object of string representation.
+     * @return Instance of the corresponding Command subclass, or {@code null} if not found.
+     * @throws Exception If an error occurs during instantiation.
      */
     public static Command getCommand(String commandType) throws Exception {
         Class<? extends Command> commandClass = commands.get(commandType);
@@ -52,6 +58,12 @@ public abstract class Command {
 
     /** Key-value pairs of arguments entered by user. */
     protected HashMap<String, String> parameters = new HashMap<>();
+
+    /**
+     * Sets the parameters for the command based on user input.
+     *
+     * @param parameters HashMap containing the arguments supplied by the user.
+     */
     public void setParameters(HashMap<String, String> parameters) {
         this.parameters = parameters;
     }
@@ -59,7 +71,7 @@ public abstract class Command {
     /**
      * Checks if supplied arguments are valid.
      *
-     * @return True if valid, False otherwise.
+     * @return {@code true} if the parameters are valid, {@code false} otherwise.
      */
     protected abstract boolean isValidParameters();
 
@@ -70,5 +82,5 @@ public abstract class Command {
      * @param tasks Current list of tasks.
      * @throws InvalidArgumentException If supplied arguments is not valid.
      */
-    public abstract void execute(TaskList tasks) throws InvalidArgumentException;
+    public abstract CommandResult execute(TaskList tasks) throws InvalidArgumentException;
 }

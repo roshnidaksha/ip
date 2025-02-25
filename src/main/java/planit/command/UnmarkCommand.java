@@ -8,6 +8,8 @@ import planit.messages.PlanitMessages;
 import planit.task.TaskList;
 import planit.util.Ui;
 
+import java.util.ArrayList;
+
 /**
  * Marks a task as not done.
  */
@@ -16,8 +18,7 @@ public class UnmarkCommand extends Command {
     public static final String COMMAND_FORMAT = """
             Format: unmark <task type><task index>
             NOTE: task type can only be (t, d, e)
-            Example: unmark td1 - unmarks the first deadline task
-            """;
+            Example: unmark td1 - unmarks the first deadline task""";
     public static final String COMMAND_DESC = "Marks the specified task as not done";
     public static final String[] COMMAND_KEYWORDS = {"description"};
     public static final String[] COMMAND_MESSAGE = {COMMAND_WORD + ": " + COMMAND_DESC, COMMAND_FORMAT};
@@ -26,7 +27,7 @@ public class UnmarkCommand extends Command {
      * Checks if supplied arguments are valid.
      * To unmark a task, only the task type and index is required.
      *
-     * @return True if valid, False otherwise.
+     * @return {@code true} if the parameters are valid, {@code false} otherwise.
      */
     @Override
     protected boolean isValidParameters() {
@@ -41,24 +42,28 @@ public class UnmarkCommand extends Command {
      * @throws InvalidArgumentException If supplied arguments is not valid.
      */
     @Override
-    public void execute(TaskList tasks) throws InvalidArgumentException {
+    public CommandResult execute(TaskList tasks) throws InvalidArgumentException {
         if (!isValidParameters()) {
             throw new InvalidArgumentException(PlanitExceptionMessages.WRONG_ARGUMENTS);
         }
 
+        ArrayList<String> feedback = new ArrayList<>();
         String description = parameters.get(COMMAND_KEYWORDS[0]);
+
         try {
             String[] result = Parser.validateIndex(description, tasks.taskCount);
             String taskType = result[0];
             int taskIndex = Integer.parseInt(result[1]);
             if (tasks.getTask(taskType, taskIndex).isDone()) {
-                Ui.showWarning(PlanitMessages.UNMARK_TASK_REPEAT);
+                feedback.add(PlanitMessages.UNMARK_TASK_REPEAT);
             } else {
-                Ui.showToUser(PlanitMessages.UNMARK_TASK_SUCCESS);
+                feedback.add(PlanitMessages.UNMARK_TASK_SUCCESS);
                 tasks.setTaskStatus(taskType, taskIndex - 1, false);
             }
         } catch (EmptyCommandException e) {
-            throw new InvalidArgumentException(e.getMessage());
+            feedback.add(e.getMessage());
         }
+
+        return new CommandResult(feedback);
     }
 }

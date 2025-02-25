@@ -2,8 +2,12 @@ package planit.command;
 
 import planit.exceptions.InvalidArgumentException;
 import planit.messages.PlanitExceptionMessages;
+import planit.messages.PlanitMessages;
+import planit.task.Task;
 import planit.task.TaskList;
 import planit.task.Todo;
+
+import java.util.ArrayList;
 
 /**
  * Handles addition of a todo task to list.
@@ -13,8 +17,7 @@ public class AddTodoCommand extends Command {
     public static final String COMMAND_FORMAT = """
             Format: todo <task description>
             Example: todo prepare for CS2113
-            This will add task [T][ ] prepare for CS2113 to your list of tasks
-            """;
+            This will add task [T][ ] prepare for CS2113 to your list of tasks""";
     public static final String COMMAND_DESC = "Adds a new todo task to your list";
     public static final String[] COMMAND_KEYWORDS = {"description"};
     public static final String[] COMMAND_MESSAGE = {COMMAND_WORD + ": " + COMMAND_DESC, COMMAND_FORMAT};
@@ -23,7 +26,7 @@ public class AddTodoCommand extends Command {
      * Checks if supplied arguments are valid.
      * Todo task requires only one argument describing the task.
      *
-     * @return True if valid, False otherwise.
+     * @return {@code true} if the parameters are valid, {@code false} otherwise.
      */
     @Override
     protected boolean isValidParameters() {
@@ -38,11 +41,24 @@ public class AddTodoCommand extends Command {
      * @throws InvalidArgumentException If supplied arguments is not valid.
      */
     @Override
-    public void execute(TaskList tasks) throws InvalidArgumentException {
+    public CommandResult execute(TaskList tasks) throws InvalidArgumentException {
         if (!isValidParameters()) {
             throw new InvalidArgumentException(PlanitExceptionMessages.WRONG_ARGUMENTS);
         }
+
+        ArrayList<String> feedback = new ArrayList<>();
         String description = parameters.get(COMMAND_KEYWORDS[0]);
-        tasks.addTask("todo", new Todo(description));
+
+        try {
+            Task newTask = new Todo(description);
+            tasks.addTask("todo", newTask);
+            feedback.add(String.format(PlanitMessages.ADD_TASK_SUCCESS, "todo"));
+            feedback.add(newTask.toString());
+            feedback.add(String.format(PlanitMessages.TASK_LIST_SIZE, tasks.taskCount));
+        } catch (Exception e) {
+            feedback.add(String.format(PlanitMessages.ADD_TASK_FAILURE, "todo"));
+        }
+
+        return new CommandResult(feedback);
     }
 }

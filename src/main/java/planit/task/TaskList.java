@@ -5,7 +5,6 @@ import planit.util.Storage;
 import planit.util.Ui;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -18,6 +17,13 @@ public class TaskList {
      */
     public int taskCount = 0;
 
+    /**
+     * Constructs a task list.
+     * <p>
+     * If tasks can be loaded from file storage, it will be loaded.
+     * Otherwise, an empty task list will be created.
+     * </p>
+     */
     public TaskList() {
         try {
             loadTasks();
@@ -31,14 +37,40 @@ public class TaskList {
         }
     }
 
+    /**
+     * Returns the task of a specific type and index.
+     *
+     * @param taskType  Type of task.
+     * @param taskIndex Index of task.
+     * @return Task object.
+     */
     public Task getTask(String taskType, int taskIndex) {
         return tasksMap.get(taskType).get(taskIndex);
     }
 
+    /**
+     * Returns all tasks.
+     *
+     * @return HashMap of all tasks.
+     */
+    public HashMap<String, ArrayList<Task>> getAllTasks() {
+        return tasksMap;
+    }
+
+    /**
+     * Saves tasks to file storage.
+     *
+     * @throws IOException If file cannot be written.
+     */
     public void saveTasks() throws IOException {
         storage.saveTaskList(tasksMap);
     }
 
+    /**
+     * Loads tasks from file storage.
+     *
+     * @throws IOException If file cannot be read.
+     */
     public void loadTasks() throws IOException {
         ArrayList<Task> allTasks = storage.loadTaskList();
         taskCount = allTasks.size();
@@ -72,7 +104,6 @@ public class TaskList {
     public void addTask(String taskType, Task task) {
         tasksMap.get(taskType).add(task);
         taskCount++;
-        Ui.showToUser(String.format(PlanitMessages.ADD_TASK_SUCCESS, task));
     }
 
     /**
@@ -80,49 +111,29 @@ public class TaskList {
      *
      * @param index Index of task to be deleted.
      */
-    public void deleteTask(String taskType, int index) {
-        Ui.showToUser(String.format(PlanitMessages.DELETE_TASK_SUCCESS, tasksMap.get(taskType).get(index)));
+    public Task deleteTask(String taskType, int index) {
+        Task taskToDelete = tasksMap.get(taskType).get(index);
         tasksMap.get(taskType).remove(index);
         taskCount--;
+        return taskToDelete;
     }
 
     /**
-     * Displays all tasks in the order in which they were added.
+     * Displays all tasks that are due/occur on a specific date.
+     *
+     * @param date Date to search for tasks.
      */
-    public void displayAllTasks() {
-        if (taskCount > 0) {
-            Ui.showToUser(PlanitMessages.LIST_SUCCESS);
-            for (String taskType : tasksMap.keySet()) {
-                Ui.showToUser(taskType + ":");
-                int length = tasksMap.get(taskType).size();
-                for (int i = 0; i < length; i++) {
-                    Ui.showToUser(i + 1 + ". " + tasksMap.get(taskType).get(i));
-                }
-            }
-        } else {
-            Ui.showToUser(PlanitMessages.LIST_EMPTY);
-        }
-    }
-
-    public void displayTasksOnDate(String date) {
-        boolean hasTasks = false;
+    public HashMap<String, ArrayList<Task>> getTasksOnDate(String date) {
+        HashMap<String, ArrayList<Task>> tasksOnDateString = new HashMap<>();
         for (String taskType : tasksMap.keySet()) {
-            if (taskType.equalsIgnoreCase("todo")) {
-                continue;
-            }
+            tasksOnDateString.put(taskType, new ArrayList<>());
             for (Task task : tasksMap.get(taskType)) {
                 if (task.toFileFormat().contains(date)) {
-                    if (!hasTasks) {
-                        Ui.showToUser(PlanitMessages.LIST_SUCCESS);
-                    }
-                    hasTasks = true;
-                    Ui.showToUser(task.toString());
+                    tasksOnDateString.get(taskType).add(task);
                 }
             }
         }
-        if (!hasTasks) {
-            Ui.showToUser(PlanitMessages.LIST_EMPTY);
-        }
+        return tasksOnDateString;
     }
 
     /**
@@ -130,22 +141,17 @@ public class TaskList {
      *
      * @param keyword Keyword to search for in tasks.
      */
-    public void displayTasksWithKeyword(String keyword) {
-        boolean hasTasks = false;
+    public HashMap<String, ArrayList<Task>> getTasksWithKeyword(String keyword) {
+        HashMap<String, ArrayList<Task>> tasksWithKeyword = new HashMap<>();
         for (String taskType : tasksMap.keySet()) {
+            tasksWithKeyword.put(taskType, new ArrayList<>());
             for (Task task : tasksMap.get(taskType)) {
                 if (task.getDescription().contains(keyword)) {
-                    if (!hasTasks) {
-                        Ui.showToUser(PlanitMessages.LIST_SUCCESS);
-                        hasTasks = true;
-                    }
-                    Ui.showToUser(task.toString());
+                    tasksWithKeyword.get(taskType).add(task);
                 }
             }
         }
-        if (!hasTasks) {
-            Ui.showToUser(PlanitMessages.LIST_EMPTY);
-        }
+        return tasksWithKeyword;
     }
 
     /**

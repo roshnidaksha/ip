@@ -2,8 +2,13 @@ package planit.command;
 
 import planit.exceptions.InvalidArgumentException;
 import planit.messages.PlanitExceptionMessages;
+import planit.messages.PlanitMessages;
 import planit.task.Event;
+import planit.task.Task;
 import planit.task.TaskList;
+import planit.task.Todo;
+
+import java.util.ArrayList;
 
 /**
  * Handles addition of an event task to list.
@@ -13,8 +18,7 @@ public class AddEventCommand extends Command {
     public static final String COMMAND_FORMAT = """
             Format: event <task description> /from <task start time> /to <task end time>
             Example: event attend CS2113 lecture /from Friday 4pm /to 6pm
-            This will add task [E][ ] attend CS2113 lecture (from: Friday 4pm, to: 6pm)
-            """;
+            This will add task [E][ ] attend CS2113 lecture (from: Friday 4pm, to: 6pm)""";
     public static final String COMMAND_DESC = "Adds a new event task to your list";
     public static final String[] COMMAND_KEYWORDS = {"description", "/from", "/to"};
     public static final String[] COMMAND_MESSAGE = {COMMAND_WORD + ": " + COMMAND_DESC, COMMAND_FORMAT};
@@ -23,7 +27,7 @@ public class AddEventCommand extends Command {
      * Checks if supplied arguments are valid.
      * Event task requires a description, a start time and an end time.
      *
-     * @return True if valid, False otherwise.
+     * @return {@code true} if the parameters are valid, {@code false} otherwise.
      */
     @Override
     protected boolean isValidParameters() {
@@ -40,14 +44,27 @@ public class AddEventCommand extends Command {
      * @throws InvalidArgumentException If supplied arguments is not valid.
      */
     @Override
-    public void execute(TaskList tasks) throws InvalidArgumentException {
+    public CommandResult execute(TaskList tasks) throws InvalidArgumentException {
         if (!isValidParameters()) {
             throw new InvalidArgumentException(PlanitExceptionMessages.WRONG_ARGUMENTS);
         }
+
+        ArrayList<String> feedback = new ArrayList<>();
         String description = parameters.get(COMMAND_KEYWORDS[0]);
         String startTime = parameters.get(COMMAND_KEYWORDS[1]);
         String endTime = parameters.get(COMMAND_KEYWORDS[2]);
-        tasks.addTask("event", new Event(description, startTime, endTime));
+
+        try {
+            Task newTask = new Event(description, startTime, endTime);
+            tasks.addTask("event", newTask);
+            feedback.add(String.format(PlanitMessages.ADD_TASK_SUCCESS, "event"));
+            feedback.add(newTask.toString());
+            feedback.add(String.format(PlanitMessages.TASK_LIST_SIZE, tasks.taskCount));
+        } catch (Exception e) {
+            feedback.add(String.format(PlanitMessages.ADD_TASK_FAILURE, "event"));
+        }
+
+        return new CommandResult(feedback);
     }
 }
 

@@ -51,5 +51,6 @@ public class TaskManager {
                 Ui.showToUser(PlanitMessages.DIVIDER);
             }
         }
+        Ui.showToUser("");
     }
 }

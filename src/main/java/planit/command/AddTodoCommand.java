@@ -57,6 +57,7 @@ public class AddTodoCommand extends Command {
             feedback.add(String.format(PlanitMessages.TASK_LIST_SIZE, tasks.taskCount));
         } catch (Exception e) {
             feedback.add(String.format(PlanitMessages.ADD_TASK_FAILURE, "todo"));
+            feedback.add(e.getMessage());
         }
 
         return new CommandResult(feedback);

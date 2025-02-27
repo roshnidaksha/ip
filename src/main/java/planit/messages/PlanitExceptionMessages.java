@@ -25,4 +25,5 @@ public class PlanitExceptionMessages {
     public static final String INVALID_DATE_FORMAT = """
             Invalid date/time format: %s
             Please enter in the format: dd/MM/yyyy HHmm""";
+    public static final String INVALID_DATE_RANGE = "End time %s cannot be before start time %s";
 }

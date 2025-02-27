@@ -34,6 +34,9 @@ public class Event extends Task {
         if (parsedEnd == null) {
             throw new InvalidArgumentException(String.format(PlanitExceptionMessages.INVALID_DATE_FORMAT, to));
         }
+        if (parsedStart.isAfter(parsedEnd)) {
+            throw new InvalidArgumentException(String.format(PlanitExceptionMessages.INVALID_DATE_RANGE, to, from));
+        }
         this.start = parsedStart;
         this.end = parsedEnd;
     }

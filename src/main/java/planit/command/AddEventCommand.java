@@ -60,6 +60,7 @@ public class AddEventCommand extends Command {
             feedback.add(String.format(PlanitMessages.ADD_TASK_SUCCESS, "event"));
             feedback.add(newTask.toString());
             feedback.add(String.format(PlanitMessages.TASK_LIST_SIZE, tasks.taskCount));
+            tasks.saveTasks();
         } catch (Exception e) {
             feedback.add(String.format(PlanitMessages.ADD_TASK_FAILURE, "event"));
             feedback.add(e.getMessage());

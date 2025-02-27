@@ -57,7 +57,8 @@ public class DeleteCommand extends Command {
             Task deletedTask = tasks.deleteTask(taskType, taskIndex - 1);
             feedback.add(String.format(PlanitMessages.DELETE_TASK_SUCCESS, deletedTask));
             feedback.add(String.format(PlanitMessages.TASK_LIST_SIZE, tasks.taskCount));
-        } catch (EmptyCommandException e) {
+            tasks.saveTasks();
+        } catch (Exception e) {
             feedback.add(String.format(PlanitMessages.DELETE_TASK_FAILURE, e.getMessage()));
         }
 

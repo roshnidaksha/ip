@@ -13,8 +13,8 @@ import java.io.IOException;
  * This class provides methods to manage tasks within a list.
  */
 public class TaskManager {
-    private TaskList taskList;
-    private Parser parser = new Parser();
+    private final TaskList taskList;
+    private final Parser parser = new Parser();
 
     /**
      * Initializes task list of user.

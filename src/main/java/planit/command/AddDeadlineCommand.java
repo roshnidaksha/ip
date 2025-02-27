@@ -57,6 +57,7 @@ public class AddDeadlineCommand extends Command {
             feedback.add(String.format(PlanitMessages.ADD_TASK_SUCCESS, "deadline"));
             feedback.add(newTask.toString());
             feedback.add(String.format(PlanitMessages.TASK_LIST_SIZE, tasks.taskCount));
+            tasks.saveTasks();
         } catch (Exception e) {
             feedback.add(String.format(PlanitMessages.ADD_TASK_FAILURE, "deadline"));
             feedback.add(e.getMessage());

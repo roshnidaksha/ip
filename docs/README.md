@@ -314,6 +314,7 @@ Below are some examples of valid date and time formats:
 - `d-M-yyyy[ h:mm a]` - `11-2-2025 10:00 am`
 - `d/M/yyyy[ H:mm]` - `11/2/2025 10:00`
 - `d/M/yyyy[ h:mm a]` - `11/2/2025 10:00 am`
+
 ---
 ## File Storage
 
@@ -326,11 +327,16 @@ D | X | cs2113 quiz | Feb 22 2025
 E |   | do cs2113 coursemology | Feb 23 2025 -> Feb 24 2025
 ```
 
+Each line represents a task and the fields are separated by `|`.
+The file can be edited manually to add, remove or modify tasks.
+But the format of the file should be maintained otherwise Planit may not be able to read the tasks.
+
 When Planit is launched, it reads the tasks from the file and loads them into the task list.
 
-> [!NOTE] To find the exact location of HOME, you can use the following command:
+> [!NOTE]
+> To find the exact location of HOME, you can use the following command:
 > 
-> In windows: open command prompt and run the following command:
+> In Windows: open command prompt and run the following command:
 > ```cmd
 > echo %HOMEPATH%
 > ```

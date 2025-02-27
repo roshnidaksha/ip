@@ -5,7 +5,7 @@ public enum CommandType {
     LIST, FIND,
     TODO, DEADLINE, EVENT,
     MARK, UNMARK,
-    DELETE,
+    DELETE, CLEAR,
     DATE,
     BYE
 }

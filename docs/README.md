@@ -32,9 +32,10 @@ tasks efficiently.
    - [6. Marking tasks as done](#6-marking-tasks-as-done-mark)
    - [7. Unmarking tasks as not done](#7-unmarking-tasks-as-not-done-unmark)
    - [8. Deleting tasks](#8-deleting-tasks-delete)
-   - [9. Finding tasks using keyword](#9-finding-tasks-using-keyword-find)
-   - [10. Finding tasks using date](#10-finding-tasks-using-date-date)
-   - [11. Exiting the application](#11-exiting-the-application-bye)
+   - [9. Clearing all tasks](#9-clearing-all-tasks-clear)
+   - [10. Finding tasks using keyword](#10-finding-tasks-using-keyword-find)
+   - [11. Finding tasks using date](#11-finding-tasks-using-date-date)
+   - [12. Exiting the application](#12-exiting-the-application-bye)
 4. [Date and Time Format](#date-and-time-format)
 5. [File Storage](#file-storage)
 
@@ -60,9 +61,10 @@ java -jar planit.jar
 | [`mark`](#6-marking-tasks-as-done-mark)           | `<task type><task index>`                              |
 | [`unmark`](#7-unmarking-tasks-as-not-done-unmark) | `<task type><task index>`                              |
 | [`delete`](#8-deleting-tasks-delete)              | `<task type><task index>`                              |
-| [`find`](#9-finding-tasks-using-keyword-find)     | `<keyword>`                                            |
-| [`date`](#10-finding-tasks-using-date-date)       | `/on <date>`                                           |
-| [`bye`](#11-exiting-the-application-bye)          | `None`                                                 |
+| [`clear`](#9-clearing-all-tasks-clear)            | `None`                                                 |
+| [`find`](#10-finding-tasks-using-keyword-find)    | `<keyword>`                                            |
+| [`date`](#11-finding-tasks-using-date-date)       | `/on <date>`                                           |
+| [`bye`](#12-exiting-the-application-bye)          | `None`                                                 |
 
 
 ## Features
@@ -116,7 +118,7 @@ TODO:
 DEADLINE:
 1. [D][X] cs2113 quiz (by: Feb 22 2025)
 EVENT:
-1. [E][ ] do cs2113 coursemology (from: Feb 23 2025 to: Feb 23 2025)
+1. [E][ ] do cs2113 coursemology (from: Feb 23 2025 to: Feb 24 2025)
 2. [E][ ] cs2113 team meeting (from: Mar 15 2025 9:00 am to: Mar 15 2025 11:00 am)
 ->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
 ```
@@ -159,7 +161,7 @@ You have 6 tasks in the list
 
 **Syntax:** `event <task description> /from <start date> /to <end date>`
 
-Adds a new event task to your list.
+Adds a new event task to your list. Event start date must be before the end date.
 
 **Example:**
 ```
@@ -220,7 +222,25 @@ You have 6 tasks in the list
 ->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
 ```
 ---
-### 9. Finding tasks using keyword: **`find`**
+### 9. Clearing all tasks: **`clear`**
+
+**Syntax:** `clear`
+
+Deletes all tasks in the task list after confirmation from the user.
+
+**Example:**
+```
+->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
+> clear
+
+Are you sure you want to delete all tasks? (yes/no)
+> no
+No tasks were deleted
+You have 6 tasks in the list
+->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
+```
+---
+### 10. Finding tasks using keyword: **`find`**
 
 **Syntax:** `find <keyword>`
 
@@ -235,12 +255,12 @@ Here is a list of your tasks:
 DEADLINE:
 1. [D][X] cs2113 quiz (by: Feb 22 2025)
 EVENT:
-1. [E][ ] do cs2113 coursemology (from: Feb 23 2025 to: Feb 23 2025)
+1. [E][ ] do cs2113 coursemology (from: Feb 23 2025 to: Feb 24 2025)
 2. [E][ ] cs2113 team meeting (from: Mar 15 2025 9:00 am to: Mar 15 2025 11:00 am)
 ->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
 ```
 ---
-### 10. Finding tasks using date: **`date`**
+### 11. Finding tasks using date: **`date`**
 
 **Syntax:** `date /on <date>`
 
@@ -257,7 +277,7 @@ DEADLINE:
 ->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
 ```
 ---
-### 11. Exiting the application: **`bye`**
+### 12. Exiting the application: **`bye`**
 
 **Syntax:** `bye`
 
@@ -299,4 +319,26 @@ Below are some examples of valid date and time formats:
 
 Planit stores the tasks in a file named `tasks.txt` at `HOME/Planit/data/tasks.txt`.
 
+The tasks are saved in the file in the following format:
+```
+T | X | read book
+D | X | cs2113 quiz | Feb 22 2025
+E |   | do cs2113 coursemology | Feb 23 2025 -> Feb 24 2025
+```
+
+When Planit is launched, it reads the tasks from the file and loads them into the task list.
+
+> [!NOTE] To find the exact location of HOME, you can use the following command:
+> 
+> In windows: open command prompt and run the following command:
+> ```cmd
+> echo %HOMEPATH%
+> ```
+> 
+> In Linux/Mac: open terminal and run the following command:
+> ```bash
+> echo $HOME
+> ```
+
+Planit automatically saves the tasks to the file whenever the task list is modified.
 This allows users to access their tasks even after restarting the application.

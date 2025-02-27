@@ -26,4 +26,10 @@ public class PlanitExceptionMessages {
             Invalid date/time format: %s
             Please enter in the format: dd/MM/yyyy HHmm""";
     public static final String INVALID_DATE_RANGE = "End time %s cannot be before start time %s";
+
+    public static final String UNABLE_TO_CREATE_DIR = "Could not create directory: %s";
+    public static final String UNABLE_TO_CREATE_FILE = "Could not create file: %s";
+    public static final String DUPLICATE_FILE = "File already exists!";
+    public static final String UNABLE_TO_READ_FILE = "Could not read file: %s";
+    public static final String UNABLE_TO_WRITE_FILE = "Could not write to file: %s";
 }

@@ -1,5 +1,6 @@
 package planit.util;
 
+import planit.messages.PlanitExceptionMessages;
 import planit.task.Deadline;
 import planit.task.Event;
 import planit.task.Task;
@@ -37,14 +38,14 @@ public class Storage {
         try {
             if (file.getParentFile() != null && !file.getParentFile().exists()) {
                 if (!file.getParentFile().mkdirs()) {
-                    throw new IOException("Could not create directory: " + file.getParent());
+                    throw new IOException(String.format(PlanitExceptionMessages.UNABLE_TO_CREATE_DIR, file.getParentFile()));
                 }
             }
             if (!file.createNewFile()) {
-                throw new RuntimeException("File already exists!");
+                throw new RuntimeException(PlanitExceptionMessages.DUPLICATE_FILE);
             }
         } catch (IOException e) {
-            throw new RuntimeException("Unable to create file: " + e.getMessage());
+            throw new RuntimeException(String.format(PlanitExceptionMessages.UNABLE_TO_CREATE_FILE, e.getMessage()));
         }
     }
 
@@ -68,7 +69,7 @@ public class Storage {
             }
             fileWriter.close();
         } catch (IOException e) {
-            throw new IOException("Unable to write to file: " + e.getMessage());
+            throw new IOException(String.format(PlanitExceptionMessages.UNABLE_TO_WRITE_FILE, e.getMessage()));
         }
     }
 
@@ -91,7 +92,7 @@ public class Storage {
             }
             scanner.close();
         } catch (IOException e) {
-            throw new IOException("File error: " + e.getMessage());
+            throw new IOException(String.format(PlanitExceptionMessages.UNABLE_TO_READ_FILE, e.getMessage()));
         }
         return taskList;
     }

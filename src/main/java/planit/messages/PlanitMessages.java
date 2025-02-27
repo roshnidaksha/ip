@@ -31,6 +31,9 @@ public class PlanitMessages {
     public static final String ADD_TASK_FAILURE = "Failed to add %s task";
     public static final String DELETE_TASK_SUCCESS = "Successfully deleted task: %s";
     public static final String DELETE_TASK_FAILURE = "Failed to delete task: %s";
+    public static final String DELETE_ALL_TASKS_CONFIRMATION = "Are you sure you want to delete all tasks? (yes/no)";
+    public static final String DELETE_ALL_TASKS_SUCCESS = "Successfully deleted all tasks. Below are the tasks deleted:";
+    public static final String DELETE_ALL_TASKS_FAILURE = "No tasks were deleted";
     public static final String LIST_SUCCESS = "Here is a list of your tasks:";
     public static final String LIST_EMPTY = "Great Job! You have no pending tasks /^v^\\";
     public static final String MARK_TASK_SUCCESS = "Successfully marked task as done";

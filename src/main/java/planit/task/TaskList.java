@@ -119,6 +119,16 @@ public class TaskList {
     }
 
     /**
+     * Deletes all tasks from task list.
+     */
+    public void deleteAllTasks() {
+        tasksMap.get("todo").clear();
+        tasksMap.get("deadline").clear();
+        tasksMap.get("event").clear();
+        taskCount = 0;
+    }
+
+    /**
      * Displays all tasks that are due/occur on a specific date.
      *
      * @param date Date to search for tasks.

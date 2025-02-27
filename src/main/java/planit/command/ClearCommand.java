@@ -3,28 +3,27 @@ package planit.command;
 import planit.exceptions.InvalidArgumentException;
 import planit.messages.PlanitExceptionMessages;
 import planit.messages.PlanitMessages;
+import planit.task.Task;
 import planit.task.TaskList;
 import planit.util.Ui;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
-/**
- * Exits planit task management session.
- */
-public class ByeCommand extends Command {
-    public static final String COMMAND_WORD = "bye";
+public class ClearCommand extends Command {
+    public static final String COMMAND_WORD = "clear";
     public static final String COMMAND_FORMAT = """
-            Format: bye
-            NOTE: Exit command takes in no arguments
-            Example: bye""";
-    public static final String COMMAND_DESC = "Exits planit task management session";
+            Format: clear
+            NOTE: Clear takes in no arguments
+            Example: clear""";
+    public static final String COMMAND_DESC = "Clears all tasks in the list";
     public static final String[] COMMAND_KEYWORDS = {};
     public static final String[] COMMAND_MESSAGE = {COMMAND_WORD + ": " + COMMAND_DESC, COMMAND_FORMAT};
 
     /**
      * Checks if supplied arguments are valid.
-     * To exit planit task management session, no arguments is required.
+     * To clear all tasks, no arguments is required.
      *
      * @return {@code true} if the parameters are valid, {@code false} otherwise.
      */
@@ -34,7 +33,7 @@ public class ByeCommand extends Command {
     }
 
     /**
-     * Exits planit task management session and saves tasks to file.
+     * DClears all tasks.
      *
      * @param tasks Current list of tasks.
      * @throws InvalidArgumentException If supplied arguments is not valid.
@@ -46,19 +45,26 @@ public class ByeCommand extends Command {
         }
 
         ArrayList<String> feedback = new ArrayList<>();
+        HashMap<String, ArrayList<Task>> relevantTasks = null;
+
+        String userConfirmation;
+        Ui.showToUser(PlanitMessages.DELETE_ALL_TASKS_CONFIRMATION);
+        userConfirmation = Ui.getUserInput();
 
         try {
-            tasks.saveTasks();
-            feedback.add(PlanitMessages.TASK_SAVE_SUCCESS);
-            feedback.add(Ui.FILE_PATH);
+            if (userConfirmation.equals("yes")) {
+                tasks.deleteAllTasks();
+                feedback.add(PlanitMessages.DELETE_ALL_TASKS_SUCCESS);
+                relevantTasks = tasks.getAllTasks();
+                tasks.saveTasks();
+            } else {
+                feedback.add(PlanitMessages.DELETE_ALL_TASKS_FAILURE);
+            }
         } catch (IOException e) {
             feedback.add(PlanitMessages.TASK_SAVE_FAILURE);
             feedback.add(e.getMessage());
         }
-
-        feedback.add(PlanitMessages.TASK_MANAGER_MESSAGE_GOODBYE);
-        isExit = true;
-
-        return new CommandResult(feedback);
+        feedback.add(String.format(PlanitMessages.TASK_LIST_SIZE, tasks.taskCount));
+        return new CommandResult(feedback, relevantTasks);
     }
 }

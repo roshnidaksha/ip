@@ -11,7 +11,8 @@ public class PlanitExceptionMessages {
             Invalid command: %s
             Enter "help" to view the list of commands available.""";
     public static final String ILLEGAL_TASK_INPUT = "Illegal input: Unexpected '/' found in value for key";
-    public static final String MISSING_TASK_INPUT = "Invalid input: key /%s found with no value.";
+    public static final String MISSING_TASK_INPUT = "Invalid input: key %s found with no value.";
+    public static final String INVALID_FLAG_INPUT = "Invalid flag input: Flag must start with '/'";
 
     public static final String MISSING_TASK_INDEX = "Task index is required";
     public static final String MISSING_TASK_TYPE = """

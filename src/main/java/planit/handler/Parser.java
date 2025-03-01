@@ -6,7 +6,10 @@ import planit.exceptions.InvalidArgumentException;
 import planit.messages.PlanitExceptionMessages;
 import planit.util.Ui;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -44,7 +47,7 @@ public class Parser {
      * Keys are preceded using "/".
      *
      * @param command Command object entered by user.
-     * @param input User input.
+     * @param input   User input.
      * @throws InvalidArgumentException If key-value pairs cannot be extracted.
      */
     private void parseKeyValuePairs(Command command, String input) throws InvalidArgumentException {
@@ -54,34 +57,40 @@ public class Parser {
             return;
         }
 
-        String[] parts = input.trim().split("/", 2);
-        String description = parts[0].trim();
-        if (!description.isEmpty()) {
-            keyValueMap.put("description", description);
+        String[] parts = input.trim().split("(?=\\s*/[a-zA-Z]+)");
+        if (!parts[0].trim().startsWith("/")) {
+            keyValueMap.put("description", parts[0].trim());
         }
         if (parts.length == 1) {
             command.setParameters(keyValueMap);
             return;
         }
 
-        String keyValuePart = "/" + parts[1];
-        String regex = "(/\\w+)\\s+(.*?)(?=\\s+/|$)";
+        String regex = "^/(//w+)$";
         Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(keyValuePart);
+        Set<String> flagsWithDateValue = new HashSet<>(Arrays.asList("/by", "/from", "/to", "/on"));
 
-        while (matcher.find()) {
-            String key = matcher.group(1).trim();
-            String value = matcher.group(2).trim();
-            if (value.contains("/") &&
-                    !key.equals("/by") && !key.equals("/from") && !key.equals("/to") && !key.equals("/on")) {
+
+        for (int i = 1; i < parts.length; i++) {
+            if (parts[i].trim().isEmpty()) {
+                continue;
+            }
+            String[] keyValue = parts[i].trim().split("\\s+", 2);
+            if (keyValue.length < 2) {
+                throw new InvalidArgumentException(String.format(PlanitExceptionMessages.MISSING_TASK_INPUT, keyValue[0]));
+            }
+
+            String key = keyValue[0].trim();
+            String value = keyValue[1].trim();
+
+            Matcher matcher = pattern.matcher(key);
+            if (!matcher.matches()) {
+                throw new InvalidArgumentException(PlanitExceptionMessages.INVALID_FLAG_INPUT);
+            }
+            if (value.contains("/") && !flagsWithDateValue.contains(key)) {
                 throw new InvalidArgumentException(PlanitExceptionMessages.ILLEGAL_TASK_INPUT);
             }
             keyValueMap.put(key, value);
-        }
-
-        String unmatched = matcher.replaceAll("").trim();
-        if (!unmatched.isEmpty()) {
-            throw new InvalidArgumentException(String.format(PlanitExceptionMessages.MISSING_TASK_INPUT, unmatched));
         }
 
         command.setParameters(keyValueMap);
@@ -91,7 +100,7 @@ public class Parser {
      * Checks if index entered by user is valid and return the task type and index.
      * Index format is <task type><task index>
      *
-     * @param index Index of task entered by user.
+     * @param index     Index of task entered by user.
      * @param taskCount Number of tasks currently stored.
      * @return Task type and task index as string.
      * @throws EmptyCommandException If index of task is missing or invalid.
@@ -120,7 +129,7 @@ public class Parser {
             if (taskId < 1 || taskId > taskCount) {
                 throw new IndexOutOfBoundsException(String.format(PlanitExceptionMessages.INDEX_OUT_OF_BOUNDS, index));
             }
-            return new String[] {taskType, String.valueOf(taskId)};
+            return new String[]{taskType, String.valueOf(taskId)};
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(PlanitExceptionMessages.INVALID_INDEX);
         }

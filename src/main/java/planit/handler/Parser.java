@@ -66,7 +66,7 @@ public class Parser {
             return;
         }
 
-        String regex = "^/(//w+)$";
+        String regex = "^/(\\w+)$";
         Pattern pattern = Pattern.compile(regex);
         Set<String> flagsWithDateValue = new HashSet<>(Arrays.asList("/by", "/from", "/to", "/on"));
 

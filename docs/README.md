@@ -166,7 +166,7 @@ Adds a new event task to your list. Event start date must be before the end date
 **Example:**
 ```
 ->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
-> event watch lec videos /from 26/2/2025 10:00 am /to 2025/2/26 11:00
+> event watch lec videos /from 26/2/2025 10:00 AM /to 2025/2/26 11:00
 
 Successfully added event task:
 [E][ ] watch lec videos (from: Feb 26 2025 10:00 am to: Feb 26 2025 11:00 am)
@@ -314,6 +314,8 @@ Below are some examples of valid date and time formats:
 - `d-M-yyyy[ h:mm a]` - `11-2-2025 10:00 am`
 - `d/M/yyyy[ H:mm]` - `11/2/2025 10:00`
 - `d/M/yyyy[ h:mm a]` - `11/2/2025 10:00 am`
+
+While using 'am/pm' and 'AM/PM' works in Windows systems, Linux/Mac only accepts capital letters 'AM/PM'.
 
 ---
 ## File Storage

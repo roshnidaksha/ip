@@ -17,7 +17,7 @@ public class AddEventCommand extends Command {
     public static final String COMMAND_WORD = "event";
     public static final String COMMAND_FORMAT = """
             Format: event <task description> /from <task start time> /to <task end time>
-            Example: event watch lec videos /from 26/2/2025 10:00 am /to 2025/2/26 11:00
+            Example: event watch lec videos /from 26/2/2025 10:00 AM /to 2025/2/26 11:00
             This will add task [E][ ] attend CS2113 lecture (from: Friday 4pm, to: 6pm)""";
     public static final String COMMAND_DESC = "Adds a new event task to your list";
     public static final String[] COMMAND_KEYWORDS = {"description", "/from", "/to"};

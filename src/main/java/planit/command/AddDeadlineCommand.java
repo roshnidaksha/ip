@@ -6,7 +6,6 @@ import planit.messages.PlanitMessages;
 import planit.task.Deadline;
 import planit.task.Task;
 import planit.task.TaskList;
-import planit.task.Todo;
 
 import java.util.ArrayList;
 

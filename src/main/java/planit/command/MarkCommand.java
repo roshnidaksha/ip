@@ -54,13 +54,13 @@ public class MarkCommand extends Command {
         try {
             String[] result = Parser.validateIndex(description, tasks.taskCount);
             String taskType = result[0];
-            int taskIndex = Integer.parseInt(result[1]);
+            int taskIndex = Integer.parseInt(result[1]) - 1;
             if (tasks.getTask(taskType, taskIndex).isDone()) {
                 feedback.add(PlanitMessages.MARK_TASK_REPEAT);
             } else {
                 feedback.add(PlanitMessages.MARK_TASK_SUCCESS);
-                tasks.setTaskStatus(taskType, taskIndex - 1, true);
-                feedback.add(tasks.getTask(taskType, taskIndex - 1).toString());
+                tasks.setTaskStatus(taskType, taskIndex, true);
+                feedback.add(tasks.getTask(taskType, taskIndex).toString());
             }
         } catch (EmptyCommandException e) {
             feedback.add(e.getMessage());

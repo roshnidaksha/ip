@@ -17,7 +17,7 @@ public class AddDeadlineCommand extends Command {
     public static final String COMMAND_WORD = "deadline";
     public static final String COMMAND_FORMAT = """
             Format: deadline <task description> /by <task deadline>
-            Example: deadline submit quiz /by Fri
+            Example: deadline Add function to save tasks /by Mar 1 2025
             This will add task [D][ ] submit quiz (by: Friday)""";
     public static final String COMMAND_DESC = "Adds a new deadline task to your list";
     public static final String[] COMMAND_KEYWORDS = {"description", "/by"};

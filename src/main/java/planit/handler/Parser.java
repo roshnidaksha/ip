@@ -60,10 +60,11 @@ public class Parser {
         String[] parts = input.trim().split("(?=\\s*/[a-zA-Z]+)");
         if (!parts[0].trim().startsWith("/")) {
             keyValueMap.put("description", parts[0].trim());
-        }
-        if (parts.length == 1) {
-            command.setParameters(keyValueMap);
-            return;
+            if (parts.length == 1) {
+                command.setParameters(keyValueMap);
+                return;
+            }
+            parts = Arrays.copyOfRange(parts, 1, parts.length);
         }
 
         String regex = "^/(\\w+)$";
@@ -71,7 +72,7 @@ public class Parser {
         Set<String> flagsWithDateValue = new HashSet<>(Arrays.asList("/by", "/from", "/to", "/on"));
 
 
-        for (int i = 1; i < parts.length; i++) {
+        for (int i = 0; i < parts.length; i++) {
             if (parts[i].trim().isEmpty()) {
                 continue;
             }

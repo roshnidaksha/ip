@@ -1,7 +1,7 @@
 package planit.command;
 
 import planit.exceptions.InvalidArgumentException;
-import planit.handler.DateParser;
+import planit.parser.DateParser;
 import planit.messages.PlanitExceptionMessages;
 import planit.messages.PlanitMessages;
 import planit.task.Task;

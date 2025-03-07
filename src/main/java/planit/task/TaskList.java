@@ -7,6 +7,9 @@ import planit.util.Ui;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class TaskList {
     private HashMap<String, ArrayList<Task>> tasksMap;
@@ -134,19 +137,16 @@ public class TaskList {
      * @param date Date to search for tasks.
      */
     public HashMap<String, ArrayList<Task>> getTasksOnDate(String date) {
-        HashMap<String, ArrayList<Task>> tasksOnDateString = new HashMap<>();
-        for (String taskType : tasksMap.keySet()) {
-            tasksOnDateString.put(taskType, new ArrayList<>());
-            for (Task task : tasksMap.get(taskType)) {
-                if (task.toFileFormat().contains(date)) {
-                    tasksOnDateString.get(taskType).add(task);
-                }
-            }
-            if (tasksOnDateString.get(taskType).isEmpty()) {
-                tasksOnDateString.remove(taskType);
-            }
-        }
-        return tasksOnDateString;
+        return tasksMap.entrySet().stream()
+            .collect(Collectors.toMap(
+                Map.Entry::getKey,
+                entry -> entry.getValue().stream()
+                    .filter(task -> task.toFileFormat().contains(date))
+                    .collect(Collectors.toCollection(ArrayList::new)),
+                (a, b) -> b, HashMap::new
+            )).entrySet().stream()
+            .filter(entry -> !entry.getValue().isEmpty())
+            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> b, HashMap::new));
     }
 
     /**
@@ -155,19 +155,16 @@ public class TaskList {
      * @param keyword Keyword to search for in tasks.
      */
     public HashMap<String, ArrayList<Task>> getTasksWithKeyword(String keyword) {
-        HashMap<String, ArrayList<Task>> tasksWithKeyword = new HashMap<>();
-        for (String taskType : tasksMap.keySet()) {
-            tasksWithKeyword.put(taskType, new ArrayList<>());
-            for (Task task : tasksMap.get(taskType)) {
-                if (task.getDescription().contains(keyword)) {
-                    tasksWithKeyword.get(taskType).add(task);
-                }
-            }
-            if (tasksWithKeyword.get(taskType).isEmpty()) {
-                tasksWithKeyword.remove(taskType);
-            }
-        }
-        return tasksWithKeyword;
+        return tasksMap.entrySet().stream()
+            .collect(Collectors.toMap(
+                Map.Entry::getKey,
+                entry -> entry.getValue().stream()
+                    .filter(task -> task.getDescription().contains(keyword))
+                    .collect(Collectors.toCollection(ArrayList::new)),
+                (a, b) -> b, HashMap::new
+            )).entrySet().stream()
+            .filter(entry -> !entry.getValue().isEmpty())
+            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> b, HashMap::new));
     }
 
     /**

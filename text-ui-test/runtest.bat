@@ -7,7 +7,7 @@ REM delete output from previous run
 if exist ACTUAL.TXT del ACTUAL.TXT
 
 REM compile the code into the bin folder
-javac  -cp ..\src\main\java -Xlint:none -d ..\bin ..\src\main\java\planit\*.java ..\src\main\java\planit\command\*.java ..\src\main\java\planit\exceptions\*.java ..\src\main\java\planit\handler\*.java ..\src\main\java\planit\messages\*.java ..\src\main\java\planit\task\*.java ..\src\main\java\planit\util\*.java
+javac  -cp ..\src\main\java -Xlint:none -d ..\bin ..\src\main\java\planit\Planit.java ..\src\main\java\planit\command\*.java ..\src\main\java\planit\exceptions\*.java ..\src\main\java\planit\parser\*.java ..\src\main\java\planit\messages\*.java ..\src\main\java\planit\task\*.java ..\src\main\java\planit\util\*.java
 IF ERRORLEVEL 1 (
     echo ********** BUILD FAILURE **********
     exit /b 1

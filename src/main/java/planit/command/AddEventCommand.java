@@ -8,6 +8,7 @@ import planit.task.Task;
 import planit.task.TaskList;
 import planit.task.Todo;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -61,7 +62,8 @@ public class AddEventCommand extends Command {
             feedback.add(newTask.toString());
             feedback.add(String.format(PlanitMessages.TASK_LIST_SIZE, tasks.taskCount));
             tasks.saveTasks();
-        } catch (Exception e) {
+        } catch (IOException e) {
+            feedback.add(PlanitMessages.TASK_SAVE_FAILURE);
             feedback.add(String.format(PlanitMessages.ADD_TASK_FAILURE, "event"));
             feedback.add(e.getMessage());
         }

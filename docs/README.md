@@ -331,7 +331,11 @@ E |   | do cs2113 coursemology | Feb 23 2025 -> Feb 24 2025
 
 Each line represents a task and the fields are separated by `|`.
 The file can be edited manually to add, remove or modify tasks.
-But the format of the file should be maintained otherwise Planit may not be able to read the tasks.
+
+> [!CAUTION]
+> If the file is edited manually, the format of the file should be maintained otherwise Planit may not be able to read 
+> the tasks, and a new file will be created.
+> Therefore, it is recommended to take a backup of the file before editing it.
 
 When Planit is launched, it reads the tasks from the file and loads them into the task list.
 

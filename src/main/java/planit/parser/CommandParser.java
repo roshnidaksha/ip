@@ -1,4 +1,4 @@
-package planit.handler;
+package planit.parser;
 
 import planit.command.Command;
 import planit.exceptions.EmptyCommandException;
@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 /**
  * Parses uses input.
  */
-public class Parser {
+public class CommandParser {
     /**
      * Parses user input string.
      *

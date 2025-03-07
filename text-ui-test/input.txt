@@ -1,18 +1,23 @@
 1
+clear
+yes
 list
 todo read book
 list
 todo
-deadline return book /by Friday
+deadline Add function to save tasks for cs2113 /by Feb 26 2025
 list
-event study 2113 /from Monday 2pm /to 4pm
+event watch cs2113 lec videos /from 26/2/2025 10:00 AM /to 2025/2/26 11:00
 list
-mark 1
-list
-mark 1
+mark t1
+mark t1
 mark 2
-list
-unmark 2
+mark d
+unmark t1
+find cs
+date /on Feb 26 2025
+date /on 27/2/2025
+delete t1
 list
 bye
 3

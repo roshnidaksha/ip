@@ -2,7 +2,7 @@ package planit.task;
 
 import planit.command.Command;
 import planit.command.CommandResult;
-import planit.handler.Parser;
+import planit.parser.CommandParser;
 import planit.messages.PlanitMessages;
 import planit.util.Ui;
 
@@ -14,7 +14,7 @@ import java.io.IOException;
  */
 public class TaskManager {
     private final TaskList taskList;
-    private final Parser parser = new Parser();
+    private final CommandParser parser = new CommandParser();
 
     /**
      * Initializes task list of user.

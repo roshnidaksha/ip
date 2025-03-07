@@ -1,4 +1,4 @@
-package planit.handler;
+package planit.parser;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

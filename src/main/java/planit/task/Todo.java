@@ -29,6 +29,22 @@ public class Todo extends Task {
     }
 
     /**
+     * Returns true if the todo task is equal to another todo object.
+     *
+     * @param obj Object to compare with.
+     * @return True if the todo task is equal to the object.
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+
+        Todo todoTask = (Todo) obj;
+        return description.equals(todoTask.getDescription());
+    }
+
+    /**
      * Returns a string representation of the todo task that
      * suitable to be stored in file storage.
      *

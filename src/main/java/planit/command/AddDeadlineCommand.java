@@ -1,5 +1,6 @@
 package planit.command;
 
+import planit.exceptions.DuplicateTaskException;
 import planit.exceptions.InvalidArgumentException;
 import planit.messages.PlanitExceptionMessages;
 import planit.messages.PlanitMessages;
@@ -51,8 +52,8 @@ public class AddDeadlineCommand extends Command {
         String description = parameters.get(COMMAND_KEYWORDS[0]);
         String deadline = parameters.get(COMMAND_KEYWORDS[1]);
 
+        Task newTask = new Deadline(description, deadline);
         try {
-            Task newTask = new Deadline(description, deadline);
             tasks.addTask("deadline", newTask);
             feedback.add(String.format(PlanitMessages.ADD_TASK_SUCCESS, "deadline"));
             feedback.add(newTask.toString());
@@ -61,6 +62,9 @@ public class AddDeadlineCommand extends Command {
         } catch (IOException e) {
             feedback.add(PlanitMessages.TASK_SAVE_FAILURE);
             feedback.add(String.format(PlanitMessages.ADD_TASK_FAILURE, "deadline"));
+            feedback.add(e.getMessage());
+        } catch (DuplicateTaskException e) {
+            feedback.add(String.format(PlanitMessages.ADD_TASK_FAILURE, newTask));
             feedback.add(e.getMessage());
         }
 

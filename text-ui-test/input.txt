@@ -4,11 +4,14 @@ yes
 list
 todo read book
 list
+todo read book
 todo
 deadline Add function to save tasks for cs2113 /by Feb 26 2025
 list
+deadline Add function to save tasks for cs2113 /by Feb 26 2025
 event watch cs2113 lec videos /from 26/2/2025 10:00 AM /to 2025/2/26 11:00
 list
+event watch cs2113 lec videos /from 26/2/2025 10:00 AM /to 2025/2/26 11:00
 mark t1
 mark t1
 mark 2

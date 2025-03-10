@@ -53,6 +53,24 @@ public class Event extends Task {
     }
 
     /**
+     * Returns true if the event task is equal to another event object.
+     *
+     * @param obj Object to compare with.
+     * @return True if the event task is equal to the object.
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+
+        Event eventTask = (Event) obj;
+        return description.equals(eventTask.getDescription())
+                && start.equals(eventTask.start)
+                && end.equals(eventTask.end);
+    }
+
+    /**
      * Returns a string representation of the event task that
      * suitable to be stored in file storage.
      *

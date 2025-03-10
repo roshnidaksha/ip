@@ -1,5 +1,6 @@
 package planit.command;
 
+import planit.exceptions.DuplicateTaskException;
 import planit.exceptions.InvalidArgumentException;
 import planit.messages.PlanitExceptionMessages;
 import planit.messages.PlanitMessages;
@@ -55,8 +56,8 @@ public class AddEventCommand extends Command {
         String startTime = parameters.get(COMMAND_KEYWORDS[1]);
         String endTime = parameters.get(COMMAND_KEYWORDS[2]);
 
+        Task newTask = new Event(description, startTime, endTime);
         try {
-            Task newTask = new Event(description, startTime, endTime);
             tasks.addTask("event", newTask);
             feedback.add(String.format(PlanitMessages.ADD_TASK_SUCCESS, "event"));
             feedback.add(newTask.toString());
@@ -65,6 +66,9 @@ public class AddEventCommand extends Command {
         } catch (IOException e) {
             feedback.add(PlanitMessages.TASK_SAVE_FAILURE);
             feedback.add(String.format(PlanitMessages.ADD_TASK_FAILURE, "event"));
+            feedback.add(e.getMessage());
+        } catch (DuplicateTaskException e) {
+            feedback.add(String.format(PlanitMessages.ADD_TASK_FAILURE, newTask));
             feedback.add(e.getMessage());
         }
 

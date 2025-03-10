@@ -42,6 +42,23 @@ public class Deadline extends Task {
     }
 
     /**
+     * Returns true if the deadline task is equal to another deadline object.
+     *
+     * @param obj Object to compare with.
+     * @return True if the deadline task is equal to the object.
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+
+        Deadline deadlineTask = (Deadline) obj;
+        return description.equals(deadlineTask.getDescription())
+                && deadline.equals(deadlineTask.deadline);
+    }
+
+    /**
      * Returns a string representation of the deadline task that
      * suitable to be stored in file storage.
      *

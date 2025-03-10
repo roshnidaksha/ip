@@ -1,5 +1,6 @@
 package planit.task;
 
+import planit.exceptions.DuplicateTaskException;
 import planit.messages.PlanitMessages;
 import planit.util.Storage;
 import planit.util.Ui;
@@ -104,7 +105,10 @@ public class TaskList {
      *
      * @param task Command entered by user.
      */
-    public void addTask(String taskType, Task task) {
+    public void addTask(String taskType, Task task) throws DuplicateTaskException {
+        if (tasksMap.get(taskType).contains(task)) {
+            throw new DuplicateTaskException();
+        }
         tasksMap.get(taskType).add(task);
         taskCount++;
     }

@@ -1,5 +1,6 @@
 package planit.command;
 
+import planit.exceptions.DuplicateTaskException;
 import planit.exceptions.InvalidArgumentException;
 import planit.messages.PlanitExceptionMessages;
 import planit.messages.PlanitMessages;
@@ -50,8 +51,8 @@ public class AddTodoCommand extends Command {
         ArrayList<String> feedback = new ArrayList<>();
         String description = parameters.get(COMMAND_KEYWORDS[0]);
 
+        Task newTask = new Todo(description);
         try {
-            Task newTask = new Todo(description);
             tasks.addTask("todo", newTask);
             feedback.add(String.format(PlanitMessages.ADD_TASK_SUCCESS, "todo"));
             feedback.add(newTask.toString());
@@ -60,6 +61,9 @@ public class AddTodoCommand extends Command {
         } catch (IOException e) {
             feedback.add(PlanitMessages.TASK_SAVE_FAILURE);
             feedback.add(String.format(PlanitMessages.ADD_TASK_FAILURE, "todo"));
+            feedback.add(e.getMessage());
+        } catch (DuplicateTaskException e) {
+            feedback.add(String.format(PlanitMessages.ADD_TASK_FAILURE, newTask));
             feedback.add(e.getMessage());
         }
 

@@ -16,6 +16,15 @@ public abstract class Task {
     public abstract String toString();
 
     /**
+     * Returns true if the task is equal to another object.
+     *
+     * @param obj Object to compare with.
+     * @return True if the task is equal to the object.
+     */
+    @Override
+    public abstract boolean equals(Object obj);
+
+    /**
      * Returns a string representation of the event task that
      * suitable to be stored in file storage.
      */
